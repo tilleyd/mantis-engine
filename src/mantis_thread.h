@@ -24,6 +24,7 @@ class ME_Thread
 {
 	public:
 		ME_Thread(ME_Threadable*);
+		~ME_Thread();
 
 		/*----------------------------------------------------------------------
 		 * Starts the thread and executes the threadable function.            */

@@ -13,6 +13,11 @@ ME_Thread::ME_Thread(ME_Threadable* thr)
 	, _tid(0)
 {}
 
+ME_Thread::~ME_Thread()
+{
+	join();
+}
+
 void ME_Thread::start()
 {
 	pthread_create(&_tid, NULL, ME_Thread::execute, (void*)_threadable);
