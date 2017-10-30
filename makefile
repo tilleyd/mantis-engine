@@ -5,10 +5,10 @@
 SRC    = src
 BIN    = bin
 CFLAGS = -Wall
-LIBS   = -lSDL2
+LIBS   = -lSDL2 -lpthread
 CC     = g++
 OFILES = $(BIN)/demo.o $(BIN)/framework.o $(BIN)/exception.o $(BIN)/window.o \
-	$(BIN)/interval.o
+	$(BIN)/interval.o $(BIN)/thread.o
 
 demo: $(BIN) $(OFILES)
 	$(CC) $(CFLAGS) -o demo $(OFILES) $(LIBS)
@@ -33,3 +33,8 @@ $(BIN)/window.o: $(SRC)/window.cpp $(SRC)/mantis.h
 
 $(BIN)/interval.o: $(SRC)/interval.cpp $(SRC)/mantis_timer.h
 	$(CC) -c $(CFLAGS) -o $(BIN)/interval.o $(SRC)/interval.cpp
+
+# MANTIS_THREAD_H
+
+$(BIN)/thread.o: $(SRC)/thread.cpp $(SRC)/mantis_thread.h
+	$(CC) -c $(CFLAGS) -o $(BIN)/thread.o $(SRC)/thread.cpp
