@@ -10,6 +10,55 @@
 #include <string>
 #include <SDL2/SDL.h>
 
+#include "mantis_timer.h"
+
+// forward declarations
+class ME_Framework;
+class ME_Exception;
+class ME_Window;
+
+
+/*==============================================================================
+ * ME_Framework
+ *
+ *     Encapsulates majority of the engine into a single interface that should
+ *     be utilized for the specific game. The framework manages the entities,
+ *     stages, engine configuration and the game window.
+ *============================================================================*/
+class ME_Framework : public ME_IntervalObserver
+{
+	public:
+		/*----------------------------------------------------------------------
+		 * The parameters are the game name (in lowercase without spaces) and
+		 * the title for the window. The game name is used to create the game
+		 * configuration folder.                                              */
+		ME_Framework(std::string gn, std::string wn);
+		virtual ~ME_Framework();
+
+		/*----------------------------------------------------------------------
+		 * Start the framework with the provided FPS.                         */
+		void start(unsigned int fps);
+		void stop();
+
+		/*----------------------------------------------------------------------
+		 * Override from ME_IntervalObserver                                  */
+		void update(ME_Interval*, double);
+		void draw();
+
+		/*----------------------------------------------------------------------
+		 * Stage management functions.                                        */
+		/*void addStage(ME_Stage*); TODO
+		void removeStage(int sid);
+		void setCurrentStage(int sid);*/
+
+	private:
+		ME_Window* _window;
+		ME_Interval* _timer;
+		//ME_Stage** stages; TODO
+		bool _running;
+};
+
+
 /*==============================================================================
  * ME_Exception
  *
@@ -25,6 +74,7 @@ class ME_Exception
 		std::string _mesg;
 };
 
+
 /*==============================================================================
  * ME_Window
  *
@@ -38,49 +88,6 @@ class ME_Window
 		~ME_Window();
 	private:
 		SDL_Window* _win;
-};
-
-// forward declaration
-class ME_IntervalObserver;
-
-/*==============================================================================
- * ME_Interval
- *
- *     Used for calling a provided function periodically. It is recommended to
- *     use this class to control game FPS and update intervals if you do not
- *     make use of VSync.
- *============================================================================*/
-class ME_Interval
-{
-	public:
-		/*----------------------------------------------------------------------
-		 * Creates an interval timer with a provided frequency.
-		 */
-		ME_Interval(unsigned int);
-
-		/*----------------------------------------------------------------------
-		 * start() Starts the timer and periodically calls the timestep() method
-		 * on the provided ME_IntervalObserver. Note that start() blocks and can
-		 * only be stopped by calling stop(). */
-		void start(ME_IntervalObserver*);
-		void stop();
-
-	private:
-		unsigned int _freq;
-		bool _running;
-};
-
-/*==============================================================================
- * ME_IntervalObserver
- *
- *     Interface used by the ME_Interval timer to provide the callback
- *     update() and draw() functions.
- *============================================================================*/
-class ME_IntervalObserver
-{
-	public:
-		virtual void update(ME_Interval*, double period) = 0;
-		virtual void draw() = 0;
 };
 
 #endif
