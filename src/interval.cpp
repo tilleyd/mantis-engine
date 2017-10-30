@@ -6,6 +6,7 @@
 
 #include "mantis.h"
 #include "mantis_timing.h"
+
 #include <SDL2/SDL.h>
 
 #define MAX_FRAME_SKIPS 8
@@ -33,9 +34,10 @@ void ME_Interval::start(ME_IntervalObserver* obs)
 	unsigned int after, skips;
 
 	while (_running) {
-		obs->timestep(this, dperiod);
+		obs->update(this, dperiod);
+		obs->draw();
 		after = SDL_GetTicks();
-		sleep = period - after - oversleep;
+		sleep = period - (after - before) - oversleep;
 		if (sleep > 0) {
 			// blocks for the remaining time
 			SDL_Delay(sleep);
@@ -45,11 +47,12 @@ void ME_Interval::start(ME_IntervalObserver* obs)
 			// add the missed sleep time
 			missed -= sleep;
 		}
-		// catch up missed frames
+		// catch up missed frames without drawing
 		skips = 0;
-		while (missed >= period && skips < MAX_SKIPS) {
+		while (missed >= period && skips < MAX_FRAME_SKIPS) {
 			++skips;
 			missed -= period;
+			obs->update(this, dperiod);
 		}
 		before = SDL_GetTicks();
 	}

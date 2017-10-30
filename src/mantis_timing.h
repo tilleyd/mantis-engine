@@ -39,12 +39,14 @@ class ME_Interval
 /*==============================================================================
  * ME_IntervalObserver
  *
- *     Interface used by the ME_Interval timer to provide the callback function.
+ *     Interface used by the ME_Interval timer to provide the callback
+ *     update() and draw() functions.
  *============================================================================*/
 class ME_IntervalObserver
 {
 	public:
-		virtual void timestep(ME_Interval*, double period) = 0;
+		virtual void update(ME_Interval*, double period) = 0;
+		virtual void draw() = 0;
 };
 
 #endif

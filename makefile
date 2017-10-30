@@ -7,7 +7,8 @@ BIN    = bin
 CFLAGS = -Wall
 LIBS   = -lSDL2
 CC     = g++
-OFILES = $(BIN)/demo.o $(BIN)/exception.o $(BIN)/window.o
+OFILES = $(BIN)/demo.o $(BIN)/exception.o $(BIN)/window.o \
+	$(BIN)/interval.o
 
 demo: $(BIN) $(OFILES)
 	$(CC) $(CFLAGS) -o demo $(OFILES) $(LIBS)
@@ -28,4 +29,4 @@ $(BIN)/window.o: $(SRC)/window.cpp $(SRC)/mantis.h
 # MANTIS_TIMING_H
 
 $(BIN)/interval.o: $(SRC)/interval.cpp $(SRC)/mantis_timing.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/interval.o $(SRC)
+	$(CC) -c $(CFLAGS) -o $(BIN)/interval.o $(SRC)/interval.cpp
