@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	try {
 		window = new ME_Window(1280, 720);
 	} catch (ME_Exception e) {
-		cout << "Error: " << e.getMessage() << endl;
+		std::cout << "Error: " << e.getMessage() << std::endl;
 	}
 	// clean up
 	if (window) {
