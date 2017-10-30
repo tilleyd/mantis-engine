@@ -5,7 +5,6 @@
  *============================================================================*/
 
 #include "mantis.h"
-#include "mantis_timing.h"
 
 #include <SDL2/SDL.h>
 

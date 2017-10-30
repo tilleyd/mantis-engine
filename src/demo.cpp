@@ -6,7 +6,6 @@
 
 #include <iostream>
 #include "mantis.h"
-#include "mantis_timing.h"
 
 int main(int argc, char* argv[])
 {

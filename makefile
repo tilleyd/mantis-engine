@@ -20,13 +20,13 @@ $(BIN)/demo.o: $(SRC)/demo.cpp $(SRC)/mantis.h
 
 # MANTIS_H
 
-$(BIN)/exception.o: $(SRC)/exception.cpp $(SRC)/mantis.h
+$(BIN)/exception.o: $(SRC)/exception.cpp
 	$(CC) -c $(CFLAGS) -o $(BIN)/exception.o $(SRC)/exception.cpp
 
-$(BIN)/window.o: $(SRC)/window.cpp $(SRC)/mantis.h
+$(BIN)/window.o: $(SRC)/window.cpp
 	$(CC) -c $(CFLAGS) -o $(BIN)/window.o $(SRC)/window.cpp
 
 # MANTIS_TIMING_H
 
-$(BIN)/interval.o: $(SRC)/interval.cpp $(SRC)/mantis_timing.h
+$(BIN)/interval.o: $(SRC)/interval.cpp
 	$(CC) -c $(CFLAGS) -o $(BIN)/interval.o $(SRC)/interval.cpp
