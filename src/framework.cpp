@@ -6,6 +6,8 @@
 
 #include "mantis.h"
 
+#include <SDL2/SDL.h>
+
 #include <string>
 using std::string;
 
@@ -60,6 +62,15 @@ void ME_Framework::stop()
 
 void ME_Framework::update(ME_Interval* tim, double period)
 {
+	SDL_Event e;
+	// poll SDL events
+	while (SDL_PollEvent(&e) != 0) {
+		switch (e.type) {
+			case SDL_QUIT:
+				stop();
+				break;
+		}
+	}
 	// stop the game if necessary
 	if (!_running) {
 		tim->stop();

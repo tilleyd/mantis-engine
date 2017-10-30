@@ -52,7 +52,7 @@ class ME_Framework : public ME_IntervalObserver
 		void setCurrentStage(int sid);*/
 
 	private:
-		ME_Window* _window;
+		ME_Window*   _window;
 		ME_Interval* _timer;
 		//ME_Stage** stages; TODO
 		bool _running;
