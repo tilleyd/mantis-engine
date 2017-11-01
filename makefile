@@ -38,3 +38,14 @@ $(BIN)/interval.o: $(SRC)/interval.cpp $(SRC)/mantis_timer.h
 
 $(BIN)/thread.o: $(SRC)/thread.cpp $(SRC)/mantis_thread.h
 	$(CC) -c $(CFLAGS) -o $(BIN)/thread.o $(SRC)/thread.cpp
+
+# UTILS
+
+$(BIN):
+	mkdir $(BIN)
+
+clean:
+	rm -rf $(BIN) demo
+
+run: demo
+	./demo
