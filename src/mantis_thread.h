@@ -32,7 +32,7 @@ class ME_Thread
 
 		/*----------------------------------------------------------------------
 		 * Joins the thread (i.e. waits for the threadable function to
-		 * finish execution.                                                  */
+		 * finish execution).                                                 */
 		void join();
 
 		static void* execute(void*);
