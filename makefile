@@ -8,7 +8,7 @@ CFLAGS = -Wall
 LIBS   = -lSDL2 -lpthread
 CC     = g++
 OFILES = $(BIN)/demo.o $(BIN)/framework.o $(BIN)/exception.o $(BIN)/window.o \
-	$(BIN)/interval.o $(BIN)/thread.o
+	$(BIN)/interval.o $(BIN)/thread.o $(BIN)/image.o $(BIN)/image_bank.o
 
 demo: $(BIN) $(OFILES)
 	$(CC) $(CFLAGS) -o demo $(OFILES) $(LIBS)
@@ -38,6 +38,14 @@ $(BIN)/interval.o: $(SRC)/interval.cpp $(SRC)/mantis_timer.h
 
 $(BIN)/thread.o: $(SRC)/thread.cpp $(SRC)/mantis_thread.h
 	$(CC) -c $(CFLAGS) -o $(BIN)/thread.o $(SRC)/thread.cpp
+
+# MANTIS_IMAGE_H
+
+$(BIN)/image.o: $(SRC)/image.cpp $(SRC)/mantis_image.h
+	$(CC) -c $(CFLAGS) -o $(BIN)/image.o $(SRC)/image.cpp
+
+$(BIN)/image_bank.o: $(SRC)/image_bank.cpp $(SRC)/mantis_image.h
+	$(CC) -c $(CFLAGS) -o $(BIN)/image_bank.o $(SRC)/image_bank.cpp
 
 # UTILS
 

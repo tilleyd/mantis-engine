@@ -1,7 +1,7 @@
 /*==============================================================================
  * Mantis Engine main class headers
  *     Author  : Duncan Tilley
- *     Modified: 2017 Oct 30
+ *     Modified: 2017 Nov 18
  *============================================================================*/
 
 #ifndef ME_MANTIS_H
@@ -10,6 +10,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 
+#include "mantis_image.h"
 #include "mantis_timer.h"
 
 // forward declarations
@@ -51,11 +52,20 @@ class ME_Framework : public ME_IntervalObserver
 		void removeStage(int sid);
 		void setCurrentStage(int sid);*/
 
+		/*----------------------------------------------------------------------
+		 * Image management functions. Each image is represented by a tag, so
+		 * getImage() returns the image with the given name and loadImage()
+		 * loads an image from the provided filename and gives it the tag
+		 * specified in the second parameter.                                 */
+		const ME_Image& getImage(std::string) const;
+		void loadImage(std::string, std::string);
+
 	private:
-		ME_Window*   _window;
-		ME_Interval* _timer;
+		ME_Window*    _window;
+		ME_Interval*  _timer;
+		ME_ImageBank* _images;
 		//ME_Stage** stages; TODO
-		bool _running;
+		bool          _running;
 };
 
 
