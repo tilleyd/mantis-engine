@@ -1,59 +1,30 @@
-# Makefile for the Mantis Engine project
-# Author  : Duncan Tilley
-# Modified: 2017 Oct 30
+# Example makefile for the demo project
 
-SRC    = src
-BIN    = bin
 CFLAGS = -Wall
-LIBS   = -lSDL2 -lpthread
 CC     = g++
-OFILES = $(BIN)/demo.o $(BIN)/framework.o $(BIN)/exception.o $(BIN)/window.o \
-	$(BIN)/interval.o $(BIN)/thread.o $(BIN)/image.o $(BIN)/image_bank.o
 
-demo: $(BIN) $(OFILES)
-	$(CC) $(CFLAGS) -o demo $(OFILES) $(LIBS)
+# These are the libraries that must be included in order to link the mantis
+# .o files to your executable.
+LIBS   = -lSDL2 -lpthread
 
-# DEMO
+demo: bin bin/demo.o bin/mantis
+	$(CC) $(CFLAGS) -o demo bin/demo.o bin/mantis/*.o $(LIBS)
 
-$(BIN)/demo.o: $(SRC)/demo.cpp $(SRC)/mantis.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/demo.o $(SRC)/demo.cpp
+# Here is an example of how your .o files should be stored along with the
+# compiled binaries of the mantis engine .o files. The second rule here makes
+# the mantis makefile and moves the compiled binaries to the bin/mantis folder.
+bin/demo.o: src/demo.cpp
+	$(CC) -c $(CFLAGS) -o bin/demo.o src/demo.cpp
 
-# MANTIS_H
+bin/mantis:
+	make -C src/mantis
+	mv src/mantis/bin bin/mantis
 
-$(BIN)/framework.o: $(SRC)/framework.cpp $(SRC)/mantis.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/framework.o $(SRC)/framework.cpp
-
-$(BIN)/exception.o: $(SRC)/exception.cpp $(SRC)/mantis.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/exception.o $(SRC)/exception.cpp
-
-$(BIN)/window.o: $(SRC)/window.cpp $(SRC)/mantis.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/window.o $(SRC)/window.cpp
-
-# MANTIS_TIMING_H
-
-$(BIN)/interval.o: $(SRC)/interval.cpp $(SRC)/mantis_timer.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/interval.o $(SRC)/interval.cpp
-
-# MANTIS_THREAD_H
-
-$(BIN)/thread.o: $(SRC)/thread.cpp $(SRC)/mantis_thread.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/thread.o $(SRC)/thread.cpp
-
-# MANTIS_IMAGE_H
-
-$(BIN)/image.o: $(SRC)/image.cpp $(SRC)/mantis_image.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/image.o $(SRC)/image.cpp
-
-$(BIN)/image_bank.o: $(SRC)/image_bank.cpp $(SRC)/mantis_image.h
-	$(CC) -c $(CFLAGS) -o $(BIN)/image_bank.o $(SRC)/image_bank.cpp
-
-# UTILS
-
-$(BIN):
-	mkdir $(BIN)
+bin:
+	mkdir -p bin
 
 clean:
-	rm -rf $(BIN) demo
+	rm -rf bin demo
 
 run: demo
 	./demo

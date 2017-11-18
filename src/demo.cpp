@@ -1,11 +1,10 @@
 /*==============================================================================
  * Demo Program
- *     Author  : Duncan Tilley
- *     Modified: 2017 Oct 30
+ *     Modified: 2017 Nov 18
  *============================================================================*/
 
 #include <iostream>
-#include "mantis.h"
+#include "mantis/mantis.h"
 
 int main(int argc, char* argv[])
 {
