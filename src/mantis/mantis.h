@@ -1,7 +1,7 @@
 /*==============================================================================
  * Mantis Engine main class headers
  *     Author  : Duncan Tilley
- *     Modified: 2017 Nov 18
+ *     Modified: 2017 Nov 19
  *============================================================================*/
 
 #ifndef ME_MANTIS_H
@@ -15,6 +15,7 @@
 
 // forward declarations
 class ME_Framework;
+class ME_Stage;
 class ME_Exception;
 class ME_Window;
 
@@ -48,24 +49,42 @@ class ME_Framework : public ME_IntervalObserver
 
 		/*----------------------------------------------------------------------
 		 * Stage management functions.                                        */
-		/*void addStage(ME_Stage*); TODO
+		void addStage(ME_Stage*);
 		void removeStage(int sid);
-		void setCurrentStage(int sid);*/
+		void setCurrentStage(int sid);
 
 		/*----------------------------------------------------------------------
 		 * Image management functions. Each image is represented by a tag, so
 		 * getImage() returns the image with the given name and loadImage()
 		 * loads an image from the provided filename and gives it the tag
 		 * specified in the second parameter.                                 */
-		const ME_Image& getImage(std::string) const;
-		void loadImage(std::string, std::string);
+		const ME_Image& getImage(std::string tag) const;
+		void loadImage(std::string path, std::string tag);
 
 	private:
 		ME_Window*    _window;
 		ME_Interval*  _timer;
 		ME_ImageBank* _images;
-		//ME_Stage** stages; TODO
+		ME_Stage**    _stages;
 		bool          _running;
+};
+
+/*==============================================================================
+ * ME_Stage
+ *
+ *     Represents a room or area in the game. Stages are the main method of
+ *     organizing the game logic. The framework works on one stage at a time and
+ *     each stage contains has the update() and render() methods, which are
+ *     called by the framework to render or progress the stage.
+ *============================================================================*/
+class ME_Stage
+{
+	public:
+		ME_Stage(ME_Framework*);
+		virtual void update(double) = 0;
+		virtual void render() = 0;
+	protected:
+		ME_Framework* _framework;
 };
 
 

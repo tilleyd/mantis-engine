@@ -82,3 +82,28 @@ void ME_Framework::draw()
 {
 	// TODO delegate to stages and draw to window
 }
+
+void ME_Framework::addStage(ME_Stage* stage)
+{
+	// TODO
+}
+
+void ME_Framework::removeStage(int sid)
+{
+	// TODO
+}
+
+void ME_Framework::setCurrentStage(int sid)
+{
+	// TODO
+}
+
+const ME_Image& ME_Framework::getImage(string tag) const
+{
+	// TODO
+}
+
+void ME_Framework::loadImage(string path, string tag)
+{
+	// TODO
+}

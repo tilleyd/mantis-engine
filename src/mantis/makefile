@@ -10,7 +10,7 @@
 CFLAGS = -Wall
 CC     = g++
 OFILES = bin/framework.o bin/exception.o bin/window.o \
-	bin/interval.o bin/thread.o bin/image.o bin/image_bank.o
+	bin/interval.o bin/thread.o bin/image.o bin/image_bank.o bin/stage.o
 
 mantis: bin $(OFILES)
 
@@ -24,6 +24,9 @@ bin/exception.o: exception.cpp mantis.h
 
 bin/window.o: window.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o bin/window.o window.cpp
+
+bin/stage.o: stage.cpp mantis.h
+	$(CC) -c $(CFLAGS) -o bin/stage.o stage.cpp
 
 # MANTIS_TIMING_H
 
