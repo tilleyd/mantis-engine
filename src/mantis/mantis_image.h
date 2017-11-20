@@ -30,9 +30,15 @@ class ME_Image
     public:
         ME_Image(ME_Graphics&, std::string path);
         ~ME_Image();
+
+        int getWidth() const;
+        int getHeight() const;
+
         SDL_Texture* getTexture();
     private:
         SDL_Texture* _texture;
+        int          _width;
+        int          _height;
 };
 
 /*==============================================================================

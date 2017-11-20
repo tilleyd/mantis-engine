@@ -26,6 +26,8 @@ ME_Image::ME_Image(ME_Graphics& graphics, string path)
     if (_texture == NULL) {
         throw ME_Exception(SDL_GetError());
     }
+    // get width and height
+    SDL_QueryTexture(_texture, NULL, NULL, &_width, &_height);
 }
 
 ME_Image::~ME_Image()
@@ -33,6 +35,16 @@ ME_Image::~ME_Image()
     // free the loaded texture
     SDL_DestroyTexture(_texture);
     _texture = NULL;
+}
+
+int ME_Image::getWidth() const
+{
+    return _width;
+}
+
+int ME_Image::getHeight() const
+{
+    return _height;
 }
 
 SDL_Texture* ME_Image::getTexture()
