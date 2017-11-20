@@ -51,6 +51,11 @@ void ME_Graphics::drawImage(ME_Image* img, int x, int y, int w, int h)
     SDL_RenderCopy(_renderer, img->getTexture(), NULL, &dest);
 }
 
+void ME_Graphics::setColor(int r, int g, int b)
+{
+    setColor(r, g, b);
+}
+
 void ME_Graphics::setColor(int a, int r, int g, int b)
 {
     SDL_SetRenderDrawColor(_renderer, r, g, b, a);

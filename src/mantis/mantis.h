@@ -101,6 +101,7 @@ class ME_Graphics
 
 		/*----------------------------------------------------------------------
 		 * Geometry rendering functions                                       */
+		void setColor(int r, int g, int b);
 		void setColor(int a, int r, int g, int b);
 
 		/*----------------------------------------------------------------------
