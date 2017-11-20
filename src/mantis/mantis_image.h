@@ -6,7 +6,7 @@
 #ifndef ME_IMAGE_H
 #define ME_IMAGE_H
 
-#include <SDL2/SDL_image.h>
+#include <SDL2/SDL.h>
 #include <map>
 #include <string>
 
@@ -28,6 +28,9 @@ class ME_Image
     public:
         ME_Image(std::string path);
         ~ME_Image();
+        const SDL_Texture* getTexture() const;
+    private:
+        SDL_Texture* _texture;
 };
 
 /*==============================================================================
@@ -39,7 +42,7 @@ class ME_Image
 class ME_ImageBank
 {
     public:
-        ME_ImageBank();
+        ME_ImageBank(ME_Graphics*);
         ~ME_ImageBank();
 
         /*----------------------------------------------------------------------
@@ -52,7 +55,8 @@ class ME_ImageBank
         const ME_Image& getImage(std::string tag) const;
 
     private:
-        imagemap_t _images;
+        ME_Graphics* _context;
+        imagemap_t   _images;
 };
 
 #endif

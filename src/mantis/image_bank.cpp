@@ -5,9 +5,11 @@
 
 #include "mantis_image.h"
 
+#include "mantis.h"
 #include "mantis_exception.h"
 
-ME_ImageBank::ME_ImageBank()
+ME_ImageBank::ME_ImageBank(ME_Graphics* context)
+    : _context(context)
     : _images()
 {}
 
@@ -22,7 +24,7 @@ ME_ImageBank::~ME_ImageBank()
 void ME_ImageBank::loadImage(std::string path, std::string tag)
 {
     try {
-        ME_Image* newimg = new ME_Image(path);
+        ME_Image* newimg = new ME_Image(*_context, path);
         addImage(newimg, tag);
     } catch (...) {
         // TODO more specific exception handling
