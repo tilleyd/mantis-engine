@@ -5,8 +5,8 @@
 
 #include "mantis.h"
 
+#include "mantis_exception.h"
 #include <SDL2/SDL.h>
-#include <map>
 #include <string>
 using std::string;
 
@@ -16,8 +16,8 @@ using std::string;
 ME_Framework::ME_Framework(string gn, string wn)
 	: _window(NULL)
 	, _timer(NULL)
-	, _images(NULL)
 	, _stage(NULL)
+	, _images(NULL)
 	, _stages()
 	, _running(false)
 {
@@ -35,14 +35,18 @@ ME_Framework::ME_Framework(string gn, string wn)
 ME_Framework::~ME_Framework()
 {
 	_running = false;
+	if (_window) {
+		delete _window;
+		_window = NULL;
+	}
 	if (_timer) {
 		_timer->stop();
 		delete _timer;
 		_timer = NULL;
 	}
-	if (_window) {
-		delete _window;
-		_window = NULL;
+	if (_images) {
+		delete _images;
+		_images = NULL;
 	}
 	// delete stages
 	for (stagemap_t::iterator it = _stages.begin(); it != _stages.end(); ++it) {
@@ -106,15 +110,15 @@ void ME_Framework::setActiveStage(std::string tag)
 	try {
 		ME_Stage* stage = _stages.at(tag);
 		_stage = stage;
-	} catch (...) {}
+	} catch (...) {
+		throw ME_Exception("Error: Invalid stage tag");
+	}
 }
 
-const ME_Image& ME_Framework::getImage(string tag) const
+ME_ImageBank& ME_Framework::getImageBank()
 {
-	// TODO
-}
-
-void ME_Framework::loadImage(string path, string tag)
-{
-	// TODO
+	if (!_images) {
+		_images = new ME_ImageBank();
+	}
+	return *_images;
 }

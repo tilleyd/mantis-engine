@@ -1,18 +1,21 @@
 /*==============================================================================
  * Mantis Engine image management class headers
- *     Author  : Duncan Tilley
- *     Modified: 2017 Nov 18
+ *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #ifndef ME_IMAGE_H
 #define ME_IMAGE_H
 
-#include <string>
 #include <SDL2/SDL_image.h>
+#include <map>
+#include <string>
 
 // forward declarations
 class ME_Image;
 class ME_ImageBank;
+
+// imagemap typedef
+typedef std::map<std::string, ME_Image*> imagemap_t;
 
 /*==============================================================================
  * ME_Image
@@ -23,20 +26,33 @@ class ME_ImageBank;
 class ME_Image
 {
     public:
-        // TODO
+        ME_Image(std::string path);
+        ~ME_Image();
 };
 
 /*==============================================================================
  * ME_ImageBank
  *
- *     A singleton class that stores and manages ME_Image objects. Each image
- *     is associated with a tag that can be used to reference the image. The
- *     image bank is therefore a kind of image map/dictionary.
+ *     A class that stores and manages ME_Image objects. Each image is
+ *     associated with a tag that can be used to reference the image.
  *============================================================================*/
 class ME_ImageBank
 {
     public:
-        // TODO
+        ME_ImageBank();
+        ~ME_ImageBank();
+
+        /*----------------------------------------------------------------------
+         * Image insertion functions.                                         */
+        void loadImage(std::string path, std::string tag);
+        void addImage(ME_Image*, std::string tag);
+
+        /*----------------------------------------------------------------------
+         * Image access functions.                                            */
+        const ME_Image& getImage(std::string tag) const;
+
+    private:
+        imagemap_t _images;
 };
 
 #endif

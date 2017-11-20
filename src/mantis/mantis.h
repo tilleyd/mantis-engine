@@ -16,7 +16,6 @@
 // forward declarations
 class ME_Framework;
 class ME_Stage;
-class ME_Exception;
 class ME_Window;
 
 // map typedef
@@ -57,16 +56,14 @@ class ME_Framework : public ME_IntervalObserver
 		void setActiveStage(std::string tag);
 
 		/*----------------------------------------------------------------------
-		 * Image management functions. Each image is associated with a tag that
-		 * can be used to reference the image.                                */
-		const ME_Image& getImage(std::string tag) const;
-		void loadImage(std::string path, std::string tag);
+		 * Image bank access                                                  */
+		ME_ImageBank& getImageBank();
 
 	private:
 		ME_Window*    _window;
 		ME_Interval*  _timer;
-		ME_ImageBank* _images;
 		ME_Stage*     _stage;
+		ME_ImageBank* _images;
 		stagemap_t    _stages;
 		bool          _running;
 };
@@ -88,22 +85,6 @@ class ME_Stage
 		virtual void render() = 0;
 	protected:
 		ME_Framework* _framework;
-};
-
-
-/*==============================================================================
- * ME_Exception
- *
- *     Represents an exception/error used for try/catch statements. Contains
- *     an error message string.
- *============================================================================*/
-class ME_Exception
-{
-	public:
-		ME_Exception(std::string);
-		const std::string& getMessage() const;
-	private:
-		std::string _mesg;
 };
 
 
