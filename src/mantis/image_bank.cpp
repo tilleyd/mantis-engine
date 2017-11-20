@@ -8,9 +8,9 @@
 #include "mantis.h"
 #include "mantis_exception.h"
 
-ME_ImageBank::ME_ImageBank(ME_Graphics* context)
-    : _context(context)
-    : _images()
+ME_ImageBank::ME_ImageBank(ME_Graphics& context)
+    : _context(&context)
+    , _images()
 {}
 
 ME_ImageBank::~ME_ImageBank()

@@ -10,7 +10,8 @@
 CFLAGS = -Wall
 CC     = g++
 OFILES = bin/framework.o bin/exception.o bin/window.o \
-	bin/interval.o bin/thread.o bin/image.o bin/image_bank.o bin/stage.o
+	bin/interval.o bin/thread.o bin/image.o bin/image_bank.o bin/stage.o \
+	bin/graphics.o
 
 mantis: bin $(OFILES)
 
@@ -18,6 +19,9 @@ mantis: bin $(OFILES)
 
 bin/framework.o: framework.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o bin/framework.o framework.cpp
+
+bin/graphics.o: graphics.cpp mantis.h
+	$(CC) -c $(CFLAGS) -o bin/graphics.o graphics.cpp
 
 bin/window.o: window.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o bin/window.o window.cpp

@@ -14,6 +14,8 @@
 class ME_Image;
 class ME_ImageBank;
 
+#include "mantis.h"
+
 // imagemap typedef
 typedef std::map<std::string, ME_Image*> imagemap_t;
 
@@ -26,9 +28,9 @@ typedef std::map<std::string, ME_Image*> imagemap_t;
 class ME_Image
 {
     public:
-        ME_Image(std::string path);
+        ME_Image(ME_Graphics&, std::string path);
         ~ME_Image();
-        const SDL_Texture* getTexture() const;
+        SDL_Texture* getTexture();
     private:
         SDL_Texture* _texture;
 };
@@ -42,7 +44,7 @@ class ME_Image
 class ME_ImageBank
 {
     public:
-        ME_ImageBank(ME_Graphics*);
+        ME_ImageBank(ME_Graphics&);
         ~ME_ImageBank();
 
         /*----------------------------------------------------------------------

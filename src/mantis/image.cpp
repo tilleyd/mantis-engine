@@ -8,10 +8,11 @@
 #include "mantis.h"
 #include "mantis_exception.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <string>
 using std::string;
 
-ME_Image::ME_Image(const ME_Graphics& graphics, string path)
+ME_Image::ME_Image(ME_Graphics& graphics, string path)
     : _texture(NULL)
 {
     // create the SDL surface
@@ -34,7 +35,7 @@ ME_Image::~ME_Image()
     _texture = NULL;
 }
 
-const SDL_Texture* getTexture() const
+SDL_Texture* ME_Image::getTexture()
 {
     return _texture;
 }

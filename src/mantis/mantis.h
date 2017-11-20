@@ -10,13 +10,14 @@
 #include <map>
 #include <string>
 
-#include "mantis_image.h"
-#include "mantis_timer.h"
-
 // forward declarations
 class ME_Framework;
+class ME_Graphics;
 class ME_Stage;
 class ME_Window;
+
+#include "mantis_image.h"
+#include "mantis_timer.h"
 
 // map typedef
 typedef std::map<std::string, ME_Stage*> stagemap_t;
@@ -69,6 +70,30 @@ class ME_Framework : public ME_IntervalObserver
 };
 
 /*==============================================================================
+ * ME_Graphics
+ *
+ *     Represents a rendering device that is associated with the window. This
+ *     device is passed to all rendering functions and is used for the creation
+ *     of images.
+ *============================================================================*/
+class ME_Graphics
+{
+	public:
+		~ME_Graphics();
+
+		/*----------------------------------------------------------------------
+		 * SDL renderer access                                                */
+		SDL_Renderer* getRenderer();
+
+	private:
+		/*----------------------------------------------------------------------
+		 * Only the window is allowed to create rendering devices.            */
+		friend class ME_Window;
+		ME_Graphics(ME_Window&);
+		SDL_Renderer* _renderer;
+};
+
+/*==============================================================================
  * ME_Stage
  *
  *     Represents a room or area in the game. Stages are the main method of
@@ -99,8 +124,15 @@ class ME_Window
 	public:
 		ME_Window(std::string t, unsigned int w, unsigned int h);
 		~ME_Window();
+
+		ME_Graphics& getGraphics();
+
+		/*----------------------------------------------------------------------
+		 * SDL window access                                                  */
+		SDL_Window* getWindow();
 	private:
-		SDL_Window* _win;
+		SDL_Window*  _win;
+		ME_Graphics* _graphics;
 };
 
 #endif

@@ -118,7 +118,7 @@ void ME_Framework::setActiveStage(std::string tag)
 ME_ImageBank& ME_Framework::getImageBank()
 {
 	if (!_images) {
-		_images = new ME_ImageBank();
+		_images = new ME_ImageBank(_window->getGraphics());
 	}
 	return *_images;
 }
