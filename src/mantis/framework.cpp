@@ -1,13 +1,12 @@
 /*==============================================================================
  * ME_Window implementation
- *     Author  : Duncan Tilley
- *     Modified: 2017 Oct 30
+ *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #include "mantis.h"
 
 #include <SDL2/SDL.h>
-
+#include <map>
 #include <string>
 using std::string;
 
@@ -17,6 +16,9 @@ using std::string;
 ME_Framework::ME_Framework(string gn, string wn)
 	: _window(NULL)
 	, _timer(NULL)
+	, _images(NULL)
+	, _stage(NULL)
+	, _stages()
 	, _running(false)
 {
 	// initialize SDL
@@ -41,6 +43,10 @@ ME_Framework::~ME_Framework()
 	if (_window) {
 		delete _window;
 		_window = NULL;
+	}
+	// delete stages
+	for (stagemap_t::iterator it = _stages.begin(); it != _stages.end(); ++it) {
+		delete it->second;
 	}
 	// clean up SDL
 	SDL_Quit();
@@ -75,27 +81,32 @@ void ME_Framework::update(ME_Interval* tim, double period)
 	if (!_running) {
 		tim->stop();
 	}
-	// TODO delegate update the current stage
+	// delegate update to the current stage
+	if (_stage) {
+		_stage->update(period);
+	}
 }
 
 void ME_Framework::draw()
 {
-	// TODO delegate to stages and draw to window
+	// delegate to stages and draw to window
+	if (_stage) {
+		_stage->render();
+		// TODO draw to window
+	}
 }
 
-void ME_Framework::addStage(ME_Stage* stage)
+void ME_Framework::addStage(ME_Stage* stage, std::string tag)
 {
-	// TODO
+	_stages[tag] = stage;
 }
 
-void ME_Framework::removeStage(int sid)
+void ME_Framework::setActiveStage(std::string tag)
 {
-	// TODO
-}
-
-void ME_Framework::setCurrentStage(int sid)
-{
-	// TODO
+	try {
+		ME_Stage* stage = _stages.at(tag);
+		_stage = stage;
+	} catch (...) {}
 }
 
 const ME_Image& ME_Framework::getImage(string tag) const

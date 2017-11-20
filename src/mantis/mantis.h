@@ -1,14 +1,14 @@
 /*==============================================================================
  * Mantis Engine main class headers
- *     Author  : Duncan Tilley
- *     Modified: 2017 Nov 19
+ *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #ifndef ME_MANTIS_H
 #define ME_MANTIS_H
 
-#include <string>
 #include <SDL2/SDL.h>
+#include <map>
+#include <string>
 
 #include "mantis_image.h"
 #include "mantis_timer.h"
@@ -19,6 +19,8 @@ class ME_Stage;
 class ME_Exception;
 class ME_Window;
 
+// map typedef
+typedef std::map<std::string, ME_Stage*> stagemap_t;
 
 /*==============================================================================
  * ME_Framework
@@ -48,16 +50,15 @@ class ME_Framework : public ME_IntervalObserver
 		void draw();
 
 		/*----------------------------------------------------------------------
-		 * Stage management functions.                                        */
-		void addStage(ME_Stage*);
-		void removeStage(int sid);
-		void setCurrentStage(int sid);
+		 * Stage management functions. Each stage is associated with a tag that
+		 * can be used to reference the stage. setActiveStage() brings the
+		 * active stage to the foreground.                                    */
+		void addStage(ME_Stage*, std::string tag);
+		void setActiveStage(std::string tag);
 
 		/*----------------------------------------------------------------------
-		 * Image management functions. Each image is represented by a tag, so
-		 * getImage() returns the image with the given name and loadImage()
-		 * loads an image from the provided filename and gives it the tag
-		 * specified in the second parameter.                                 */
+		 * Image management functions. Each image is associated with a tag that
+		 * can be used to reference the image.                                */
 		const ME_Image& getImage(std::string tag) const;
 		void loadImage(std::string path, std::string tag);
 
@@ -65,7 +66,8 @@ class ME_Framework : public ME_IntervalObserver
 		ME_Window*    _window;
 		ME_Interval*  _timer;
 		ME_ImageBank* _images;
-		ME_Stage**    _stages;
+		ME_Stage*     _stage;
+		stagemap_t    _stages;
 		bool          _running;
 };
 
@@ -81,6 +83,7 @@ class ME_Stage
 {
 	public:
 		ME_Stage(ME_Framework*);
+		virtual ~ME_Stage();
 		virtual void update(double) = 0;
 		virtual void render() = 0;
 	protected:
