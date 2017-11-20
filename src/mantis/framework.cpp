@@ -13,11 +13,8 @@ using std::string;
 #define DEFAULT_HEIGHT 720
 
 ME_Framework::ME_Framework(string gn, string wn)
-	: _window(NULL)
-	, _graphics(NULL)
-	, _timer(NULL)
+	: _timer(NULL)
 	, _stage(NULL)
-	, _images(NULL)
 	, _stages()
 	, _running(false)
 {
@@ -30,6 +27,8 @@ ME_Framework::ME_Framework(string gn, string wn)
 
 	// initialize members
 	_window = new ME_Window(wn, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	_width = DEFAULT_WIDTH;
+	_height = DEFAULT_HEIGHT;
 	_graphics = _window->getGraphics();
 	_images = new ME_ImageBank(_graphics);
 }

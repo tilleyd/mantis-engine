@@ -57,6 +57,11 @@ class ME_Framework : public ME_IntervalObserver
 		void setActiveStage(std::string tag);
 
 		/*----------------------------------------------------------------------
+		 * Width and height access. This is the size of the rendering canvas. */
+		int getWidth() const;
+		int getHeight() const;
+
+		/*----------------------------------------------------------------------
 		 * Image bank access                                                  */
 		ME_ImageBank* getImageBank();
 
@@ -68,6 +73,8 @@ class ME_Framework : public ME_IntervalObserver
 		ME_ImageBank* _images;
 		stagemap_t    _stages;
 		bool          _running;
+		int           _width;
+		int           _height;
 };
 
 /*==============================================================================
