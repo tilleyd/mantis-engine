@@ -53,7 +53,7 @@ void ME_Graphics::drawImage(ME_Image* img, int x, int y, int w, int h)
 
 void ME_Graphics::setColor(int r, int g, int b)
 {
-    setColor(r, g, b);
+    setColor(255, r, g, b);
 }
 
 void ME_Graphics::setColor(int a, int r, int g, int b)
