@@ -84,6 +84,20 @@ class ME_Graphics
 		~ME_Graphics();
 
 		/*----------------------------------------------------------------------
+		 * Clear the rendering canvas to the current color                    */
+		void clear();
+
+		/*----------------------------------------------------------------------
+		 * Image rendering functions                                          */
+		void drawImage(ME_Image&);
+		void drawImage(ME_Image&, int x, int y);
+		void drawImage(ME_Image&, int x, int y, int w, int h);
+
+		/*----------------------------------------------------------------------
+		 * Geometry rendering functions                                       */
+		void setColor(int a, int r, int g, int b);
+
+		/*----------------------------------------------------------------------
 		 * SDL renderer access                                                */
 		SDL_Renderer* getRenderer();
 

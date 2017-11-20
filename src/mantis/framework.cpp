@@ -99,7 +99,7 @@ void ME_Framework::draw()
 	// delegate to stages and draw to window
 	if (_stage) {
 		_stage->render(*_graphics);
-		// TODO draw to window
+		SDL_RenderPresent(_graphics->getRenderer());
 	}
 }
 
