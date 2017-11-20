@@ -1,5 +1,5 @@
 # Makefile for the Mantis Engine project
-# Modified: 2017 Nov 18
+# Modified: 2017 Nov 20
 
 # The main target creates all the .o files inside the bin directory. You should
 # move the folder or the contents of the folder to the rest of your compiled
@@ -19,14 +19,16 @@ mantis: bin $(OFILES)
 bin/framework.o: framework.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o bin/framework.o framework.cpp
 
-bin/exception.o: exception.cpp mantis.h
-	$(CC) -c $(CFLAGS) -o bin/exception.o exception.cpp
-
 bin/window.o: window.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o bin/window.o window.cpp
 
 bin/stage.o: stage.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o bin/stage.o stage.cpp
+
+# MANTIS_EXCEPTION_H
+
+bin/exception.o: exception.cpp mantis.h
+	$(CC) -c $(CFLAGS) -o bin/exception.o exception.cpp
 
 # MANTIS_TIMING_H
 

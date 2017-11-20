@@ -1,15 +1,14 @@
 /*==============================================================================
  * ME_Window implementation
- *     Author  : Duncan Tilley
- *     Modified: 2017 Oct 30
+ *     Modified: 2017 Nov 20
  *============================================================================*/
 
- #include "mantis.h"
+#include "mantis.h"
 
- #include <SDL2/SDL.h>
-
- #include <string>
- using std::string;
+#include "mantis_exception.h"
+#include <SDL2/SDL.h>
+#include <string>
+using std::string;
 
 ME_Window::ME_Window(string title, unsigned int width, unsigned int height)
 	: _win(NULL)

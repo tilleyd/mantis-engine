@@ -1,10 +1,9 @@
 /*==============================================================================
  * ME_Exception implementation
- *     Author  : Duncan Tilley
- *     Modified: 2017 Oct 30
+ *     Modified: 2017 Nov 20
  *============================================================================*/
 
-#include "mantis.h"
+#include "mantis_exception.h"
 using std::string;
 
 ME_Exception::ME_Exception(string mesg)

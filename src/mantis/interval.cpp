@@ -1,11 +1,11 @@
 /*==============================================================================
  * ME_Interval timer implementation
- *     Author  : Duncan Tilley
- *     Modified: 2017 Oct 30
+ *     Modified: 2017 Nov 20
  *============================================================================*/
 
-#include "mantis.h"
+#include "mantis_timer.h"
 
+#include "mantis_exception.h"
 #include <SDL2/SDL.h>
 
 #define MAX_FRAME_SKIPS 8
