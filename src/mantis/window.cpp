@@ -13,6 +13,7 @@ using std::string;
 
 ME_Window::ME_Window(string title, unsigned int width, unsigned int height)
 	: _win(NULL)
+	, _graphics(NULL)
 {
 	// create the window
 	_win = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED,
@@ -44,7 +45,7 @@ ME_Window::~ME_Window()
 ME_Graphics& ME_Window::getGraphics()
 {
 	// lazy initialize the graphics device
-	if (!_graphics) {
+	if (_graphics == NULL) {
 		_graphics = new ME_Graphics(*this);
 	}
 	return *_graphics;

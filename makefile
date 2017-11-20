@@ -5,7 +5,7 @@ CC     = g++
 
 # These are the libraries that must be included in order to link the mantis
 # .o files to your executable.
-LIBS   = -lSDL2 -lpthread
+LIBS   = -lSDL2 -lSDL2_image -lpthread
 
 demo: bin bin/demo.o bin/mantis
 	$(CC) $(CFLAGS) -o demo bin/demo.o bin/mantis/*.o $(LIBS)

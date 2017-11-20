@@ -8,3 +8,6 @@
 ME_Stage::ME_Stage(ME_Framework* fw)
     : _framework(fw)
 {}
+
+ME_Stage::~ME_Stage()
+{}

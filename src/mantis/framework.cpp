@@ -15,6 +15,7 @@ using std::string;
 
 ME_Framework::ME_Framework(string gn, string wn)
 	: _window(NULL)
+	, _graphics(NULL)
 	, _timer(NULL)
 	, _stage(NULL)
 	, _images(NULL)
@@ -28,8 +29,10 @@ ME_Framework::ME_Framework(string gn, string wn)
 
 	// TODO read configuration details
 
-	// create the window
+	// initialize members
 	_window = new ME_Window(wn, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	_graphics = &(_window->getGraphics());
+	_images = new ME_ImageBank(*_graphics);
 }
 
 ME_Framework::~ME_Framework()
@@ -95,7 +98,7 @@ void ME_Framework::draw()
 {
 	// delegate to stages and draw to window
 	if (_stage) {
-		_stage->render();
+		_stage->render(*_graphics);
 		// TODO draw to window
 	}
 }
@@ -117,8 +120,5 @@ void ME_Framework::setActiveStage(std::string tag)
 
 ME_ImageBank& ME_Framework::getImageBank()
 {
-	if (!_images) {
-		_images = new ME_ImageBank(_window->getGraphics());
-	}
 	return *_images;
 }

@@ -16,6 +16,7 @@ class ME_Graphics;
 class ME_Stage;
 class ME_Window;
 
+#include "mantis_exception.h"
 #include "mantis_image.h"
 #include "mantis_timer.h"
 
@@ -62,6 +63,7 @@ class ME_Framework : public ME_IntervalObserver
 
 	private:
 		ME_Window*    _window;
+		ME_Graphics*  _graphics;
 		ME_Interval*  _timer;
 		ME_Stage*     _stage;
 		ME_ImageBank* _images;
@@ -107,7 +109,7 @@ class ME_Stage
 		ME_Stage(ME_Framework*);
 		virtual ~ME_Stage();
 		virtual void update(double) = 0;
-		virtual void render() = 0;
+		virtual void render(ME_Graphics&) = 0;
 	protected:
 		ME_Framework* _framework;
 };
