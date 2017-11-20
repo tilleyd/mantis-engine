@@ -1,6 +1,5 @@
 /*==============================================================================
  * ME_Window implementation
- *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #include "mantis.h"
@@ -31,8 +30,8 @@ ME_Framework::ME_Framework(string gn, string wn)
 
 	// initialize members
 	_window = new ME_Window(wn, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	_graphics = &(_window->getGraphics());
-	_images = new ME_ImageBank(*_graphics);
+	_graphics = _window->getGraphics();
+	_images = new ME_ImageBank(_graphics);
 }
 
 ME_Framework::~ME_Framework()
@@ -98,7 +97,7 @@ void ME_Framework::draw()
 {
 	// delegate to stages and draw to window
 	if (_stage) {
-		_stage->render(*_graphics);
+		_stage->render(_graphics);
 		SDL_RenderPresent(_graphics->getRenderer());
 	}
 }
@@ -118,7 +117,7 @@ void ME_Framework::setActiveStage(std::string tag)
 	}
 }
 
-ME_ImageBank& ME_Framework::getImageBank()
+ME_ImageBank* ME_Framework::getImageBank()
 {
-	return *_images;
+	return _images;
 }

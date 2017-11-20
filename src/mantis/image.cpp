@@ -1,6 +1,5 @@
 /*==============================================================================
  * ME_Image implementation
- *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #include "mantis_image.h"
@@ -12,7 +11,7 @@
 #include <string>
 using std::string;
 
-ME_Image::ME_Image(ME_Graphics& graphics, string path)
+ME_Image::ME_Image(ME_Graphics* graphics, string path)
     : _texture(NULL)
 {
     // create the SDL surface
@@ -21,7 +20,7 @@ ME_Image::ME_Image(ME_Graphics& graphics, string path)
         throw ME_Exception(IMG_GetError());
     }
     // create hardware accelerated texture from the surface
-    _texture = SDL_CreateTextureFromSurface(graphics.getRenderer(), surface);
+    _texture = SDL_CreateTextureFromSurface(graphics->getRenderer(), surface);
     SDL_FreeSurface(surface);
     if (_texture == NULL) {
         throw ME_Exception(SDL_GetError());

@@ -1,6 +1,5 @@
 /*==============================================================================
  * ME_ImageBank implementation
- *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #include "mantis_image.h"
@@ -8,8 +7,8 @@
 #include "mantis.h"
 #include "mantis_exception.h"
 
-ME_ImageBank::ME_ImageBank(ME_Graphics& context)
-    : _context(&context)
+ME_ImageBank::ME_ImageBank(ME_Graphics* context)
+    : _context(context)
     , _images()
 {}
 
@@ -24,7 +23,7 @@ ME_ImageBank::~ME_ImageBank()
 void ME_ImageBank::loadImage(std::string path, std::string tag)
 {
     try {
-        ME_Image* newimg = new ME_Image(*_context, path);
+        ME_Image* newimg = new ME_Image(_context, path);
         addImage(newimg, tag);
     } catch (...) {
         // TODO more specific exception handling
@@ -37,11 +36,11 @@ void ME_ImageBank::addImage(ME_Image* img, std::string tag)
     _images[tag] = img;
 }
 
-const ME_Image& ME_ImageBank::getImage(std::string tag) const
+ME_Image* ME_ImageBank::getImage(std::string tag)
 {
     try {
         ME_Image* img = _images.at(tag);
-        return *img;
+        return img;
     } catch (...) {
         throw ME_Exception("Error: Invalid image tag");
     }

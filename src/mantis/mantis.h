@@ -1,6 +1,5 @@
 /*==============================================================================
  * Mantis Engine main class headers
- *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #ifndef ME_MANTIS_H
@@ -59,7 +58,7 @@ class ME_Framework : public ME_IntervalObserver
 
 		/*----------------------------------------------------------------------
 		 * Image bank access                                                  */
-		ME_ImageBank& getImageBank();
+		ME_ImageBank* getImageBank();
 
 	private:
 		ME_Window*    _window;
@@ -89,9 +88,9 @@ class ME_Graphics
 
 		/*----------------------------------------------------------------------
 		 * Image rendering functions                                          */
-		void drawImage(ME_Image&);
-		void drawImage(ME_Image&, int x, int y);
-		void drawImage(ME_Image&, int x, int y, int w, int h);
+		void drawImage(ME_Image*);
+		void drawImage(ME_Image*, int x, int y);
+		void drawImage(ME_Image*, int x, int y, int w, int h);
 
 		/*----------------------------------------------------------------------
 		 * Geometry rendering functions                                       */
@@ -105,7 +104,7 @@ class ME_Graphics
 		/*----------------------------------------------------------------------
 		 * Only the window is allowed to create rendering devices.            */
 		friend class ME_Window;
-		ME_Graphics(ME_Window&);
+		ME_Graphics(ME_Window*);
 		SDL_Renderer* _renderer;
 };
 
@@ -123,7 +122,7 @@ class ME_Stage
 		ME_Stage(ME_Framework*);
 		virtual ~ME_Stage();
 		virtual void update(double) = 0;
-		virtual void render(ME_Graphics&) = 0;
+		virtual void render(ME_Graphics*) = 0;
 	protected:
 		ME_Framework* _framework;
 };
@@ -141,7 +140,7 @@ class ME_Window
 		ME_Window(std::string t, unsigned int w, unsigned int h);
 		~ME_Window();
 
-		ME_Graphics& getGraphics();
+		ME_Graphics* getGraphics();
 
 		/*----------------------------------------------------------------------
 		 * SDL window access                                                  */

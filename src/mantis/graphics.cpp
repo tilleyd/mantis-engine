@@ -1,6 +1,5 @@
 /*==============================================================================
  * ME_Graphics implementation
- *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #include "mantis.h"
@@ -9,10 +8,10 @@
 #include "mantis_image.h"
 #include <SDL2/SDL.h>
 
-ME_Graphics::ME_Graphics(ME_Window& context)
+ME_Graphics::ME_Graphics(ME_Window* context)
     : _renderer(NULL)
 {
-    SDL_Window* win = context.getWindow();
+    SDL_Window* win = context->getWindow();
 	_renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
     if (_renderer == NULL) {
         throw ME_Exception(SDL_GetError());
@@ -31,17 +30,17 @@ void ME_Graphics::clear()
     SDL_RenderClear(_renderer);
 }
 
-void ME_Graphics::drawImage(ME_Image& img)
+void ME_Graphics::drawImage(ME_Image* img)
 {
-    SDL_RenderCopy(_renderer, img.getTexture(), NULL, NULL);
+    SDL_RenderCopy(_renderer, img->getTexture(), NULL, NULL);
 }
 
-void ME_Graphics::drawImage(ME_Image& img, int x, int y)
+void ME_Graphics::drawImage(ME_Image* img, int x, int y)
 {
-    drawImage(img, x, y, img.getWidth(), img.getHeight());
+    drawImage(img, x, y, img->getWidth(), img->getHeight());
 }
 
-void ME_Graphics::drawImage(ME_Image& img, int x, int y, int w, int h)
+void ME_Graphics::drawImage(ME_Image* img, int x, int y, int w, int h)
 {
     SDL_Rect dest;
     dest.x = x;
@@ -49,7 +48,7 @@ void ME_Graphics::drawImage(ME_Image& img, int x, int y, int w, int h)
     dest.w = w;
     dest.h = h;
     // render at the given position with stretching
-    SDL_RenderCopy(_renderer, img.getTexture(), NULL, &dest);
+    SDL_RenderCopy(_renderer, img->getTexture(), NULL, &dest);
 }
 
 void ME_Graphics::setColor(int a, int r, int g, int b)

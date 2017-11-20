@@ -1,6 +1,5 @@
 /*==============================================================================
  * ME_Window implementation
- *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #include "mantis.h"
@@ -42,13 +41,13 @@ ME_Window::~ME_Window()
 	}
 }
 
-ME_Graphics& ME_Window::getGraphics()
+ME_Graphics* ME_Window::getGraphics()
 {
 	// lazy initialize the graphics device
 	if (_graphics == NULL) {
-		_graphics = new ME_Graphics(*this);
+		_graphics = new ME_Graphics(this);
 	}
-	return *_graphics;
+	return _graphics;
 }
 
 SDL_Window* ME_Window::getWindow()

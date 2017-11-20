@@ -1,6 +1,5 @@
 /*==============================================================================
  * Mantis Engine image management class headers
- *     Modified: 2017 Nov 20
  *============================================================================*/
 
 #ifndef ME_IMAGE_H
@@ -28,7 +27,7 @@ typedef std::map<std::string, ME_Image*> imagemap_t;
 class ME_Image
 {
     public:
-        ME_Image(ME_Graphics&, std::string path);
+        ME_Image(ME_Graphics*, std::string path);
         ~ME_Image();
 
         int getWidth() const;
@@ -50,7 +49,7 @@ class ME_Image
 class ME_ImageBank
 {
     public:
-        ME_ImageBank(ME_Graphics&);
+        ME_ImageBank(ME_Graphics*);
         ~ME_ImageBank();
 
         /*----------------------------------------------------------------------
@@ -60,7 +59,7 @@ class ME_ImageBank
 
         /*----------------------------------------------------------------------
          * Image access functions.                                            */
-        const ME_Image& getImage(std::string tag) const;
+        ME_Image* getImage(std::string tag);
 
     private:
         ME_Graphics* _context;
