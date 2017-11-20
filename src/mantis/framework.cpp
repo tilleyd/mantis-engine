@@ -116,6 +116,16 @@ void ME_Framework::setActiveStage(std::string tag)
 	}
 }
 
+int ME_Framework::getWidth() const
+{
+	return _width;
+}
+
+int ME_Framework::getHeight() const
+{
+	return _height;
+}
+
 ME_ImageBank* ME_Framework::getImageBank()
 {
 	return _images;
