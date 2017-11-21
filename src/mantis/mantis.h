@@ -19,7 +19,7 @@ class ME_Window;
 #include "mantis_image.h"
 #include "mantis_timer.h"
 
-// map typedef
+// stagemap typedef
 typedef std::map<std::string, ME_Stage*> stagemap_t;
 
 /*==============================================================================
@@ -66,12 +66,15 @@ class ME_Framework : public ME_IntervalObserver
 		ME_ImageBank* getImageBank();
 
 	private:
+		// framework variables
 		ME_Window*    _window;
 		ME_Graphics*  _graphics;
 		ME_Interval*  _timer;
 		ME_Stage*     _stage;
 		ME_ImageBank* _images;
 		stagemap_t    _stages;
+
+		// game variables
 		bool          _running;
 		int           _width;
 		int           _height;
@@ -129,8 +132,28 @@ class ME_Stage
 	public:
 		ME_Stage(ME_Framework*);
 		virtual ~ME_Stage();
+
+		/*----------------------------------------------------------------------
+		 * Essential game loop functions.                                     */
 		virtual void update(double) = 0;
 		virtual void render(ME_Graphics*) = 0;
+
+		/*----------------------------------------------------------------------
+		 * Mouse event triggered functions.                                   */
+		virtual void onMouseMotion(SDL_MouseMotionEvent*) {}
+		virtual void onMousePress(SDL_MouseButtonEvent*) {}
+		virtual void onMouseRelease(SDL_MouseButtonEvent*) {}
+		virtual void onMouseWheel(SDL_MouseWheelEvent*) {}
+
+		/*----------------------------------------------------------------------
+		 * Keyboard event triggered functions.                                */
+		virtual void onKeyPress(SDL_KeyboardEvent*) {}
+		virtual void onKeyRelease(SDL_KeyboardEvent*) {}
+
+		/*----------------------------------------------------------------------
+		 * Window event triggered functions.                                  */
+		virtual void onWindowChange(SDL_WindowEvent*) {}
+
 	protected:
 		ME_Framework* _framework;
 };

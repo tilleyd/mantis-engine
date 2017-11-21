@@ -76,10 +76,33 @@ void ME_Framework::update(ME_Interval* tim, double period)
 	SDL_Event e;
 	// poll SDL events
 	while (SDL_PollEvent(&e) != 0) {
-		switch (e.type) {
-			case SDL_QUIT:
-				stop();
-				break;
+		// only poll for quit if there is no stage
+		if (e.type == SDL_QUIT) {
+			stop();
+			break;
+		} else if (_stage) {
+			switch (e.type) {
+				case SDL_KEYDOWN:
+					_stage->onKeyPress((SDL_KeyboardEvent*)&e);
+					break;
+				case SDL_KEYUP:
+					_stage->onKeyRelease((SDL_KeyboardEvent*)&e);
+					break;
+				case SDL_MOUSEMOTION:
+					_stage->onMouseMotion((SDL_MouseMotionEvent*)&e);
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					_stage->onMousePress((SDL_MouseButtonEvent*)&e);
+					break;
+				case SDL_MOUSEBUTTONUP:
+					_stage->onMouseRelease((SDL_MouseButtonEvent*)&e);
+					break;
+				case SDL_MOUSEWHEEL:
+					_stage->onMouseWheel((SDL_MouseWheelEvent*)&e);
+					break;
+				case SDL_WINDOWEVENT:
+					_stage->onWindowChange((SDL_WindowEvent*)&e);
+			}
 		}
 	}
 	// stop the game if necessary
