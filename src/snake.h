@@ -28,18 +28,19 @@ class Snake : public ME_Stage
          * Event polling functions                                            */
         void onKeyPress(SDL_KeyboardEvent*);
     private:
+        // collision function
+        bool touchBody(const point_t&) const;
+        void placePill();
+
         ME_Image* _mantis;
         int       _width;
         int       _height;
-
-        // precalculated direction array
-        int       _xchange[4];
-        int       _ychange[4];
 
         // variables
         bool                _gameover;
         std::deque<point_t> _body;
         point_t             _head;
+        point_t             _pill;
         int                 _dir;
         int                 _newdir;
         int                 _length;

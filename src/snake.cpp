@@ -4,6 +4,9 @@
 
 #include "snake.h"
 
+#include <cmath>
+#include <ctime>
+
 // window size of 720x720 allows 24px 30x30 grid
 #define TILE_SIZE 24
 #define FIELD_SIZE 30
@@ -23,6 +26,9 @@ Snake::Snake(ME_Framework* fw)
     // start in the center
     _head.x = FIELD_SIZE / 2;
     _head.y = FIELD_SIZE / 2;
+    // place the starting pill
+    srand(time(0));
+    placePill();
 }
 
 void Snake::update(double period)
@@ -52,6 +58,14 @@ void Snake::update(double period)
             ++_alength;
         }
         _body.push_back(prev);
+        // check collisions
+        if (_pill.x == _head.x && _pill.y == _head.y) {
+            ++_length;
+            placePill();
+        }
+        if (touchBody(_head)) {
+            _gameover = true;
+        }
     }
 }
 
@@ -59,15 +73,18 @@ void Snake::render(ME_Graphics* g)
 {
     g->setColor(47, 52, 63);
     g->clear();
-    // render the head
-    g->setColor(208, 223, 112);
-    g->fillRect(_head.x * TILE_SIZE, _head.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     // render the body
     g->setColor(94, 158, 193);
     for (unsigned int i = 0; i < _body.size(); ++i) {
         point_t& cur = _body[i];
         g->fillRect(cur.x * TILE_SIZE, cur.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
+    // render the pill
+    g->setColor(132, 193, 92);
+    g->fillRect(_pill.x * TILE_SIZE, _pill.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    // render the head
+    g->setColor(208, 223, 112);
+    g->fillRect(_head.x * TILE_SIZE, _head.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
 void Snake::onKeyPress(SDL_KeyboardEvent* evt)
@@ -86,4 +103,24 @@ void Snake::onKeyPress(SDL_KeyboardEvent* evt)
             _newdir = 2;
             break;
     }
+}
+
+bool Snake::touchBody(const point_t& point) const
+{
+    unsigned int i = 0;
+    while (i < _body.size()) {
+        const point_t& cur = _body[i++];
+        if (cur.x == point.x && cur.y == point.y) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Snake::placePill()
+{
+    do {
+        _pill.x = (rand() % FIELD_SIZE);
+        _pill.y = (rand() % FIELD_SIZE);
+    } while (touchBody(_pill));
 }
