@@ -6,26 +6,26 @@
 #include <iostream>
 #include "mantis/mantis.h"
 
-#include "menu.h"
+#include "snake.h"
 
 int main(int argc, char* argv[])
 {
 	// attempt to create the framework
 	ME_Framework* fw = NULL;
 	try {
-		fw = new ME_Framework("mantisdemo", "Mantis indev Demo");
+		fw = new ME_Framework("Mantis Snake Demo", 720, 720);
 	} catch (ME_Exception e) {
 		std::cout << "Error: " << e.getMessage() << std::endl;
 		return 1;
 	}
 
-	// create the stages
-	ME_Stage* menu = new Menu(fw);
-	fw->addStage(menu, "st_menu");
-	fw->setActiveStage("st_menu");
+	// create the single stage
+	ME_Stage* snake = new Snake(fw);
+	fw->addStage(snake, "st_snake");
+	fw->setActiveStage("st_snake");
 
-	// start the demo at 60 FPS
-	fw->start(60);
+	// start the demo at 8 FPS (nice and slow for snake)
+	fw->start(8);
 
 	// clean up
 	delete fw;

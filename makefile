@@ -7,17 +7,17 @@ CC     = g++
 # .o files to your executable.
 LIBS   = -lSDL2 -lSDL2_image -lpthread
 
-demo: bin bin/demo.o bin/menu.o bin/mantis
+demo: bin bin/demo.o bin/snake.o bin/mantis
 	$(CC) $(CFLAGS) -o demo bin/*.o bin/mantis/*.o $(LIBS)
 
 # Here is an example of how your .o files should be stored along with the
 # compiled binaries of the mantis engine .o files. The last rule here makes
 # the mantis makefile and moves the compiled binaries to the bin/mantis folder.
-bin/demo.o: src/demo.cpp src/menu.h
+bin/demo.o: src/demo.cpp src/snake.h
 	$(CC) -c $(CFLAGS) -o bin/demo.o src/demo.cpp
 
-bin/menu.o: src/menu.cpp src/menu.h
-	$(CC) -c $(CFLAGS) -o bin/menu.o src/menu.cpp
+bin/snake.o: src/snake.cpp src/snake.h
+	$(CC) -c $(CFLAGS) -o bin/snake.o src/snake.cpp
 
 bin/mantis:
 	make -C src/mantis
