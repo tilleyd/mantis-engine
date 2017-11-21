@@ -97,6 +97,11 @@ class ME_Graphics
 		void clear();
 
 		/*----------------------------------------------------------------------
+		 * Color management functions                                         */
+		void setColor(int r, int g, int b);
+ 		void setColor(int a, int r, int g, int b);
+
+		/*----------------------------------------------------------------------
 		 * Image rendering functions                                          */
 		void drawImage(ME_Image*);
 		void drawImage(ME_Image*, int x, int y);
@@ -104,8 +109,9 @@ class ME_Graphics
 
 		/*----------------------------------------------------------------------
 		 * Geometry rendering functions                                       */
-		void setColor(int r, int g, int b);
-		void setColor(int a, int r, int g, int b);
+		void drawRect(int x, int y, int w, int h);
+		void fillRect(int x, int y, int w, int h);
+		void drawLine(int x1, int y1, int x2, int y2);
 
 		/*----------------------------------------------------------------------
 		 * SDL renderer access                                                */
