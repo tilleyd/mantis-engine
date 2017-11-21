@@ -1,7 +1,8 @@
-# Mantis Game Engine
-The Mantis Engine is a lightweight game engine written in C++. Mantis
+# Mantis Engine
+The Mantis Engine is a lightweight game/graphics engine written in C++. Mantis
 is meant to be compiled with your game and is not a standalone development
-environment with a GUI as found in Unity/UE/Godot. It is simply a *library*.
+environment with a GUI as found in Unity/UE/Godot. It should simply be used as
+a library.
 
 Mantis is built using an *object-oriented* approach to hide the hairy details
 of the engine from the game developer. This means that you can easily extend
@@ -13,7 +14,7 @@ with Mantis' design.
 ## Features
 * Window management
 * Graphics using SDL
-* Dynamic & capped FPS control
+* Game loop management
 * Event handling
 * Threading
 
@@ -22,6 +23,7 @@ with Mantis' design.
 * Sound support
 * Maths library
 * Data structure library
+* General improvements
 
 ## Dependencies
 * SDL2
