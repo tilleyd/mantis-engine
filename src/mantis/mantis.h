@@ -22,6 +22,9 @@ class ME_Window;
 // stagemap typedef
 typedef std::map<std::string, ME_Stage*> stagemap_t;
 
+#define DEFAULT_WIDTH  1280
+#define DEFAULT_HEIGHT 720
+
 /*==============================================================================
  * ME_Framework
  *
@@ -33,10 +36,10 @@ class ME_Framework : public ME_IntervalObserver
 {
 	public:
 		/*----------------------------------------------------------------------
-		 * The parameters are the game name (in lowercase without spaces) and
-		 * the title for the window. The game name is used to create the game
-		 * configuration folder.                                              */
-		ME_Framework(std::string gn, std::string wn);
+		 * The parameters are the window title, window width and window height,
+		 * where the width and height are optional.                           */
+		ME_Framework(std::string title, int w = DEFAULT_WIDTH,
+				int h = DEFAULT_HEIGHT);
 		virtual ~ME_Framework();
 
 		/*----------------------------------------------------------------------

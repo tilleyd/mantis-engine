@@ -9,14 +9,13 @@
 #include <string>
 using std::string;
 
-#define DEFAULT_WIDTH  1280
-#define DEFAULT_HEIGHT 720
-
-ME_Framework::ME_Framework(string gn, string wn)
+ME_Framework::ME_Framework(string wn, int w, int h)
 	: _timer(NULL)
 	, _stage(NULL)
 	, _stages()
 	, _running(false)
+	, _width(w)
+	, _height(h)
 {
 	// initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -26,9 +25,7 @@ ME_Framework::ME_Framework(string gn, string wn)
 	// TODO read configuration details
 
 	// initialize members
-	_window = new ME_Window(wn, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	_width = DEFAULT_WIDTH;
-	_height = DEFAULT_HEIGHT;
+	_window = new ME_Window(wn, w, h);
 	_graphics = _window->getGraphics();
 	_images = new ME_ImageBank(_graphics);
 }
