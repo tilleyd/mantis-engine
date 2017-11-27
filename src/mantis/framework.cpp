@@ -130,7 +130,13 @@ void ME_Framework::setActiveStage(std::string tag)
 {
 	try {
 		ME_Stage* stage = _stages.at(tag);
+		if (_stage) {
+			_stage->onDeactivate();
+		}
 		_stage = stage;
+		if (_stage) {
+			_stage->onActivate();
+		}
 	} catch (...) {
 		throw ME_Exception("Error: Invalid stage tag");
 	}

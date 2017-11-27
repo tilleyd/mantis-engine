@@ -148,6 +148,11 @@ class ME_Stage
 		virtual void render(ME_Graphics*) = 0;
 
 		/*----------------------------------------------------------------------
+		 * Stage event triggered functions.                                         */
+		virtual void onActivate() {}
+		virtual void onDeactivate() {}
+
+		/*----------------------------------------------------------------------
 		 * Mouse event triggered functions.                                   */
 		virtual void onMouseMotion(SDL_MouseMotionEvent*) {}
 		virtual void onMousePress(SDL_MouseButtonEvent*) {}
