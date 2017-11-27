@@ -73,6 +73,9 @@ void Snake::render(ME_Graphics* g)
 {
     g->setColor(47, 52, 63);
     g->clear();
+    g->setColor(255, 255, 255);
+    g->setFont("font/Hack.ttf", 16);
+    g->drawText(20, 20, "Hello world!");
     // render the body
     g->setColor(94, 158, 193);
     for (unsigned int i = 0; i < _body.size(); ++i) {

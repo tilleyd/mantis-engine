@@ -6,6 +6,7 @@
 #define ME_MANTIS_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <map>
 #include <string>
 
@@ -117,6 +118,11 @@ class ME_Graphics
 		void drawLine(int x1, int y1, int x2, int y2);
 
 		/*----------------------------------------------------------------------
+		 * Text rendering functions                                           */
+		void setFont(std::string, int);
+		void drawText(int x, int y, std::string);
+
+		/*----------------------------------------------------------------------
 		 * SDL renderer access                                                */
 		SDL_Renderer* getRenderer();
 
@@ -125,7 +131,10 @@ class ME_Graphics
 		 * Only the window is allowed to create rendering devices.            */
 		friend class ME_Window;
 		ME_Graphics(ME_Window*);
+		SDL_Surface*  _surf;
 		SDL_Renderer* _renderer;
+		SDL_Color*    _color;
+		TTF_Font*     _font;
 };
 
 /*==============================================================================
@@ -148,7 +157,7 @@ class ME_Stage
 		virtual void render(ME_Graphics*) = 0;
 
 		/*----------------------------------------------------------------------
-		 * Stage event triggered functions.                                         */
+		 * Stage event triggered functions.                                   */
 		virtual void onActivate() {}
 		virtual void onDeactivate() {}
 
@@ -190,8 +199,10 @@ class ME_Window
 		/*----------------------------------------------------------------------
 		 * SDL window access                                                  */
 		SDL_Window* getWindow();
+		SDL_Surface* getSurface();
 	private:
 		SDL_Window*  _win;
+		SDL_Surface* _surf;
 		ME_Graphics* _graphics;
 };
 

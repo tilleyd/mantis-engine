@@ -7,6 +7,7 @@
 #include "mantis_exception.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 using std::string;
 
@@ -27,6 +28,10 @@ ME_Window::ME_Window(string title, unsigned int width, unsigned int height)
 	if (!(IMG_Init(flags) & flags)) {
 		throw ME_Exception(IMG_GetError());
 	}
+	if (TTF_Init() == -1) {
+		throw ME_Exception(TTF_GetError());
+	}
+	_surf = SDL_GetWindowSurface(_win);
 }
 
 ME_Window::~ME_Window()
@@ -53,4 +58,9 @@ ME_Graphics* ME_Window::getGraphics()
 SDL_Window* ME_Window::getWindow()
 {
 	return _win;
+}
+
+SDL_Surface* ME_Window::getSurface()
+{
+	return _surf;
 }
