@@ -55,7 +55,4 @@ bin/image_bank.o: image_bank.cpp mantis_image.h
 # UTILS
 
 bin:
-	mkdir -p bin
-
-clean:
-	rm -rf bin
+	mkdir bin
