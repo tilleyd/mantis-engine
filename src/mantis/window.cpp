@@ -63,9 +63,23 @@ void ME_Window::setSize(int w, int h)
 	SDL_SetWindowSize(_win, w, h);
 }
 
-void ME_Window::setFullscreen(bool fs)
+void ME_Window::setWindowMode(int mode)
 {
-	// TODO
+	int flags;
+	switch (mode) {
+		case WM_FULLSCREEN:
+			flags = SDL_WINDOW_FULLSCREEN;
+			break;
+		case WM_BORDERLESS:
+			flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
+			break;
+		case WM_WINDOWED:
+			flags = 0;
+			break;
+		default:
+			throw ME_Exception("Illegal window mode specified");
+	}
+	SDL_SetWindowFullscreen(_win, flags);
 }
 
 SDL_Window* ME_Window::getSDLWindow()

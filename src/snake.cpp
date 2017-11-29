@@ -110,6 +110,9 @@ void Snake::onKeyPress(SDL_KeyboardEvent* evt)
         case SDLK_DOWN:
             _newdir = 2;
             break;
+        case SDLK_ESCAPE:
+            _framework->stop();
+            break;
     }
 }
 

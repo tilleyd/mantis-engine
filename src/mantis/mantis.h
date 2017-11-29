@@ -26,6 +26,10 @@ typedef std::map<std::string, ME_Stage*> stagemap_t;
 #define DEFAULT_WIDTH  1280
 #define DEFAULT_HEIGHT 720
 
+#define WM_FULLSCREEN 0
+#define WM_BORDERLESS 1
+#define WM_WINDOWED   2
+
 /*==============================================================================
  * ME_Framework
  *
@@ -199,7 +203,7 @@ class ME_Window
 		/*----------------------------------------------------------------------
 		 * State modifications                                                */
 		void setSize(int w, int h);
-		void setFullscreen(bool);
+		void setWindowMode(int);
 
 		/*----------------------------------------------------------------------
 		 * SDL window access                                                  */
