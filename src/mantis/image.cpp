@@ -20,7 +20,8 @@ ME_Image::ME_Image(ME_Graphics* graphics, string path)
         throw ME_Exception(IMG_GetError());
     }
     // create hardware accelerated texture from the surface
-    _texture = SDL_CreateTextureFromSurface(graphics->getRenderer(), surface);
+    _texture = SDL_CreateTextureFromSurface(graphics->getSDLRenderer(),
+            surface);
     SDL_FreeSurface(surface);
     if (_texture == NULL) {
         throw ME_Exception(SDL_GetError());

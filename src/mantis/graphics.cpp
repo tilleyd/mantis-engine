@@ -11,13 +11,11 @@
 using std::string;
 
 ME_Graphics::ME_Graphics(ME_Window* context)
-    : _surf(NULL)
-    , _renderer(NULL)
+    : _renderer(NULL)
     , _color(NULL)
     , _font(NULL)
 {
-    SDL_Window* win = context->getWindow();
-    _surf = context->getSurface();
+    SDL_Window* win = context->getSDLWindow();
 	_renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
     if (_renderer == NULL) {
         throw ME_Exception(SDL_GetError());
@@ -136,7 +134,7 @@ void ME_Graphics::setFont(string fname, int size)
     }
 }
 
-SDL_Renderer* ME_Graphics::getRenderer()
+SDL_Renderer* ME_Graphics::getSDLRenderer()
 {
     return _renderer;
 }

@@ -66,8 +66,9 @@ class ME_Framework : public ME_IntervalObserver
 		int getHeight() const;
 
 		/*----------------------------------------------------------------------
-		 * Image bank access                                                  */
+		 * Member access                                                      */
 		ME_ImageBank* getImageBank();
+		ME_Window* getWindow();
 
 	private:
 		// framework variables
@@ -124,14 +125,13 @@ class ME_Graphics
 
 		/*----------------------------------------------------------------------
 		 * SDL renderer access                                                */
-		SDL_Renderer* getRenderer();
+		SDL_Renderer* getSDLRenderer();
 
 	private:
 		/*----------------------------------------------------------------------
 		 * Only the window is allowed to create rendering devices.            */
 		friend class ME_Window;
 		ME_Graphics(ME_Window*);
-		SDL_Surface*  _surf;
 		SDL_Renderer* _renderer;
 		SDL_Color*    _color;
 		TTF_Font*     _font;
@@ -197,9 +197,13 @@ class ME_Window
 		ME_Graphics* getGraphics();
 
 		/*----------------------------------------------------------------------
+		 * State modifications                                                */
+		void setSize(int w, int h);
+		void setFullscreen(bool);
+
+		/*----------------------------------------------------------------------
 		 * SDL window access                                                  */
-		SDL_Window* getWindow();
-		SDL_Surface* getSurface();
+		SDL_Window* getSDLWindow();
 	private:
 		SDL_Window*  _win;
 		SDL_Surface* _surf;

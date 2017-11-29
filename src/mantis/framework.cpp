@@ -117,7 +117,7 @@ void ME_Framework::draw()
 	// delegate to stages and draw to window
 	if (_stage) {
 		_stage->render(_graphics);
-		SDL_RenderPresent(_graphics->getRenderer());
+		SDL_RenderPresent(_graphics->getSDLRenderer());
 	}
 }
 
@@ -155,4 +155,9 @@ int ME_Framework::getHeight() const
 ME_ImageBank* ME_Framework::getImageBank()
 {
 	return _images;
+}
+
+ME_Window* ME_Framework::getWindow()
+{
+	return _window;
 }

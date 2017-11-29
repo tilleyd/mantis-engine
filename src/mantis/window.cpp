@@ -58,12 +58,17 @@ ME_Graphics* ME_Window::getGraphics()
 	return _graphics;
 }
 
-SDL_Window* ME_Window::getWindow()
+void ME_Window::setSize(int w, int h)
 {
-	return _win;
+	SDL_SetWindowSize(_win, w, h);
 }
 
-SDL_Surface* ME_Window::getSurface()
+void ME_Window::setFullscreen(bool fs)
 {
-	return _surf;
+	// TODO
+}
+
+SDL_Window* ME_Window::getSDLWindow()
+{
+	return _win;
 }
