@@ -9,9 +9,9 @@
 
 CFLAGS = -Wall
 CC     = g++
-OFILES = bin/framework.o bin/exception.o bin/window.o \
-	bin/interval.o bin/thread.o bin/image.o bin/image_bank.o bin/stage.o \
-	bin/graphics.o
+OFILES = bin/framework.o bin/exception.o bin/window.o bin/loop.o \
+	bin/interval_loop.o bin/uncapped_loop.o bin/thread.o bin/image.o \
+	bin/image_bank.o bin/stage.o bin/graphics.o
 
 mantis: bin $(OFILES)
 
@@ -34,10 +34,16 @@ bin/stage.o: stage.cpp mantis.h
 bin/exception.o: exception.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o bin/exception.o exception.cpp
 
-# MANTIS_TIMING_H
+# MANTIS_LOOP_H
 
-bin/interval.o: interval.cpp mantis_timer.h
-	$(CC) -c $(CFLAGS) -o bin/interval.o interval.cpp
+bin/loop.o: loop.cpp mantis_loop.h
+	$(CC) -c $(CFLAGS) -o bin/loop.o loop.cpp
+
+bin/interval_loop.o: interval_loop.cpp mantis_loop.h
+	$(CC) -c $(CFLAGS) -o bin/interval_loop.o interval_loop.cpp
+
+bin/uncapped_loop.o: uncapped_loop.cpp mantis_loop.h
+	$(CC) -c $(CFLAGS) -o bin/uncapped_loop.o uncapped_loop.cpp
 
 # MANTIS_THREAD_H
 

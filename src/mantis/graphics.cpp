@@ -138,3 +138,17 @@ SDL_Renderer* ME_Graphics::getSDLRenderer()
 {
     return _renderer;
 }
+
+void ME_Graphics::recreateSDLRenderer(ME_Window* context, bool vsync)
+{
+    SDL_DestroyRenderer(_renderer);
+    SDL_Window* win = context->getSDLWindow();
+    int flags = SDL_RENDERER_ACCELERATED;
+    if (vsync) {
+        flags |= SDL_RENDERER_PRESENTVSYNC;
+    }
+	_renderer = SDL_CreateRenderer(win, -1, flags);
+    if (_renderer == NULL) {
+        throw ME_Exception(SDL_GetError());
+    }
+}

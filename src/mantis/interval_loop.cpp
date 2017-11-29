@@ -1,29 +1,22 @@
 /*==============================================================================
- * ME_Interval timer implementation
- *     Modified: 2017 Nov 20
+ * ME_IntervalLoop timer implementation
  *============================================================================*/
 
-#include "mantis_timer.h"
+#include "mantis_loop.h"
 
-#include "mantis_exception.h"
 #include <SDL2/SDL.h>
 
 #define MAX_FRAME_SKIPS 8
 
-ME_Interval::ME_Interval(unsigned int freq)
-	: _freq(freq)
-	, _running(false)
+ME_IntervalLoop::ME_IntervalLoop(unsigned int fps)
+	: _fps(fps)
 {}
 
-void ME_Interval::start(ME_IntervalObserver* obs)
+void ME_IntervalLoop::loop()
 {
-	if (obs == NULL) {
-		throw ME_Exception("IntervalObserver is NULL");
-	}
-	_running = true;
 	// calculate the expected period
-	unsigned int period = 1000 / _freq;
-	double dperiod = 1.0 / _freq;
+	unsigned int period = 1000 / _fps;
+	double dperiod = 1.0 / _fps;
 
 	unsigned int startTime = SDL_GetTicks();
 	unsigned int before = startTime;
@@ -33,8 +26,8 @@ void ME_Interval::start(ME_IntervalObserver* obs)
 	unsigned int after, skips;
 
 	while (_running) {
-		obs->update(this, dperiod);
-		obs->draw();
+		update(dperiod);
+		draw();
 		after = SDL_GetTicks();
 		sleep = period - (after - before) - oversleep;
 		if (sleep > 0) {
@@ -51,13 +44,8 @@ void ME_Interval::start(ME_IntervalObserver* obs)
 		while (missed >= period && skips < MAX_FRAME_SKIPS) {
 			++skips;
 			missed -= period;
-			obs->update(this, dperiod);
+			update(dperiod);
 		}
 		before = SDL_GetTicks();
 	}
-}
-
-void ME_Interval::stop()
-{
-	_running = false;
 }

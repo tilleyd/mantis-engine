@@ -10,7 +10,7 @@
 using std::string;
 
 ME_Framework::ME_Framework(string wn, int w, int h)
-	: _timer(NULL)
+	: _loop(NULL)
 	, _stage(NULL)
 	, _stages()
 	, _running(false)
@@ -21,8 +21,6 @@ ME_Framework::ME_Framework(string wn, int w, int h)
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		throw ME_Exception(SDL_GetError());
 	}
-
-	// TODO read configuration details
 
 	// initialize members
 	_window = new ME_Window(wn, w, h);
@@ -37,10 +35,10 @@ ME_Framework::~ME_Framework()
 		delete _window;
 		_window = NULL;
 	}
-	if (_timer) {
-		_timer->stop();
-		delete _timer;
-		_timer = NULL;
+	if (_loop) {
+		_loop->stop();
+		delete _loop;
+		_loop = NULL;
 	}
 	if (_images) {
 		delete _images;
@@ -54,13 +52,9 @@ ME_Framework::~ME_Framework()
 	SDL_Quit();
 }
 
-void ME_Framework::start(unsigned int freq)
+void ME_Framework::start(int fps)
 {
-	if (_timer == NULL) {
-		_running = true;
-		_timer = new ME_Interval(freq);
-		_timer->start(this);
-	}
+	setFPS(fps);
 }
 
 void ME_Framework::stop()
@@ -68,7 +62,31 @@ void ME_Framework::stop()
 	_running = false;
 }
 
-void ME_Framework::update(ME_Interval* tim, double period)
+void ME_Framework::setFPS(int fps)
+{
+	// remove the old timer
+	if (_loop) {
+		_loop->stop();
+		delete _loop;
+		_loop = NULL;
+	}
+
+	bool vsync = (fps < 0);
+	if (fps <= 0) { // FPS_VSYNC or FPS_UNCAPPED
+		// use an uncapped loop timer
+		_loop = new ME_UncappedLoop();
+	} else {
+		// use a capped loop timer
+		_loop = new ME_IntervalLoop((unsigned int)fps);
+	}
+	// recreate the graphics device renderer to reflect VSync changes
+	_graphics->recreateSDLRenderer(_window, vsync);
+	// start (or 'continue') the timer
+	_running = true;
+	_loop->start(this, _graphics);
+}
+
+void ME_Framework::update(ME_Loop* tim, double period)
 {
 	SDL_Event e;
 	// poll SDL events
@@ -117,7 +135,6 @@ void ME_Framework::draw()
 	// delegate to stages and draw to window
 	if (_stage) {
 		_stage->render(_graphics);
-		SDL_RenderPresent(_graphics->getSDLRenderer());
 	}
 }
 

@@ -18,7 +18,7 @@ class ME_Window;
 
 #include "mantis_exception.h"
 #include "mantis_image.h"
-#include "mantis_timer.h"
+#include "mantis_loop.h"
 
 // stagemap typedef
 typedef std::map<std::string, ME_Stage*> stagemap_t;
@@ -30,6 +30,9 @@ typedef std::map<std::string, ME_Stage*> stagemap_t;
 #define WM_BORDERLESS 1
 #define WM_WINDOWED   2
 
+#define FPS_VSYNC    -1 // any negative FPS is used as VSync
+#define FPS_UNCAPPED  0
+
 /*==============================================================================
  * ME_Framework
  *
@@ -37,7 +40,7 @@ typedef std::map<std::string, ME_Stage*> stagemap_t;
  *     be utilized for the specific game. The framework manages the entities,
  *     stages, engine configuration and the game window.
  *============================================================================*/
-class ME_Framework : public ME_IntervalObserver
+class ME_Framework : public ME_LoopObserver
 {
 	public:
 		/*----------------------------------------------------------------------
@@ -48,13 +51,15 @@ class ME_Framework : public ME_IntervalObserver
 		virtual ~ME_Framework();
 
 		/*----------------------------------------------------------------------
-		 * Start the framework with the provided FPS.                         */
-		void start(unsigned int fps);
+		 * Start the framework with the provided FPS. See the FPS types above
+		 * for VSync or Uncapped.                                             */
+		void start(int fps);
 		void stop();
+		void setFPS(int fps);
 
 		/*----------------------------------------------------------------------
 		 * Override from ME_IntervalObserver                                  */
-		void update(ME_Interval*, double);
+		void update(ME_Loop*, double);
 		void draw();
 
 		/*----------------------------------------------------------------------
@@ -78,7 +83,7 @@ class ME_Framework : public ME_IntervalObserver
 		// framework variables
 		ME_Window*    _window;
 		ME_Graphics*  _graphics;
-		ME_Interval*  _timer;
+		ME_Loop*      _loop;
 		ME_Stage*     _stage;
 		ME_ImageBank* _images;
 		stagemap_t    _stages;
@@ -130,6 +135,7 @@ class ME_Graphics
 		/*----------------------------------------------------------------------
 		 * SDL renderer access                                                */
 		SDL_Renderer* getSDLRenderer();
+		void recreateSDLRenderer(ME_Window*, bool vsync);
 
 	private:
 		/*----------------------------------------------------------------------
