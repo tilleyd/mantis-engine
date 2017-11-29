@@ -158,7 +158,7 @@ class ME_Stage
 
 		/*----------------------------------------------------------------------
 		 * Stage event triggered functions.                                   */
-		virtual void onActivate() {}
+		virtual void onActivate(ME_Graphics*) {}
 		virtual void onDeactivate() {}
 
 		/*----------------------------------------------------------------------

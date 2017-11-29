@@ -44,6 +44,9 @@ ME_Window::~ME_Window()
 		SDL_DestroyWindow(_win);
 		_win = NULL;
 	}
+	// close SDL extensions
+	TTF_Quit();
+	IMG_Quit();
 }
 
 ME_Graphics* ME_Window::getGraphics()

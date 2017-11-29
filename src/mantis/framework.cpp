@@ -135,7 +135,7 @@ void ME_Framework::setActiveStage(std::string tag)
 		}
 		_stage = stage;
 		if (_stage) {
-			_stage->onActivate();
+			_stage->onActivate(_graphics);
 		}
 	} catch (...) {
 		throw ME_Exception("Error: Invalid stage tag");

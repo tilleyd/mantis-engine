@@ -110,16 +110,20 @@ void ME_Graphics::drawText(int x, int y, string text)
     if (!_font) {
         throw ME_Exception("No font set for drawing text");
     }
-    // create and draw the text surface
+    // create the text surface
     SDL_Surface* surface = TTF_RenderText_Solid(_font, text.c_str(), *_color);
     if (surface) {
-        // draw the font surface
-        SDL_Rect rect;
-        rect.x = x;
-        rect.y = y;
-        rect.w = surface->w;
-        rect.h = surface->h;
-        SDL_BlitSurface(surface, NULL, _surf, &rect);
+        // create the text texture
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surface);
+        if (texture) {
+            SDL_Rect dest;
+            dest.x = x;
+            dest.y = y;
+            dest.w = surface->w;
+            dest.h = surface->h;
+            SDL_RenderCopy(_renderer, texture, NULL, &dest);
+            SDL_DestroyTexture(texture);
+        }
         SDL_FreeSurface(surface);
     }
 }
