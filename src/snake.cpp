@@ -6,6 +6,7 @@
 
 #include <cmath>
 #include <ctime>
+#include <sstream>
 
 // window size of 720x720 allows 24px 30x30 grid
 #define TILE_SIZE 24
@@ -20,6 +21,7 @@ Snake::Snake(ME_Framework* fw)
     , _newdir(3)
     , _length(START_LENGTH)
     , _alength(0)
+    , _score(0)
 {
     _width = fw->getWidth();
     _height = fw->getHeight();
@@ -61,6 +63,7 @@ void Snake::update(double period)
         // check collisions
         if (_pill.x == _head.x && _pill.y == _head.y) {
             ++_length;
+            ++_score;
             placePill();
         }
         if (touchBody(_head)) {
@@ -73,9 +76,6 @@ void Snake::render(ME_Graphics* g)
 {
     g->setColor(47, 52, 63);
     g->clear();
-    g->setColor(255, 255, 255);
-    g->setFont("font/Hack.ttf", 16);
-    g->drawText(20, 20, "Hello world!");
     // render the body
     g->setColor(94, 158, 193);
     for (unsigned int i = 0; i < _body.size(); ++i) {
@@ -88,6 +88,11 @@ void Snake::render(ME_Graphics* g)
     // render the head
     g->setColor(208, 223, 112);
     g->fillRect(_head.x * TILE_SIZE, _head.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    // render the score
+    std::stringstream text;
+    text << "Score: " << _score;
+    g->setColor(255, 255, 255);
+    g->drawText(TILE_SIZE, TILE_SIZE, text.str());
 }
 
 void Snake::onKeyPress(SDL_KeyboardEvent* evt)
@@ -126,4 +131,9 @@ void Snake::placePill()
         _pill.x = (rand() % FIELD_SIZE);
         _pill.y = (rand() % FIELD_SIZE);
     } while (touchBody(_pill));
+}
+
+void Snake::onActivate(ME_Graphics* g)
+{
+    g->setFont("font/Hack.ttf", TILE_SIZE);
 }

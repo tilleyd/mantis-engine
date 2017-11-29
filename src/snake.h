@@ -27,6 +27,7 @@ class Snake : public ME_Stage
         /*----------------------------------------------------------------------
          * Event polling functions                                            */
         void onKeyPress(SDL_KeyboardEvent*);
+        void onActivate(ME_Graphics*);
     private:
         // collision function
         bool touchBody(const point_t&) const;
@@ -45,6 +46,7 @@ class Snake : public ME_Stage
         int                 _newdir;
         int                 _length;
         int                 _alength;
+        int                 _score;
 };
 
 #endif
