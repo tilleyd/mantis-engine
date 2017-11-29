@@ -14,20 +14,20 @@ int main(int argc, char* argv[])
 	ME_Framework* fw = NULL;
 	try {
 		fw = new ME_Framework("Mantis Snake Demo", 720, 720);
+
+		// create the single stage
+		ME_Stage* snake = new Snake(fw);
+		fw->addStage(snake, "st_snake");
+		fw->setActiveStage("st_snake");
+
+		// start the demo at 8 FPS (nice and slow for snake)
+		fw->start(8);
+
+		// clean up
+		delete fw;
+		fw = NULL;
 	} catch (ME_Exception e) {
 		std::cout << "Error: " << e.getMessage() << std::endl;
 		return 1;
 	}
-
-	// create the single stage
-	ME_Stage* snake = new Snake(fw);
-	fw->addStage(snake, "st_snake");
-	fw->setActiveStage("st_snake");
-
-	// start the demo at 8 FPS (nice and slow for snake)
-	fw->start(8);
-
-	// clean up
-	delete fw;
-	fw = NULL;
 }
