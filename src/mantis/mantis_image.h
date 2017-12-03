@@ -17,7 +17,7 @@ class ME_ImageSheet;
 #include "math/mantis_math.h"
 
 // rectlist typedef
-typedef std::vector<ME_Rectangle*> imagelist_t;
+typedef std::vector<SDL_Rect*> rectlist_t;
 
 /*==============================================================================
  * ME_Image
@@ -52,7 +52,7 @@ class ME_Image
  *     that can be rendered separately. This is used to logically group images
  *     or for use as an animation.
  *============================================================================*/
-class ME_ImageSheet : public ME_Image;
+class ME_ImageSheet : public ME_Image
 {
     public:
         /*----------------------------------------------------------------------
@@ -75,7 +75,7 @@ class ME_ImageSheet : public ME_Image;
         /*----------------------------------------------------------------------
          * Image selection function. The images are numbered from 0 in row
          * major form.                                                        */
-        void setCurrentImage(int);
+        void setCurrentImage(unsigned int);
 
         /*----------------------------------------------------------------------
          * Animation functions.                                               */
@@ -87,7 +87,8 @@ class ME_ImageSheet : public ME_Image;
         int           _iwidth;
         int           _iheight;
         double        _frequency;
-        ME_Rectangle* _current;
+        int           _current;
+        double        _time;
 };
 
 #endif
