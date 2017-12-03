@@ -5,7 +5,6 @@
 #include "mantis_image.h"
 
 #include "mantis.h"
-#include "mantis_exception.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
@@ -47,7 +46,15 @@ int ME_Image::getHeight() const
     return _height;
 }
 
-SDL_Texture* ME_Image::getTexture()
+void ME_Image::draw(ME_Graphics* g)
 {
-    return _texture;
+    // render the entire screen with the image
+    SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, NULL);
+}
+
+void ME_Image::draw(ME_Graphics* g, ME_Rectangle* rect)
+{
+    // render at the given position with stretching
+    SDL_Rect dest = rect->getSDLRect();
+    SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, &dest);
 }
