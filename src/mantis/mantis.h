@@ -76,7 +76,6 @@ class ME_Framework : public ME_LoopObserver
 
 		/*----------------------------------------------------------------------
 		 * Member access                                                      */
-		ME_ImageBank* getImageBank();
 		ME_Window* getWindow();
 
 	private:
@@ -85,7 +84,6 @@ class ME_Framework : public ME_LoopObserver
 		ME_Graphics*  _graphics;
 		ME_Loop*      _loop;
 		ME_Stage*     _stage;
-		ME_ImageBank* _images;
 		stagemap_t    _stages;
 
 		// game variables

@@ -11,7 +11,7 @@ CFLAGS = -Wall
 CC     = g++
 OFILES = bin/framework.o bin/exception.o bin/window.o bin/loop.o \
 	bin/interval_loop.o bin/uncapped_loop.o bin/thread.o bin/image.o \
-	bin/image_bank.o bin/stage.o bin/graphics.o
+	bin/stage.o bin/graphics.o
 
 mantis: bin $(OFILES)
 
@@ -54,9 +54,6 @@ bin/thread.o: thread.cpp mantis_thread.h
 
 bin/image.o: image.cpp mantis_image.h
 	$(CC) -c $(CFLAGS) -o bin/image.o image.cpp
-
-bin/image_bank.o: image_bank.cpp mantis_image.h
-	$(CC) -c $(CFLAGS) -o bin/image_bank.o image_bank.cpp
 
 # UTILS
 

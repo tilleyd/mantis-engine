@@ -25,7 +25,6 @@ ME_Framework::ME_Framework(string wn, int w, int h)
 	// initialize members
 	_window = new ME_Window(wn, w, h);
 	_graphics = _window->getGraphics();
-	_images = new ME_ImageBank(_graphics);
 }
 
 ME_Framework::~ME_Framework()
@@ -39,10 +38,6 @@ ME_Framework::~ME_Framework()
 		_loop->stop();
 		delete _loop;
 		_loop = NULL;
-	}
-	if (_images) {
-		delete _images;
-		_images = NULL;
 	}
 	// delete stages
 	for (stagemap_t::iterator it = _stages.begin(); it != _stages.end(); ++it) {
@@ -167,11 +162,6 @@ int ME_Framework::getWidth() const
 int ME_Framework::getHeight() const
 {
 	return _height;
-}
-
-ME_ImageBank* ME_Framework::getImageBank()
-{
-	return _images;
 }
 
 ME_Window* ME_Framework::getWindow()
