@@ -25,11 +25,15 @@ void ME_Loop::stop()
 
 void ME_Loop::draw()
 {
-    _observer->draw();
-    SDL_RenderPresent(_graphics->getSDLRenderer());
+    if (_running) {
+        _observer->draw();
+        SDL_RenderPresent(_graphics->getSDLRenderer());
+    }
 }
 
 void ME_Loop::update(double period)
 {
-    _observer->update(this, period);
+    if (_running) {
+        _observer->update(this, period);
+    }
 }

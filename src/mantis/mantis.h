@@ -92,6 +92,11 @@ class ME_Framework : public ME_LoopObserver
 		ME_Stage*     _stage;
 		stagemap_t    _stages;
 
+		// reload check variables
+		bool          _atstart;
+		bool          _vsync;
+		int           _wmode;
+
 		// game variables
 		bool          _running;
 		int           _width;

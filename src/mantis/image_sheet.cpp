@@ -116,5 +116,6 @@ void ME_ImageSheet::updateAnimation(double period)
     while (_time >= _frequency) {
         // advance to the next image
         _current = (_current + 1) % _bounds.size();
+        _time -= _frequency;
     }
 }
