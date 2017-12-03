@@ -16,7 +16,7 @@ ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
     , _bounds()
     , _iwidth(imgw)
     , _iheight(imgh)
-    , _frequency(0.0)
+    , _frequency(1.0)
     , _current(0)
     , _time(0.0)
 {
@@ -80,14 +80,22 @@ int ME_ImageSheet::getHeight() const
 void ME_ImageSheet::draw(ME_Graphics* g)
 {
     // render the entire screen with the image
-    SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[_current], NULL);
+    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[_current],
+            NULL);
+    if (r) {
+        throw ME_Exception(SDL_GetError());
+    }
 }
 
 void ME_ImageSheet::draw(ME_Graphics* g, ME_Rectangle* rect)
 {
     // render at the given position with stretching
     SDL_Rect dest = rect->getSDLRect();
-    SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[_current], &dest);
+    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[_current],
+            &dest);
+    if (r) {
+        throw ME_Exception(SDL_GetError());
+    }
 }
 
 void ME_ImageSheet::setCurrentImage(unsigned int index)
@@ -102,7 +110,7 @@ void ME_ImageSheet::setAnimationFrequency(double fps)
     _frequency = fps;
 }
 
-void ME_ImageSheet::updateCurrentImage(double period)
+void ME_ImageSheet::updateAnimation(double period)
 {
     _time += period;
     while (_time >= _frequency) {

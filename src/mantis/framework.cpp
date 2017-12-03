@@ -41,6 +41,7 @@ ME_Framework::~ME_Framework()
 	}
 	// delete stages
 	for (stagemap_t::iterator it = _stages.begin(); it != _stages.end(); ++it) {
+		it->second->deallocateResources();
 		delete it->second;
 	}
 	// clean up SDL
@@ -75,10 +76,29 @@ void ME_Framework::setFPS(int fps)
 		_loop = new ME_IntervalLoop((unsigned int)fps);
 	}
 	// recreate the graphics device renderer to reflect VSync changes
+	// TODO check if reload necessary
+	if (_stage) {
+		_stage->deallocateResources();
+	}
 	_graphics->recreateSDLRenderer(_window, vsync);
+	if (_stage) {
+		_stage->allocateResources(_graphics);
+	}
 	// start (or 'continue') the timer
 	_running = true;
 	_loop->start(this, _graphics);
+}
+
+void ME_Framework::setWindowMode(int mode)
+{
+	// TODO check if reload necessary
+	if (_stage) {
+		_stage->deallocateResources();
+	}
+	_window->setWindowMode(mode);
+	if (_stage) {
+		_stage->allocateResources(_graphics);
+	}
 }
 
 void ME_Framework::update(ME_Loop* tim, double period)
@@ -144,10 +164,14 @@ void ME_Framework::setActiveStage(std::string tag)
 		ME_Stage* stage = _stages.at(tag);
 		if (_stage) {
 			_stage->onDeactivate();
+			_stage->deallocateResources();
 		}
 		_stage = stage;
 		if (_stage) {
-			_stage->onActivate(_graphics);
+			if (_running) {
+				_stage->allocateResources(_graphics);
+			}
+			_stage->onActivate();
 		}
 	} catch (...) {
 		throw ME_Exception("Error: Invalid stage tag");
@@ -167,4 +191,9 @@ int ME_Framework::getHeight() const
 ME_Window* ME_Framework::getWindow()
 {
 	return _window;
+}
+
+ME_Graphics* ME_Framework::getGraphics()
+{
+	return _graphics;
 }

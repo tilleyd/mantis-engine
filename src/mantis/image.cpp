@@ -49,12 +49,18 @@ int ME_Image::getHeight() const
 void ME_Image::draw(ME_Graphics* g)
 {
     // render the entire screen with the image
-    SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, NULL);
+    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, NULL);
+    if (r) {
+        throw (ME_Exception(SDL_GetError()));
+    }
 }
 
 void ME_Image::draw(ME_Graphics* g, ME_Rectangle* rect)
 {
     // render at the given position with stretching
     SDL_Rect dest = rect->getSDLRect();
-    SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, &dest);
+    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, &dest);
+    if (r) {
+        throw (ME_Exception(SDL_GetError()));
+    }
 }

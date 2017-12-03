@@ -55,7 +55,12 @@ class ME_Framework : public ME_LoopObserver
 		 * for VSync or Uncapped.                                             */
 		void start(int fps);
 		void stop();
+
+		/*----------------------------------------------------------------------
+		 * Dynamic contex changes, note that these require reloading images in
+		 * most cases.                                                       */
 		void setFPS(int fps);
+		void setWindowMode(int mode);
 
 		/*----------------------------------------------------------------------
 		 * Override from ME_IntervalObserver                                  */
@@ -77,6 +82,7 @@ class ME_Framework : public ME_LoopObserver
 		/*----------------------------------------------------------------------
 		 * Member access                                                      */
 		ME_Window* getWindow();
+		ME_Graphics* getGraphics();
 
 	private:
 		// framework variables
@@ -165,8 +171,13 @@ class ME_Stage
 		virtual void render(ME_Graphics*) = 0;
 
 		/*----------------------------------------------------------------------
+		 * Essential resource functions (esp. image allocation).              */
+		virtual void allocateResources(ME_Graphics*) = 0;
+		virtual void deallocateResources() = 0;
+
+		/*----------------------------------------------------------------------
 		 * Stage event triggered functions.                                   */
-		virtual void onActivate(ME_Graphics*) {}
+		virtual void onActivate() {}
 		virtual void onDeactivate() {}
 
 		/*----------------------------------------------------------------------

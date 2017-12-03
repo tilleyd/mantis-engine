@@ -83,7 +83,7 @@ class ME_ImageSheet : public ME_Image
         /*----------------------------------------------------------------------
          * Animation functions.                                               */
         void setAnimationFrequency(double fps);
-        void updateCurrentImage(double period);
+        void updateAnimation(double period);
 
     private:
         rectlist_t    _bounds;
