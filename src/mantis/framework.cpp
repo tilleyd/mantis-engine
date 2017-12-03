@@ -13,6 +13,8 @@ ME_Framework::ME_Framework(string wn, int w, int h)
 	: _loop(NULL)
 	, _stage(NULL)
 	, _stages()
+	, _atstart(true)
+	, _wmode(0)
 	, _running(false)
 	, _width(w)
 	, _height(h)
@@ -29,15 +31,15 @@ ME_Framework::ME_Framework(string wn, int w, int h)
 
 ME_Framework::~ME_Framework()
 {
-	_running = false;
-	if (_window) {
-		delete _window;
-		_window = NULL;
-	}
 	if (_loop) {
 		_loop->stop();
 		delete _loop;
 		_loop = NULL;
+	}
+	_running = false;
+	if (_window) {
+		delete _window;
+		_window = NULL;
 	}
 	// delete stages
 	for (stagemap_t::iterator it = _stages.begin(); it != _stages.end(); ++it) {
@@ -67,6 +69,7 @@ void ME_Framework::setFPS(int fps)
 		_loop = NULL;
 	}
 
+	// choose the new timer
 	bool vsync = (fps < 0);
 	if (fps <= 0) { // FPS_VSYNC or FPS_UNCAPPED
 		// use an uncapped loop timer
@@ -75,15 +78,21 @@ void ME_Framework::setFPS(int fps)
 		// use a capped loop timer
 		_loop = new ME_IntervalLoop((unsigned int)fps);
 	}
-	// recreate the graphics device renderer to reflect VSync changes
-	// TODO check if reload necessary
-	if (_stage) {
-		_stage->deallocateResources();
+
+	// check if a reload is necessary
+	if (_atstart || (vsync != _vsync)) { // game images need to be reloaded
+		if (_stage) {
+			_stage->deallocateResources();
+		}
+		// recreate the graphics device renderer to reflect VSync changes
+		_graphics->recreateSDLRenderer(_window, vsync);
+		if (_stage) {
+			_stage->allocateResources(_graphics);
+		}
+		_vsync = vsync;
+		_atstart = false;
 	}
-	_graphics->recreateSDLRenderer(_window, vsync);
-	if (_stage) {
-		_stage->allocateResources(_graphics);
-	}
+
 	// start (or 'continue') the timer
 	_running = true;
 	_loop->start(this, _graphics);
@@ -91,14 +100,15 @@ void ME_Framework::setFPS(int fps)
 
 void ME_Framework::setWindowMode(int mode)
 {
-	// TODO check if reload necessary
-	if (_stage) {
+	// TODO check if a reload is necessary on Windows
+	/*if (_stage) {
 		_stage->deallocateResources();
-	}
+	}*/
 	_window->setWindowMode(mode);
-	if (_stage) {
+	/*if (_stage) {
 		_stage->allocateResources(_graphics);
-	}
+	}*/
+	_wmode = mode;
 }
 
 void ME_Framework::update(ME_Loop* tim, double period)
