@@ -6,6 +6,7 @@
 
 #include "mantis_exception.h"
 #include "mantis_image.h"
+#include "math/mantis_math.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 using std::string;
@@ -59,7 +60,7 @@ void ME_Graphics::setColor(int a, int r, int g, int b)
 
 void ME_Graphics::drawImage(ME_Image* img)
 {
-    SDL_RenderCopy(_renderer, img->getTexture(), NULL, NULL);
+    img->draw(this);
 }
 
 void ME_Graphics::drawImage(ME_Image* img, int x, int y)
@@ -69,13 +70,8 @@ void ME_Graphics::drawImage(ME_Image* img, int x, int y)
 
 void ME_Graphics::drawImage(ME_Image* img, int x, int y, int w, int h)
 {
-    SDL_Rect dest;
-    dest.x = x;
-    dest.y = y;
-    dest.w = w;
-    dest.h = h;
-    // render at the given position with stretching
-    SDL_RenderCopy(_renderer, img->getTexture(), NULL, &dest);
+    ME_Rectangle dest(x, y, w, h);
+    img->draw(this, &dest);
 }
 
 void ME_Graphics::drawRect(int x, int y, int w, int h)
