@@ -61,6 +61,9 @@ class ME_ImageSheet : public ME_Image
          * the size of each individual image.                                 */
         ME_ImageSheet(ME_Graphics*, std::string path, int startx, int starty,
                 int imgw, int imgh, int rows, int cols, int numimgs);
+        /* This constructor assumes that the entire sheet is a row of images. */
+        ME_ImageSheet(ME_Graphics*, std::string path, int imgw, int imgh,
+                int numimgs);
         virtual ~ME_ImageSheet();
 
         virtual int getWidth() const;

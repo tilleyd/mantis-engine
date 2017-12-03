@@ -52,6 +52,11 @@ ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
     }
 }
 
+ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int imgw,
+        int imgh, int numimgs)
+    : ME_ImageSheet(g, path, 0, 0, imgw, imgh, numimgs, 1, numimgs)
+{}
+
 ME_ImageSheet::~ME_ImageSheet()
 {
     // delete the rectangles
