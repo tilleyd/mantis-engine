@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
 		ME_Stage* snake = new Snake(fw);
 		fw->addStage(snake, "st_snake");
 		fw->setActiveStage("st_snake");
+		fw->setWindowMode(WM_WINDOWED);
 
 		// start the demo at 8 FPS (nice and slow for snake)
 		fw->start(8);

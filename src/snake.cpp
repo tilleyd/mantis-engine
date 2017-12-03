@@ -8,6 +8,9 @@
 #include <ctime>
 #include <sstream>
 
+#include <iostream>
+using namespace std;
+
 // window size of 720x720 allows 24px 30x30 grid
 #define TILE_SIZE 24
 #define FIELD_SIZE 30
@@ -136,7 +139,10 @@ void Snake::placePill()
     } while (touchBody(_pill));
 }
 
-void Snake::onActivate(ME_Graphics* g)
+void Snake::allocateResources(ME_Graphics* g)
 {
     g->setFont("font/Hack.ttf", TILE_SIZE);
 }
+
+void Snake::deallocateResources()
+{}

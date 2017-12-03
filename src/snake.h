@@ -23,17 +23,17 @@ class Snake : public ME_Stage
          * Override from ME_Stage                                             */
         void update(double);
         void render(ME_Graphics*);
+        void allocateResources(ME_Graphics*);
+        void deallocateResources();
 
         /*----------------------------------------------------------------------
          * Event polling functions                                            */
         void onKeyPress(SDL_KeyboardEvent*);
-        void onActivate(ME_Graphics*);
     private:
         // collision function
         bool touchBody(const point_t&) const;
         void placePill();
 
-        ME_Image* _mantis;
         int       _width;
         int       _height;
 
