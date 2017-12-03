@@ -1,4 +1,4 @@
-Copyright (c) 2017 Duncan Tilley
+__Copyright (c) 2017 Duncan Tilley__
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
