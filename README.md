@@ -1,5 +1,5 @@
 # Mantis Engine
-### v0.0.0 (initial release)
+### v0.1.0 (early release)
 The Mantis Engine is a lightweight cross-platform game/graphics engine written
 in C++. Mantis is meant to be compiled with your game and is not a standalone
 development environment with a GUI as found in Unity/UE/Godot. It should simply

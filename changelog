@@ -1,0 +1,4 @@
+0.1.0
+* Added collision check functions to ME_Rectangle
+* Added backstack for stages
+* Added extra functions to ME_Graphics and ME_Framework
