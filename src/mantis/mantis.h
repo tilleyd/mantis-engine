@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <map>
+#include <stack>
 #include <string>
 
 // forward declarations
@@ -21,8 +22,9 @@ class ME_Window;
 #include "mantis_loop.h"
 #include "math/mantis_math.h"
 
-// stagemap typedef
+// datastruct typedefs
 typedef std::map<std::string, ME_Stage*> stagemap_t;
+typedef std::stack<std::string> backstack_t;
 
 #define DEFAULT_WIDTH  1280
 #define DEFAULT_HEIGHT 720
@@ -74,6 +76,10 @@ class ME_Framework : public ME_LoopObserver
 		 * active stage to the foreground.                                    */
 		void addStage(ME_Stage*, std::string tag);
 		void setActiveStage(std::string tag);
+		/* nextStage() and backStage() make use of the backstack for stage
+		 * selection and swapping.                                            */
+		void nextStage(std::string tag);
+		void backStage();
 
 		/*----------------------------------------------------------------------
 		 * Width and height access. This is the size of the rendering canvas. */
@@ -84,6 +90,7 @@ class ME_Framework : public ME_LoopObserver
 		 * Member access                                                      */
 		ME_Window* getWindow();
 		ME_Graphics* getGraphics();
+		int getWindowMode() const;
 
 	private:
 		// framework variables
@@ -91,7 +98,9 @@ class ME_Framework : public ME_LoopObserver
 		ME_Graphics*  _graphics;
 		ME_Loop*      _loop;
 		ME_Stage*     _stage;
+		std::string   _stagetag;
 		stagemap_t    _stages;
+		backstack_t   _backstack;
 
 		// reload check variables
 		bool          _atstart;

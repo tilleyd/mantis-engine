@@ -13,6 +13,7 @@ ME_Framework::ME_Framework(string wn, int w, int h)
 	: _loop(NULL)
 	, _stage(NULL)
 	, _stages()
+	, _backstack()
 	, _atstart(true)
 	, _wmode(0)
 	, _running(false)
@@ -177,6 +178,7 @@ void ME_Framework::setActiveStage(std::string tag)
 			_stage->deallocateResources();
 		}
 		_stage = stage;
+		_stagetag = tag;
 		if (_stage) {
 			if (_running) {
 				_stage->allocateResources(_graphics);
@@ -185,6 +187,25 @@ void ME_Framework::setActiveStage(std::string tag)
 		}
 	} catch (...) {
 		throw ME_Exception("Error: Invalid stage tag");
+	}
+}
+
+void ME_Framework::nextStage(std::string tag)
+{
+	if (_stage) {
+		_backstack.push(_stagetag);
+	}
+	setActiveStage(tag);
+}
+
+void ME_Framework::backStage()
+{
+	if (!_backstack.empty()) {
+		string s = _backstack.top();
+		_backstack.pop();
+		setActiveStage(s);
+	} else {
+		throw ME_Exception("Error: No previous stage on the backstack");
 	}
 }
 
@@ -206,4 +227,9 @@ ME_Window* ME_Framework::getWindow()
 ME_Graphics* ME_Framework::getGraphics()
 {
 	return _graphics;
+}
+
+int ME_Framework::getWindowMode() const
+{
+	return _wmode;
 }
