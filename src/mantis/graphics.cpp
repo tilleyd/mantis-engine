@@ -74,6 +74,11 @@ void ME_Graphics::drawImage(ME_Image* img, int x, int y, int w, int h)
     img->draw(this, &dest);
 }
 
+void ME_Graphics::drawRect(const ME_Rectangle* rect)
+{
+    drawRect(rect->getX(), rect->getY(), rect->getWidth(), rect->getHeight());
+}
+
 void ME_Graphics::drawRect(int x, int y, int w, int h)
 {
     SDL_Rect rect;
@@ -82,6 +87,11 @@ void ME_Graphics::drawRect(int x, int y, int w, int h)
     rect.w = w;
     rect.h = h;
     SDL_RenderDrawRect(_renderer, &rect);
+}
+
+void ME_Graphics::fillRect(const ME_Rectangle* rect)
+{
+    fillRect(rect->getX(), rect->getY(), rect->getWidth(), rect->getHeight());
 }
 
 void ME_Graphics::fillRect(int x, int y, int w, int h)

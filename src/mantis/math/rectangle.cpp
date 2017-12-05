@@ -51,15 +51,17 @@ int ME_Rectangle::getHeight() const
     return _h;
 }
 
-/*bool ME_Rectangle::collidesWithPoint(int x, int y) const
+bool ME_Rectangle::containsPoint(int x, int y) const
 {
-    return (x >= _x && x <= (_x + _w)) && (y >= _y && y <= (_y + _h));
-}*/
+    return (x > _x && x < (_x + _w)) && (y > _y && y < (_y + _h));
+}
 
-/*bool ME_Rectangle::collidesWithRectangle(const ME_Rectangle* rect) const
+bool ME_Rectangle::collidesWithRectangle(const ME_Rectangle* rect) const
 {
-
-}*/
+    // check for the absence of gaps between edges
+    return (_x < rect->_x + rect->_w && _x + _w > rect->_x &&
+            _y < rect->_y + rect->_h && _y + _h > rect->_y);
+}
 
 SDL_Rect ME_Rectangle::getSDLRect() const
 {

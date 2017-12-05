@@ -36,8 +36,8 @@ class ME_Rectangle
 
         /*----------------------------------------------------------------------
          * Collision check functions                                          */
-        //bool collidesWithPoint(int x, int y) const;
-        //bool collidesWithRectangle(const ME_Rectangle*) const;
+        bool containsPoint(int x, int y) const;
+        bool collidesWithRectangle(const ME_Rectangle*) const;
 
         SDL_Rect getSDLRect() const;
 

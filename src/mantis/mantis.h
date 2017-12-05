@@ -19,6 +19,7 @@ class ME_Window;
 #include "mantis_exception.h"
 #include "mantis_image.h"
 #include "mantis_loop.h"
+#include "math/mantis_math.h"
 
 // stagemap typedef
 typedef std::map<std::string, ME_Stage*> stagemap_t;
@@ -132,7 +133,9 @@ class ME_Graphics
 
 		/*----------------------------------------------------------------------
 		 * Geometry rendering functions                                       */
+		void drawRect(const ME_Rectangle*);
 		void drawRect(int x, int y, int w, int h);
+		void fillRect(const ME_Rectangle*);
 		void fillRect(int x, int y, int w, int h);
 		void drawLine(int x1, int y1, int x2, int y2);
 
