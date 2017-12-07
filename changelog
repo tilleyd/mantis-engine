@@ -1,4 +1,17 @@
+                              MANTIS ENGINE
+                                CHANGELOG
+================================================================================
+Legend
+    + new features/additions
+    - removed features
+    * bug fixes
+    # changes to features
+================================================================================
+
 0.1.0
-* Added collision check functions to ME_Rectangle
-* Added backstack for stages
-* Added extra functions to ME_Graphics and ME_Framework
+=====
++ Collision check functions in ME_Rectangle
++ Stage backstack
++ Font metrics (width and height) in ME_Graphics
++ Minor accessors in ME_Graphics and ME_Framework
+* Framework width and height on window resize
