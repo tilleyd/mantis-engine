@@ -152,7 +152,7 @@ int ME_Graphics::getTextWidth(string text)
         throw ME_Exception("No font set for drawing text");
     }
     if (!TTF_SizeText(_font, text.c_str(), &w, NULL)) {
-        return h;
+        return w;
     } else {
         throw ME_Exception(TTF_GetError());
     }

@@ -142,6 +142,12 @@ void ME_Framework::update(ME_Loop* tim, double period)
 					_stage->onMouseWheel((SDL_MouseWheelEvent*)&e);
 					break;
 				case SDL_WINDOWEVENT:
+					// check for resizes
+					if (e.window.event == SDL_WINDOWEVENT_RESIZED ||
+							e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+						_width = e.window.data1;
+						_height = e.window.data2;
+					}
 					_stage->onWindowChange((SDL_WindowEvent*)&e);
 			}
 		}
