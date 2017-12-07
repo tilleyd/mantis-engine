@@ -132,6 +132,32 @@ void ME_Graphics::drawText(int x, int y, string text)
     }
 }
 
+int ME_Graphics::getTextHeight(string text)
+{
+    int h;
+    if (!_font) {
+        throw ME_Exception("No font set for drawing text");
+    }
+    if (!TTF_SizeText(_font, text.c_str(), NULL, &h)) {
+        return h;
+    } else {
+        throw ME_Exception(TTF_GetError());
+    }
+}
+
+int ME_Graphics::getTextWidth(string text)
+{
+    int w;
+    if (!_font) {
+        throw ME_Exception("No font set for drawing text");
+    }
+    if (!TTF_SizeText(_font, text.c_str(), &w, NULL)) {
+        return h;
+    } else {
+        throw ME_Exception(TTF_GetError());
+    }
+}
+
 void ME_Graphics::setFont(string fname, int size)
 {
     _font = TTF_OpenFont(fname.c_str(), size);

@@ -152,6 +152,10 @@ class ME_Graphics
 		 * Text rendering functions                                           */
 		void setFont(std::string, int);
 		void drawText(int x, int y, std::string);
+		/* These return the dimensions of text if it is rendered using the
+		 * current set font.                                                  */
+		int getTextHeight(std::string);
+		int getTextWidth(std::string);
 
 		/*----------------------------------------------------------------------
 		 * SDL renderer access                                                */
