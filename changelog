@@ -15,3 +15,4 @@ Legend
 + Font metrics (width and height) in ME_Graphics
 + Minor accessors in ME_Graphics and ME_Framework
 * Framework width and height on window resize
+* Framework initial allocation function order
