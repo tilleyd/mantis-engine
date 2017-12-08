@@ -89,6 +89,9 @@ void ME_Framework::setFPS(int fps)
 		_graphics->recreateSDLRenderer(_window, vsync);
 		if (_stage) {
 			_stage->allocateResources(_graphics);
+			if (!_running) { // then this is the first activation
+				_stage->onActivate();
+			}
 		}
 		_vsync = vsync;
 		_atstart = false;
@@ -188,8 +191,8 @@ void ME_Framework::setActiveStage(std::string tag)
 		if (_stage) {
 			if (_running) {
 				_stage->allocateResources(_graphics);
+				_stage->onActivate();
 			}
-			_stage->onActivate();
 		}
 	} catch (...) {
 		throw ME_Exception("Error: Invalid stage tag");
