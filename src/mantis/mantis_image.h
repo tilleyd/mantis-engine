@@ -1,6 +1,8 @@
 /*==============================================================================
  * Mantis Engine image management class headers
  *==============================================================================
+ * Copyright (C) 2017 Duncan Tilley <duncan.tilley@gmail.com>
+ *
  * This file is part of Mantis Engine.
  *
  * Mantis Engine is free software: you can redistribute it and/or modify it
