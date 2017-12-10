@@ -10,9 +10,10 @@ of the engine from the game developer. This means that you can easily extend
 upon the engine and use the included tools without having to concern yourself
 with Mantis' design.
 
-## [License](LICENSE)
+## License
 Copyright (C) 2017 Duncan Tilley <<duncan.tilley@gmail.com>>  
-See [LICENSE](LICENSE) for full details.
+See [LICENSE](LICENSE), [COPYING](COPYING) and [COPYING_LESSER](COPYING_LESSER)
+for full details.
 
 ## Demo
 There is an included __Snake__ demo project that you can have a look at if you
