@@ -29,7 +29,7 @@ bin:
 	mkdir -p bin
 
 clean:
-	rm -rf bin lib demo
+	rm -rf bin demo
 
 run: demo
 	./demo
