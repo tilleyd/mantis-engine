@@ -1,5 +1,5 @@
 # Mantis Engine
-## ME 0.2.0
+## ME 0.2.1
 The Mantis Engine is a lightweight cross-platform game/graphics engine written
 in C++. Mantis is meant to be compiled with your game and is not a standalone
 development environment with a GUI as found in Unity/UE/Godot. It should simply
@@ -8,12 +8,16 @@ be used as a library.
 Mantis is built using an *object-oriented* approach to hide the hairy details
 of the engine from the game developer. This means that you can easily extend
 upon the engine and use the included tools without having to concern yourself
-with Mantis' design.
+with Mantis' implementation.
 
 ## License
 Copyright &copy; 2017 Duncan Tilley <<duncan.tilley@gmail.com>>  
 See [LICENSE](LICENSE), [COPYING](COPYING) and [COPYING_LESSER](COPYING_LESSER)
 for full details.
+
+## Manual
+A detailed wiki page or manual will be released in due time, once the engine
+has reached a desired state of functionality.
 
 ## Demo
 There is an included __Snake__ demo project that you can have a look at if you
