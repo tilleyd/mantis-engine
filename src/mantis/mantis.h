@@ -31,12 +31,12 @@
 // forward declarations
 class ME_Framework;
 class ME_Graphics;
-class ME_Stage;
 class ME_Window;
 
 #include "mantis_exception.h"
 #include "mantis_image.h"
 #include "mantis_loop.h"
+#include "mantis_stage.h"
 #include "math/mantis_math.h"
 
 // datastruct typedefs
@@ -108,6 +108,7 @@ class ME_Framework : public ME_LoopObserver
 		ME_Window* getWindow();
 		ME_Graphics* getGraphics();
 		int getWindowMode() const;
+		int getFPS() const;
 
 	private:
 		// framework variables
@@ -123,6 +124,7 @@ class ME_Framework : public ME_LoopObserver
 		bool          _atstart;
 		bool          _vsync;
 		int           _wmode;
+		int           _fps;
 
 		// game variables
 		bool          _running;
@@ -188,56 +190,6 @@ class ME_Graphics
 		SDL_Color*    _color;
 		TTF_Font*     _font;
 };
-
-/*==============================================================================
- * ME_Stage
- *
- *     Represents a room or area in the game. Stages are the main method of
- *     organizing the game logic. The framework works on one stage at a time and
- *     each stage contains has the update() and render() methods, which are
- *     called by the framework to render or progress the stage.
- *============================================================================*/
-class ME_Stage
-{
-	public:
-		ME_Stage(ME_Framework*);
-		virtual ~ME_Stage();
-
-		/*----------------------------------------------------------------------
-		 * Essential game loop functions.                                     */
-		virtual void update(double) = 0;
-		virtual void render(ME_Graphics*) = 0;
-
-		/*----------------------------------------------------------------------
-		 * Essential resource functions (esp. image allocation).              */
-		virtual void allocateResources(ME_Graphics*) = 0;
-		virtual void deallocateResources() = 0;
-
-		/*----------------------------------------------------------------------
-		 * Stage event triggered functions.                                   */
-		virtual void onActivate() {}
-		virtual void onDeactivate() {}
-
-		/*----------------------------------------------------------------------
-		 * Mouse event triggered functions.                                   */
-		virtual void onMouseMotion(SDL_MouseMotionEvent*) {}
-		virtual void onMousePress(SDL_MouseButtonEvent*) {}
-		virtual void onMouseRelease(SDL_MouseButtonEvent*) {}
-		virtual void onMouseWheel(SDL_MouseWheelEvent*) {}
-
-		/*----------------------------------------------------------------------
-		 * Keyboard event triggered functions.                                */
-		virtual void onKeyPress(SDL_KeyboardEvent*) {}
-		virtual void onKeyRelease(SDL_KeyboardEvent*) {}
-
-		/*----------------------------------------------------------------------
-		 * Window event triggered functions.                                  */
-		virtual void onWindowChange(SDL_WindowEvent*) {}
-
-	protected:
-		ME_Framework* _framework;
-};
-
 
 /*==============================================================================
  * ME_Window

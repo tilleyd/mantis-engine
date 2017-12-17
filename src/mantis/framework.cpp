@@ -33,6 +33,7 @@ ME_Framework::ME_Framework(string wn, int w, int h)
 	, _backstack()
 	, _atstart(true)
 	, _wmode(0)
+	, _fps(0)
 	, _running(false)
 	, _width(w)
 	, _height(h)
@@ -80,6 +81,7 @@ void ME_Framework::stop()
 
 void ME_Framework::setFPS(int fps)
 {
+	_fps = fps;
 	// remove the old timer
 	if (_loop) {
 		_loop->stop();
@@ -258,4 +260,9 @@ ME_Graphics* ME_Framework::getGraphics()
 int ME_Framework::getWindowMode() const
 {
 	return _wmode;
+}
+
+int ME_Framework::getFPS() const
+{
+	return _fps;
 }

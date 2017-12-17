@@ -30,7 +30,9 @@ lib/graphics.o: graphics.cpp mantis.h
 lib/window.o: window.cpp mantis.h
 	$(CC) -c $(CFLAGS) -o lib/window.o window.cpp
 
-lib/stage.o: stage.cpp mantis.h
+# MANTIS_STAGE_H
+
+lib/stage.o: stage.cpp mantis_stage.h
 	$(CC) -c $(CFLAGS) -o lib/stage.o stage.cpp
 
 # MANTIS_EXCEPTION_H
