@@ -11,7 +11,8 @@ CC     = g++
 LIBNAME = libmantis.a
 OFILES = lib/framework.o lib/exception.o lib/window.o lib/loop.o \
 	lib/interval_loop.o lib/uncapped_loop.o lib/thread.o lib/image.o \
-	lib/image_sheet.o lib/stage.o lib/graphics.o lib/rectangle.o
+	lib/image_sheet.o lib/stage.o lib/graphics.o lib/rectangle.o \
+	lib/ui_component.o
 
 mantis: lib lib/$(LIBNAME)
 
@@ -63,6 +64,11 @@ lib/image.o: image.cpp mantis_image.h
 
 lib/image_sheet.o: image_sheet.cpp mantis_image.h
 	$(CC) -c $(CFLAGS) -o lib/image_sheet.o image_sheet.cpp
+
+# MANTIS_UI_H
+
+lib/ui_component.o: ui_component.cpp mantis_ui.h
+	$(CC) -c $(CFLAGS) -o lib/ui_component.o ui_component.cpp
 
 # MANTIS_MATH_H
 
