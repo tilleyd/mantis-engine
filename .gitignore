@@ -1,6 +1,6 @@
-# compiled files
 demo
 demo.exe
 bin/
 src/mantis/lib/
 *.dll
+lib/
