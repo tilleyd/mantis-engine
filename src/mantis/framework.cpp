@@ -152,12 +152,15 @@ void ME_Framework::update(ME_Loop* tim, double period)
 					_stage->onKeyRelease((SDL_KeyboardEvent*)&e);
 					break;
 				case SDL_MOUSEMOTION:
+					_stage->checkUiMouseHover((SDL_MouseMotionEvent*)&e);
 					_stage->onMouseMotion((SDL_MouseMotionEvent*)&e);
 					break;
 				case SDL_MOUSEBUTTONDOWN:
+					_stage->checkUiMousePress((SDL_MouseButtonEvent*)&e);
 					_stage->onMousePress((SDL_MouseButtonEvent*)&e);
 					break;
 				case SDL_MOUSEBUTTONUP:
+					_stage->checkUiMouseRelease((SDL_MouseButtonEvent*)&e);
 					_stage->onMouseRelease((SDL_MouseButtonEvent*)&e);
 					break;
 				case SDL_MOUSEWHEEL:

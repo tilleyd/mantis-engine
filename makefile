@@ -27,10 +27,7 @@ bin:
 	mkdir -p bin
 
 clean:
-	rm -rf bin demo
-
-cleanlib:
-	rm -rf lib
+	rm -rf bin demo lib
 
 run: demo
 	./demo

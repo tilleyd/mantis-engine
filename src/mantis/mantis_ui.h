@@ -25,15 +25,12 @@
 #include <string>
 #include <vector>
 
-// forward declarations
-class ME_UiObserver;
-class ME_UiComponent;
-class ME_Button;
-
 // observer list typedef
 typedef std::vector<ME_UiObserver*> uiobslist_t;
 
-#include "mantis.h"
+// ui action types
+#define UI_MOUSE_PRESSED 0
+#define UI_KEY_PRESSED   1
 
 /*==============================================================================
  * ME_UiObserver
@@ -44,7 +41,7 @@ typedef std::vector<ME_UiObserver*> uiobslist_t;
 class ME_UiObserver
 {
     public:
-        virtual void uiActionPerformed() = 0;
+        virtual void uiActionPerformed(ME_UiComponent*, int action) = 0;
 };
 
 /*==============================================================================
@@ -68,41 +65,42 @@ class ME_UiComponent : public ME_Entity
         /*----------------------------------------------------------------------
          * Universal UI methods.                                              */
         void requestFocus();
-        bool isFocused();
-        void setHover(bool);
-        bool isHovered();
+        bool isFocused() const;
+        void setHovered(bool);
+        bool isHovered() const;
+        void setEnabled(bool);
+        bool isEnabled() const;
         /* Position and bounds related methods.                               */
         virtual void setSize(int w, int h);
         virtual void setPosition(int x, int y);
         virtual void setBounds(int x, int y, int w, int h);
         virtual void setBounds(const ME_Rectangle*);
         virtual void setCenterPosition(int x, int y);
+        virtual bool containsPoint(int x, int y) const;
         /* Action observer methods.                                           */
         void addUiObserver(ME_UiObserver*);
-
-    protected:
-        /*----------------------------------------------------------------------
-         * Notify all the observers.                                          */
-        void performAction();
+        /* Notify all the observers.                                          */
+        void performAction(int action);
 
     private:
         bool         _focused;
         bool         _hovered;
+        bool         _enabled;
         ME_Rectangle _bounds;
         uiobslist_t  _observers;
 };
 
 /*==============================================================================
- * ME_Button
+ * ME_UiButton
  *
  *     A simple GUI button component that contains a bounding box, a label
  *     and responds to user click events.
  *============================================================================*/
-class ME_Button : public ME_UiComponent
+class ME_UiButton : public ME_UiComponent
 {
     public:
-        ME_Button(std::string label);
-        ~ME_Button();
+        ME_UiButton(std::string);
+        virtual ~ME_UiButton();
 
         /*----------------------------------------------------------------------
          * Override from ME_UiComponent.                                      */
