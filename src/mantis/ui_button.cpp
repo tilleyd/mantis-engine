@@ -1,5 +1,5 @@
 /*==============================================================================
- * ME_Thread implementation
+ * ME_UiButton implementation
  *==============================================================================
  * Copyright (C) 2017 Duncan Tilley <duncan.tilley@gmail.com>
  *
@@ -21,31 +21,14 @@
 
 #include "mantis.h"
 
-#include <pthread.h>
-
-ME_Thread::ME_Thread(ME_Threadable* thr)
-	: _threadable(thr)
-	, _tid(0)
+ME_UiButton::ME_UiButton(std::string label):
+    _label(label)
 {}
 
-ME_Thread::~ME_Thread()
-{
-	join();
-}
+ME_UiButton::~ME_UiButton()
+{}
 
-void ME_Thread::start()
+void ME_UiButton::render(ME_Graphics* g)
 {
-	pthread_create(&_tid, NULL, ME_Thread::execute, (void*)_threadable);
-}
-
-void ME_Thread::join()
-{
-	pthread_join(_tid, NULL);
-}
-
-void* ME_Thread::execute(void* obj)
-{
-	ME_Threadable* thr = (ME_Threadable*)obj;
-	thr->execute();
-	return NULL;
+    ME_UiComponent::render(g);
 }

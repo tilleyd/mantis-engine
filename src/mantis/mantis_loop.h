@@ -22,12 +22,6 @@
 #ifndef ME_LOOP_H
 #define ME_LOOP_H
 
-// forward declarations
-class ME_Loop;
-class ME_IntervalLoop;
-class ME_UncappedLoop;
-class ME_LoopObserver;
-
 class ME_Graphics;
 
 /*==============================================================================

@@ -24,9 +24,6 @@
 
 #include <SDL2/SDL.h>
 
-// forward declarations
-class ME_Rectangle;
-
 /*==============================================================================
  * ME_Rectangle
  *

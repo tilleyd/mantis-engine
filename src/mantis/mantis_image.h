@@ -26,13 +26,6 @@
 #include <string>
 #include <vector>
 
-// forward declarations
-class ME_Image;
-class ME_ImageSheet;
-
-#include "mantis.h"
-#include "math/mantis_math.h"
-
 // rectlist typedef
 typedef std::vector<SDL_Rect*> rectlist_t;
 

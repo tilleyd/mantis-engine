@@ -19,11 +19,12 @@
  * along with Mantis Engine.  If not, see <http://www.gnu.org/licenses/>.
  *============================================================================*/
 
-#include "mantis_ui.h"
+#include "mantis.h"
 
 ME_UiComponent::ME_UiComponent() :
     _focused(false),
     _hovered(false),
+    _enabled(true),
     _bounds(0, 0, 10, 10),
     _observers()
 {}
@@ -51,19 +52,29 @@ void ME_UiComponent::requestFocus()
     //if ()...
 }
 
-bool ME_UiComponent::isFocused()
+bool ME_UiComponent::isFocused() const
 {
     return _focused;
 }
 
-void ME_UiComponent::setHover(bool h)
+void ME_UiComponent::setHovered(bool h)
 {
     _hovered = h;
 }
 
-bool ME_UiComponent::isHovered()
+bool ME_UiComponent::isHovered() const
 {
     return _hovered;
+}
+
+void ME_UiComponent::setEnabled(bool e)
+{
+    _enabled = e;
+}
+
+bool ME_UiComponent::isEnabled() const
+{
+    return _enabled;
 }
 
 void ME_UiComponent::setSize(int w, int h)
@@ -97,14 +108,19 @@ void ME_UiComponent::setCenterPosition(int x, int y)
     _bounds.setY(y - (_bounds.getHeight() / 2));
 }
 
+bool ME_UiComponent::containsPoint(int x, int y) const
+{
+    return _bounds.containsPoint(x, y);
+}
+
 void ME_UiComponent::addUiObserver(ME_UiObserver* obs)
 {
     _observers.push_back(obs);
 }
 
-void ME_UiComponent::performAction()
+void ME_UiComponent::performAction(int action)
 {
     for (unsigned int i = 0; i < _observers.size(); ++i) {
-        _observers[i]->uiActionPerformed();
+        _observers[i]->uiActionPerformed(this, action);
     }
 }

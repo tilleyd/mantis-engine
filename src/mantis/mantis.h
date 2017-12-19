@@ -28,16 +28,35 @@
 #include <stack>
 #include <string>
 
-// forward declarations
+// forward declarations across all headers
 class ME_Framework;
 class ME_Graphics;
 class ME_Window;
+class ME_Exception;
+class ME_Image;
+class ME_ImageSheet;
+class ME_Loop;
+class ME_IntervalLoop;
+class ME_UncappedLoop;
+class ME_LoopObserver;
+class ME_Entity;
+class ME_Stage;
+class ME_Thread;
+class ME_Threadable;
+class ME_UiObserver;
+class ME_UiComponent;
+class ME_Button;
 
+class ME_Rectangle;
+
+// inclusion of all headers
+#include "math/mantis_math.h"
 #include "mantis_exception.h"
 #include "mantis_image.h"
 #include "mantis_loop.h"
 #include "mantis_stage.h"
-#include "math/mantis_math.h"
+#include "mantis_thread.h"
+#include "mantis_ui.h"
 
 // datastruct typedefs
 typedef std::map<std::string, ME_Stage*> stagemap_t;

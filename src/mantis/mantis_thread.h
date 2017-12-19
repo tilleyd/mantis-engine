@@ -24,10 +24,6 @@
 
 #include <pthread.h>
 
-// forward declarations
-class ME_Thread;
-class ME_Threadable;
-
 /*==============================================================================
  * ME_Thread
  *

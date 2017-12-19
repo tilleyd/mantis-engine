@@ -19,9 +19,8 @@
  * along with Mantis Engine.  If not, see <http://www.gnu.org/licenses/>.
  *============================================================================*/
 
-#include "mantis_image.h"
-
 #include "mantis.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
