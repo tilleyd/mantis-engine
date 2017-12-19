@@ -2,4 +2,5 @@
 demo
 demo.exe
 bin/
-src/mantis/bin/
+src/mantis/lib/
+*.dll
