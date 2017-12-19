@@ -128,6 +128,11 @@ void ME_Graphics::drawLine(int x1, int y1, int x2, int y2)
 
 void ME_Graphics::drawText(int x, int y, string text)
 {
+    drawText(x, y, text, NULL);
+}
+
+void ME_Graphics::drawText(int x, int y, string text, ME_Rectangle* clip)
+{
     if (!_font) {
         throw ME_Exception("No font set for drawing text");
     }
@@ -142,7 +147,11 @@ void ME_Graphics::drawText(int x, int y, string text)
             dest.y = y;
             dest.w = surface->w;
             dest.h = surface->h;
-            SDL_RenderCopy(_renderer, texture, NULL, &dest);
+            SDL_Rect* clipping = NULL;
+            if (clip) {
+                clipping = clip->getSDLRect();
+            }
+            SDL_RenderCopy(_renderer, texture, clipping, &dest);
             SDL_DestroyTexture(texture);
         }
         SDL_FreeSurface(surface);

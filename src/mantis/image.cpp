@@ -74,8 +74,8 @@ void ME_Image::draw(ME_Graphics* g)
 void ME_Image::draw(ME_Graphics* g, ME_Rectangle* rect)
 {
     // render at the given position with stretching
-    SDL_Rect dest = rect->getSDLRect();
-    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, &dest);
+    SDL_Rect* dest = rect->getSDLRect();
+    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, NULL, dest);
     if (r) {
         throw (ME_Exception(SDL_GetError()));
     }
