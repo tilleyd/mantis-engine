@@ -12,8 +12,8 @@ with Mantis' implementation.
 
 ## License
 Copyright &copy; 2017 Duncan Tilley <<duncan.tilley@gmail.com>>  
-See [LICENSE](LICENSE), [COPYING](COPYING) and [COPYING_LESSER](COPYING_LESSER)
-for full details.
+See the [license notice](LICENSE.txt), the [GNU GPL license](COPYING.txt) and
+the [GNU LGPL license](COPYING_LESSER.txt) for full details.
 
 ## Manual
 A detailed wiki page or manual will be released in due time, once the engine
@@ -29,6 +29,7 @@ the features of the engine, merely a small part.
 ## Features
 * Window management
 * Entity & stage architecture
+* Graphical user interface
 * Dynamic window mode change
 * Geometry graphics using SDL2
 * Image/texture rendering
