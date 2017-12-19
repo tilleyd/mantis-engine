@@ -21,11 +21,11 @@
 
 #include "mantis.h"
 
-ME_UiComponent::ME_UiComponent() :
+ME_UiComponent::ME_UiComponent():
+    _bounds(0, 0, 10, 10),
     _focused(false),
     _hovered(false),
     _enabled(true),
-    _bounds(0, 0, 10, 10),
     _observers()
 {}
 
@@ -79,14 +79,22 @@ bool ME_UiComponent::isEnabled() const
 
 void ME_UiComponent::setSize(int w, int h)
 {
-    _bounds.setWidth(w);
-    _bounds.setHeight(h);
+    // Although it seems tedious to use setBounds instead of setting it directly
+    // with the bounds object, this allows easy overriding of only the
+    // setBounds() function, instead of all accessors.
+    setBounds(_bounds.getX(), _bounds.getY(), w, h);
 }
 
 void ME_UiComponent::setPosition(int x, int y)
 {
-    _bounds.setX(x);
-    _bounds.setY(y);
+    // see the comment under setSize() above
+    setBounds(x, y, _bounds.getWidth(), _bounds.getHeight());
+}
+
+void ME_UiComponent::setBounds(const ME_Rectangle* r)
+{
+    // see the comment under setSize() above
+    setBounds(r->getX(), r->getY(), r->getWidth(), r->getHeight());
 }
 
 void ME_UiComponent::setBounds(int x, int y, int w, int h)
@@ -97,20 +105,19 @@ void ME_UiComponent::setBounds(int x, int y, int w, int h)
     _bounds.setHeight(h);
 }
 
-void ME_UiComponent::setBounds(const ME_Rectangle* rect)
-{
-    _bounds = *rect;
-}
-
 void ME_UiComponent::setCenterPosition(int x, int y)
 {
-    _bounds.setX(x - (_bounds.getWidth() / 2));
-    _bounds.setY(y - (_bounds.getHeight() / 2));
+    setPosition(x - (_bounds.getWidth() / 2), y - (_bounds.getHeight() / 2));
 }
 
 bool ME_UiComponent::containsPoint(int x, int y) const
 {
     return _bounds.containsPoint(x, y);
+}
+
+const ME_Rectangle* ME_UiComponent::getBounds() const
+{
+    return &_bounds;
 }
 
 void ME_UiComponent::addUiObserver(ME_UiObserver* obs)

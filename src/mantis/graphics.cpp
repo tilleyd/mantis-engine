@@ -150,6 +150,9 @@ void ME_Graphics::drawText(int x, int y, string text, ME_Rectangle* clip)
             SDL_Rect* clipping = NULL;
             if (clip) {
                 clipping = clip->getSDLRect();
+                // make sure the clipped text does not stretch
+                dest.w = dest.w < clipping->w ? dest.w : clipping->w;
+                dest.h = dest.h < clipping->h ? dest.h : clipping->h;
             }
             SDL_RenderCopy(_renderer, texture, clipping, &dest);
             SDL_DestroyTexture(texture);

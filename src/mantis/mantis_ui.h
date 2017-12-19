@@ -73,20 +73,23 @@ class ME_UiComponent : public ME_Entity
         /* Position and bounds related methods.                               */
         virtual void setSize(int w, int h);
         virtual void setPosition(int x, int y);
-        virtual void setBounds(int x, int y, int w, int h);
         virtual void setBounds(const ME_Rectangle*);
+        virtual void setBounds(int x, int y, int w, int h);
         virtual void setCenterPosition(int x, int y);
         virtual bool containsPoint(int x, int y) const;
+        const ME_Rectangle* getBounds() const;
         /* Action observer methods.                                           */
         void addUiObserver(ME_UiObserver*);
         /* Notify all the observers.                                          */
         void performAction(int action);
 
+    protected:
+        ME_Rectangle _bounds;
+
     private:
         bool         _focused;
         bool         _hovered;
         bool         _enabled;
-        ME_Rectangle _bounds;
         uiobslist_t  _observers;
 };
 
@@ -106,8 +109,16 @@ class ME_UiButton : public ME_UiComponent
          * Override from ME_UiComponent.                                      */
         virtual void render(ME_Graphics*);
 
+        /*----------------------------------------------------------------------
+         * Update the padding and size of the button according to the font.   */
+        void adjustSizeToFont(ME_Graphics*);
+        void setPadding(int hpad, int vpad);
+
     private:
+        void getLabelMetrics(ME_Graphics*);
         std::string _label;
+        int         _hpad, _vpad;
+        int         _labelw, _labelh;
 };
 
 #endif
