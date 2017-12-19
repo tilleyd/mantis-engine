@@ -108,17 +108,21 @@ class ME_UiButton : public ME_UiComponent
         /*----------------------------------------------------------------------
          * Override from ME_UiComponent.                                      */
         virtual void render(ME_Graphics*);
+        virtual void setBounds(int, int, int, int);
 
         /*----------------------------------------------------------------------
-         * Update the padding and size of the button according to the font.   */
+         * Update the padding and size of the button according to the font. Note
+         * that padding only applies when adjusted to the font size.          */
         void adjustSizeToFont(ME_Graphics*);
         void setPadding(int hpad, int vpad);
 
     private:
         void getLabelMetrics(ME_Graphics*);
+        void getLabelPosition();
         std::string _label;
         int         _hpad, _vpad;
         int         _labelw, _labelh;
+        int         _labelx, _labely;
 };
 
 #endif

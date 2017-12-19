@@ -37,24 +37,26 @@ ME_UiButton::~ME_UiButton()
 
 void ME_UiButton::render(ME_Graphics* g)
 {
+    if (isHovered()) {
+        g->setColor(0xff, 0xff, 0xff);
+    } else {
+        g->setColor(0x4d, 0x61, 0x88);
+    }
     // lazily initialize the label metrics
     if (_labelw < 0) {
         getLabelMetrics(g);
+        getLabelPosition();
     }
     // draw a rectangle
     g->drawRect(&_bounds);
     // draw the label
-    if (_labelw + _hpad > _bounds.getWidth() ||
-            _labelh + _vpad > _bounds.getHeight()) {
-        // clip the text inside the boundaries
-        ME_Rectangle* clip = new ME_Rectangle(0, 0, _bounds.getWidth() - _hpad,
-                _bounds.getHeight() - _vpad);
-        g->drawText(_bounds.getX() + _hpad, _bounds.getY() + _vpad, _label,
-                clip);
-    } else {
-        // draw unclipped text
-        g->drawText(_bounds.getX() + _hpad, _bounds.getY() + _vpad, _label);
-    }
+    g->drawText(_labelx, _labely, _label);
+}
+
+void ME_UiButton::setBounds(int x, int y, int w, int h)
+{
+    ME_UiComponent::setBounds(x, y, w, h);
+    getLabelPosition();
 }
 
 void ME_UiButton::adjustSizeToFont(ME_Graphics* g)
@@ -73,4 +75,11 @@ void ME_UiButton::getLabelMetrics(ME_Graphics* g)
 {
     _labelw = g->getTextWidth(_label);
     _labelh = g->getTextHeight(_label);
+}
+
+void ME_UiButton::getLabelPosition()
+{
+    // determine where to draw the label for centering
+    _labelx = (_bounds.getX() + (_bounds.getWidth() - _labelw) / 2);
+    _labely = (_bounds.getY() + (_bounds.getHeight() - _labelh) / 2);
 }

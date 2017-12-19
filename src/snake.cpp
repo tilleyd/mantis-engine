@@ -34,6 +34,10 @@ Snake::Snake(ME_Framework* fw)
     // place the starting pill
     srand(time(0));
     placePill();
+    // create the test ui component
+    ME_UiComponent* c = new ME_UiButton("Pause");
+    c->setPosition(10, 200);
+    addUiComponent(c, "ui_test");
 }
 
 void Snake::update(double period)
@@ -96,6 +100,7 @@ void Snake::render(ME_Graphics* g)
     text << "Score: " << _score;
     g->setColor(255, 255, 255);
     g->drawText(TILE_SIZE, TILE_SIZE, text.str());
+    renderUiComponents(g);
 }
 
 void Snake::onKeyPress(SDL_KeyboardEvent* evt)
@@ -142,6 +147,8 @@ void Snake::placePill()
 void Snake::allocateResources(ME_Graphics* g)
 {
     g->setFont("font/Hack.ttf", TILE_SIZE);
+    ME_UiButton* btn = (ME_UiButton*)(getUiComponent("ui_test"));
+    btn->adjustSizeToFont(g);
 }
 
 void Snake::deallocateResources()
