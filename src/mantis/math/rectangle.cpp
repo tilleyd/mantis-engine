@@ -22,70 +22,69 @@
 #include "mantis_math.h"
 
 ME_Rectangle::ME_Rectangle(int x, int y, int w, int h)
-    : _x(x)
-    , _y(y)
-    , _w(w)
-    , _h(h)
-{}
+{
+    _rect.x = x;
+    _rect.y = y;
+    _rect.w = w;
+    _rect.h = h;
+}
 
 void ME_Rectangle::setX(int x)
 {
-    _x = x;
+    _rect.x = x;
 }
 
 void ME_Rectangle::setY(int y)
 {
-    _y = y;
+    _rect.y = y;
 }
 
 void ME_Rectangle::setWidth(int w)
 {
-    _w = w;
+    _rect.w = w;
 }
 
 void ME_Rectangle::setHeight(int h)
 {
-    _h = h;
+    _rect.h = h;
 }
 
 int ME_Rectangle::getX() const
 {
-    return _x;
+    return _rect.x;
 }
 
 int ME_Rectangle::getY() const
 {
-    return _y;
+    return _rect.y;
 }
 
 int ME_Rectangle::getWidth() const
 {
-    return _w;
+    return _rect.w;
 }
 
 int ME_Rectangle::getHeight() const
 {
-    return _h;
+    return _rect.h;
 }
 
 bool ME_Rectangle::containsPoint(int x, int y) const
 {
-    return (x > _x && x < (_x + _w)) && (y > _y && y < (_y + _h));
+    return (x > _rect.x && x < (_rect.x + _rect.w)) &&
+            (y > _rect.y && y < (_rect.y + _rect.h));
 }
 
 bool ME_Rectangle::collidesWithRectangle(const ME_Rectangle* rect) const
 {
     // check for the absence of gaps between edges
-    return (_x < rect->_x + rect->_w && _x + _w > rect->_x &&
-            _y < rect->_y + rect->_h && _y + _h > rect->_y);
+    return (_rect.x < rect->getX() + rect->getWidth() &&
+            _rect.x + _rect.w > rect->getX() &&
+            _rect.y < rect->getY() + rect->getHeight() &&
+            _rect.y + _rect.h > rect->getY());
 }
 
-SDL_Rect ME_Rectangle::getSDLRect() const
+SDL_Rect* ME_Rectangle::getSDLRect()
 {
-    SDL_Rect rect;
-    rect.x = _x;
-    rect.y = _y;
-    rect.w = _w;
-    rect.h = _h;
-    return rect;
+    return &_rect;
 }

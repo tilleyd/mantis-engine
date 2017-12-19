@@ -53,13 +53,10 @@ class ME_Rectangle
         bool containsPoint(int x, int y) const;
         bool collidesWithRectangle(const ME_Rectangle*) const;
 
-        SDL_Rect getSDLRect() const;
+        SDL_Rect* getSDLRect();
 
     private:
-        int _x;
-        int _y;
-        int _w;
-        int _h;
+        SDL_Rect _rect;
 };
 
 #endif
