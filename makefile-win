@@ -8,7 +8,7 @@ CC     = g++
 LIBS   = -Llib -lmantis -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf \
 		-lpthread
 
-demo.exe: bin bin/demo.o bin/snake.o lib/libmantis.a
+demo.exe: bin bin/demo.o bin/snake.o bin/snake_stage.o lib/libmantis.a
 	$(CC) $(CFLAGS) -o demo.exe bin/*.o $(LIBS)
 
 bin/demo.o: src/demo.cpp src/snake.h
@@ -16,6 +16,9 @@ bin/demo.o: src/demo.cpp src/snake.h
 
 bin/snake.o: src/snake.cpp src/snake.h
 	$(CC) -c $(CFLAGS) -o bin/snake.o src/snake.cpp
+
+bin/snake_stage.o: src/snake_stage.cpp src/snake.h
+	$(CC) -c $(CFLAGS) -o bin/snake_stage.o src/snake_stage.cpp
 
 # UTILS
 

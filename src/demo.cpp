@@ -16,13 +16,13 @@ int main(int argc, char* argv[])
 		fw = new ME_Framework("Mantis Snake Demo", 720, 720);
 
 		// create the single stage
-		ME_Stage* snake = new Snake(fw);
+		ME_Stage* snake = new SnakeStage(fw);
 		fw->addStage(snake, "st_snake");
 		fw->setActiveStage("st_snake");
 		fw->setWindowMode(WM_WINDOWED);
 
-		// start the demo at 8 FPS (nice and slow for snake)
-		fw->start(8);
+		// start the demo with VSync enabled
+		fw->start(FPS_VSYNC);
 
 		// clean up
 		delete fw;

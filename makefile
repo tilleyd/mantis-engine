@@ -7,7 +7,7 @@ CC     = g++
 # library compile.
 LIBS   = -Llib -lmantis -lSDL2 -lSDL2_image -lSDL2_ttf -lpthread
 
-demo: bin bin/demo.o bin/snake.o lib/libmantis.a
+demo: bin bin/demo.o bin/snake.o bin/snake_stage.o lib/libmantis.a
 	$(CC) $(CFLAGS) -o demo bin/*.o $(LIBS)
 	@echo "Success!"
 
@@ -17,6 +17,9 @@ bin/demo.o: src/demo.cpp src/snake.h
 
 bin/snake.o: src/snake.cpp src/snake.h
 	$(CC) -c $(CFLAGS) -o bin/snake.o src/snake.cpp
+
+bin/snake_stage.o: src/snake_stage.cpp src/snake.h
+	$(CC) -c $(CFLAGS) -o bin/snake_stage.o src/snake_stage.cpp
 
 lib/libmantis.a:
 	rm -rf lib
