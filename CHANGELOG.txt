@@ -11,9 +11,12 @@ Legend
 0.2.1
 =====
 + Entity architecture added alongside stages
++ Hoverable stages
 + Graphical user interface components
+    + Button
 + FPS accessor in ME_Framework
 + Clipped font rendering
+- Stage backstack
 
 0.1.1
 =====

@@ -29,8 +29,9 @@ using std::string;
 ME_Framework::ME_Framework(string wn, int w, int h)
 	: _loop(NULL)
 	, _stage(NULL)
+	, _hoverstage(NULL)
 	, _stages()
-	, _backstack()
+	, _updatea(true)
 	, _atstart(true)
 	, _wmode(0)
 	, _fps(0)
@@ -139,32 +140,33 @@ void ME_Framework::update(ME_Loop* tim, double period)
 	SDL_Event e;
 	// poll SDL events
 	while (SDL_PollEvent(&e) != 0) {
-		// only poll for quit if there is no stage
+		// determine the focused stage (hover or active)
+		ME_Stage* cur = _hoverstage ? _hoverstage : _stage;
 		if (e.type == SDL_QUIT) {
-			stop();
+			stop(); // TODO stop listening/interrupting
 			break;
-		} else if (_stage) {
+		} else if (cur) {
 			switch (e.type) {
 				case SDL_KEYDOWN:
-					_stage->onKeyPress((SDL_KeyboardEvent*)&e);
+					cur->onKeyPress((SDL_KeyboardEvent*)&e);
 					break;
 				case SDL_KEYUP:
-					_stage->onKeyRelease((SDL_KeyboardEvent*)&e);
+					cur->onKeyRelease((SDL_KeyboardEvent*)&e);
 					break;
 				case SDL_MOUSEMOTION:
-					_stage->checkUiMouseHover((SDL_MouseMotionEvent*)&e);
-					_stage->onMouseMotion((SDL_MouseMotionEvent*)&e);
+					cur->checkUiMouseHover((SDL_MouseMotionEvent*)&e);
+					cur->onMouseMotion((SDL_MouseMotionEvent*)&e);
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					_stage->checkUiMousePress((SDL_MouseButtonEvent*)&e);
-					_stage->onMousePress((SDL_MouseButtonEvent*)&e);
+					cur->checkUiMousePress((SDL_MouseButtonEvent*)&e);
+					cur->onMousePress((SDL_MouseButtonEvent*)&e);
 					break;
 				case SDL_MOUSEBUTTONUP:
-					_stage->checkUiMouseRelease((SDL_MouseButtonEvent*)&e);
-					_stage->onMouseRelease((SDL_MouseButtonEvent*)&e);
+					cur->checkUiMouseRelease((SDL_MouseButtonEvent*)&e);
+					cur->onMouseRelease((SDL_MouseButtonEvent*)&e);
 					break;
 				case SDL_MOUSEWHEEL:
-					_stage->onMouseWheel((SDL_MouseWheelEvent*)&e);
+					cur->onMouseWheel((SDL_MouseWheelEvent*)&e);
 					break;
 				case SDL_WINDOWEVENT:
 					// check for resizes
@@ -173,7 +175,7 @@ void ME_Framework::update(ME_Loop* tim, double period)
 						_width = e.window.data1;
 						_height = e.window.data2;
 					}
-					_stage->onWindowChange((SDL_WindowEvent*)&e);
+					cur->onWindowChange((SDL_WindowEvent*)&e);
 			}
 		}
 	}
@@ -182,8 +184,12 @@ void ME_Framework::update(ME_Loop* tim, double period)
 		tim->stop();
 	}
 	// delegate update to the current stage
-	if (_stage) {
+	if (_updatea && _stage) {
 		_stage->update(period);
+	}
+	// update the hover stage
+	if (_hoverstage) {
+		_hoverstage->update(period);
 	}
 }
 
@@ -192,6 +198,9 @@ void ME_Framework::draw()
 	// delegate to stages and draw to window
 	if (_stage) {
 		_stage->render(_graphics);
+	}
+	if (_hoverstage) {
+		_hoverstage->render(_graphics);
 	}
 }
 
@@ -209,7 +218,6 @@ void ME_Framework::setActiveStage(std::string tag)
 			_stage->deallocateResources();
 		}
 		_stage = stage;
-		_stagetag = tag;
 		if (_stage) {
 			if (_running) {
 				_stage->allocateResources(_graphics);
@@ -221,22 +229,26 @@ void ME_Framework::setActiveStage(std::string tag)
 	}
 }
 
-void ME_Framework::nextStage(std::string tag)
+void ME_Framework::setHoverStage(std::string tag, bool updatea)
 {
-	if (_stage) {
-		_backstack.push(_stagetag);
-	}
-	setActiveStage(tag);
-}
-
-void ME_Framework::backStage()
-{
-	if (!_backstack.empty()) {
-		string s = _backstack.top();
-		_backstack.pop();
-		setActiveStage(s);
-	} else {
-		throw ME_Exception("Error: No previous stage on the backstack");
+	try {
+		ME_Stage* h = _stages.at(tag);
+		if (_hoverstage) {
+			_hoverstage->onDeactivate();
+			_hoverstage->deallocateResources();
+		}
+		_hoverstage = h;
+		if (_hoverstage) {
+			if (_running) {
+				_hoverstage->allocateResources(_graphics);
+				_hoverstage->onActivate();
+			}
+			_updatea = updatea;
+		} else {
+			_updatea = true;
+		}
+	} catch (...) {
+		throw ME_Exception("Error: Invalid (hover) stage tag");
 	}
 }
 

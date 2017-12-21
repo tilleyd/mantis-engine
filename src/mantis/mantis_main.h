@@ -20,11 +20,9 @@
  *============================================================================*/
 
 #include <map>
-#include <stack>
 
 // datastruct typedefs
 typedef std::map<std::string, ME_Stage*> stagemap_t;
-typedef std::stack<std::string> backstack_t;
 
 #define DEFAULT_WIDTH  1280
 #define DEFAULT_HEIGHT 720
@@ -76,10 +74,11 @@ class ME_Framework : public ME_LoopObserver
 		 * active stage to the foreground.                                    */
 		void addStage(ME_Stage*, std::string tag);
 		void setActiveStage(std::string tag);
-		/* nextStage() and backStage() make use of the backstack for stage
-		 * selection and swapping.                                            */
-		void nextStage(std::string tag);
-		void backStage();
+        /* Hover stages are a way to draw two overlapping stages (as a sort of
+         * floating menu) with the option of still updating the background stage
+         * or pausing (but still rendering) it.                               */
+        void setHoverStage(std::string tag, bool update);
+        void clearHoverStage();
 
 		/*----------------------------------------------------------------------
 		 * Width and height access. This is the size of the rendering canvas. */
@@ -99,9 +98,9 @@ class ME_Framework : public ME_LoopObserver
 		ME_Graphics*  _graphics;
 		ME_Loop*      _loop;
 		ME_Stage*     _stage;
-		std::string   _stagetag;
+        ME_Stage*     _hoverstage;
 		stagemap_t    _stages;
-		backstack_t   _backstack;
+        bool          _updatea;
 
 		// reload check variables
 		bool          _atstart;
