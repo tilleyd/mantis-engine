@@ -64,7 +64,7 @@ int ME_Image::getHeight() const
     return _height;
 }
 
-void setAlpha(int a)
+void ME_Image::setAlpha(int a)
 {
     SDL_SetTextureAlphaMod(_texture, a);
 }

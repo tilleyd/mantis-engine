@@ -139,7 +139,7 @@ void ME_Graphics::drawText(int x, int y, string text, ME_Rectangle* clip)
         throw ME_Exception("No font set for drawing text");
     }
     // create the text surface
-    SDL_Surface* surface = TTF_RenderText_Solid(_font, text.c_str(), *_color);
+    SDL_Surface* surface = TTF_RenderText_Blended(_font, text.c_str(), *_color);
     if (surface) {
         // create the text texture
         SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surface);
