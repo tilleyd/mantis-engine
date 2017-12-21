@@ -79,4 +79,25 @@ class SnakeStage : public ME_Stage
         int     _score;
 };
 
+class PauseStage : public ME_Stage
+{
+    public:
+        PauseStage(ME_Framework*);
+
+        /*----------------------------------------------------------------------
+         * Override from ME_Stage                                             */
+        void update(double);
+        void render(ME_Graphics*);
+        void allocateResources(ME_Graphics*);
+        void deallocateResources();
+
+        /*----------------------------------------------------------------------
+         * Event polling functions                                            */
+        void onKeyPress(SDL_KeyboardEvent*);
+
+    private:
+        int _width;
+        int _height;
+};
+
 #endif

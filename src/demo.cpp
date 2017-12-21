@@ -16,8 +16,8 @@ int main(int argc, char* argv[])
 		fw = new ME_Framework("Mantis Snake Demo", 720, 720);
 
 		// create the single stage
-		ME_Stage* snake = new SnakeStage(fw);
-		fw->addStage(snake, "st_snake");
+		fw->addStage(new SnakeStage(fw), "st_snake");
+		fw->addStage(new PauseStage(fw), "hst_pause");
 		fw->setActiveStage("st_snake");
 		fw->setWindowMode(WM_WINDOWED);
 

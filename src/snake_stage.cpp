@@ -68,6 +68,8 @@ void SnakeStage::onKeyPress(SDL_KeyboardEvent* evt)
 {
     int dir = -1;
     switch (evt->keysym.sym) {
+        case SDLK_SPACE:
+            _framework->setHoverStage("hst_pause", false);
         case SDLK_RIGHT:
             dir = DIR_RIGHT;
             break;
