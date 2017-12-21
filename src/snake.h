@@ -77,6 +77,8 @@ class SnakeStage : public ME_Stage
         bool    _gameover;
         point_t _pill;
         int     _score;
+        double  _time;
+        double  _tick;
 };
 
 class PauseStage : public ME_Stage

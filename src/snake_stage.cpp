@@ -12,14 +12,16 @@
 using namespace std;
 
 // window size of 720x720 allows 24px 30x30 grid
-#define TILE_SIZE 24
-#define FIELD_SIZE 30
+#define TILE_SIZE    24
+#define FIELD_SIZE   30
 #define START_LENGTH 5
+#define UPS          8
 
 SnakeStage::SnakeStage(ME_Framework* fw):
     ME_Stage(fw),
     _gameover(false),
-    _score(0)
+    _score(0),
+    _time(0.0)
 {
     _width = fw->getWidth();
     _height = fw->getHeight();
@@ -29,22 +31,28 @@ SnakeStage::SnakeStage(ME_Framework* fw):
     // place the starting pill
     srand(time(0));
     placePill();
+    // determine the wait time for each update
+    _tick = 1.0 / UPS;
 }
 
 void SnakeStage::update(double period)
 {
-    if (!_gameover) {
-        // update the entities (only the snake in this case)
-        updateEntities(period);
-        // check collisions
-        if (_snake->touchHead(_pill)) {
-            _snake->increaseLength();
-            ++_score;
-            placePill();
+    _time += period;
+    while (_time > _tick) {
+        if (!_gameover) {
+            // update the entities (only the snake in this case)
+            updateEntities(period);
+            // check collisions
+            if (_snake->touchHead(_pill)) {
+                _snake->increaseLength();
+                ++_score;
+                placePill();
+            }
+            if (_snake->gameOver()) {
+                _gameover = true;
+            }
         }
-        if (_snake->gameOver()) {
-            _gameover = true;
-        }
+        _time -= _tick;
     }
 }
 
@@ -70,6 +78,7 @@ void SnakeStage::onKeyPress(SDL_KeyboardEvent* evt)
     switch (evt->keysym.sym) {
         case SDLK_SPACE:
             _framework->setHoverStage("hst_pause", false);
+            break;
         case SDLK_RIGHT:
             dir = DIR_RIGHT;
             break;
