@@ -252,6 +252,16 @@ void ME_Framework::setHoverStage(std::string tag, bool updatea)
 	}
 }
 
+void ME_Framework::clearHoverStage()
+{
+	if (_hoverstage) {
+		_hoverstage->onDeactivate();
+		_hoverstage->deallocateResources();
+		_hoverstage = NULL;
+	}
+	_updatea = true;
+}
+
 int ME_Framework::getWidth() const
 {
 	return _width;
