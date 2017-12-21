@@ -94,6 +94,7 @@ void SnakeStage::onKeyPress(SDL_KeyboardEvent* evt)
 void SnakeStage::allocateResources(ME_Graphics* g)
 {
     g->setFont("font/Hack.ttf", TILE_SIZE);
+    g->setSmoothFonts(true);
 }
 
 void SnakeStage::deallocateResources()

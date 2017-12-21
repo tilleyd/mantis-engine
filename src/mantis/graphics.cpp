@@ -28,10 +28,12 @@
 #include <SDL2/SDL_ttf.h>
 using std::string;
 
-ME_Graphics::ME_Graphics(ME_Window* context)
-    : _renderer(NULL)
-    , _color(NULL)
-    , _font(NULL)
+ME_Graphics::ME_Graphics(ME_Window* context):
+    _renderer(NULL),
+    _color(NULL),
+    _font(NULL),
+    _smoothfont(false),
+    _texturefilt(false)
 {
     SDL_Window* win = context->getSDLWindow();
 	_renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
@@ -75,6 +77,24 @@ void ME_Graphics::setColor(int a, int r, int g, int b)
     _color->g = g;
     _color->b = b;
     SDL_SetRenderDrawColor(_renderer, r, g, b, a);
+}
+
+void ME_Graphics::setTextureFiltering(bool f)
+{
+    // enable or disable linear texture filtering
+    // anisotropic is not supported since it is only available with Direct3D
+    if (f != _texturefilt) {
+        if (f) {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+        } else {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+        }
+    }
+}
+
+void ME_Graphics::setSmoothFonts(bool s)
+{
+    _smoothfont = s;
 }
 
 void ME_Graphics::drawImage(ME_Image* img)
@@ -139,10 +159,16 @@ void ME_Graphics::drawText(int x, int y, string text, ME_Rectangle* clip)
         throw ME_Exception("No font set for drawing text");
     }
     // create the text surface
-    SDL_Surface* surface = TTF_RenderText_Blended(_font, text.c_str(), *_color);
+    SDL_Surface* surface = NULL;
+    if (_smoothfont) {
+        surface = TTF_RenderText_Blended(_font, text.c_str(), *_color);
+    } else {
+        surface = TTF_RenderText_Solid(_font, text.c_str(), *_color);
+    }
     if (surface) {
         // create the text texture
-        SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surface);
+        SDL_Texture* texture = NULL;
+        texture = SDL_CreateTextureFromSurface(_renderer, surface);
         if (texture) {
             SDL_Rect dest;
             dest.x = x;

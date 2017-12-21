@@ -136,6 +136,11 @@ class ME_Graphics
  		void setColor(int a, int r, int g, int b);
 
 		/*----------------------------------------------------------------------
+		 * Rendering quality functions                                        */
+		void setTextureFiltering(bool);
+		void setSmoothFonts(bool);
+
+		/*----------------------------------------------------------------------
 		 * Image rendering functions                                          */
 		void drawImage(ME_Image*);
 		void drawImage(ME_Image*, int x, int y);
@@ -172,6 +177,8 @@ class ME_Graphics
 		SDL_Renderer* _renderer;
 		SDL_Color*    _color;
 		TTF_Font*     _font;
+		bool          _smoothfont;
+		bool          _texturefilt;
 };
 
 /*==============================================================================
