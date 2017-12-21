@@ -38,6 +38,8 @@ ME_Graphics::ME_Graphics(ME_Window* context)
     if (_renderer == NULL) {
         throw ME_Exception(SDL_GetError());
     }
+    // set the alpha blending mode
+    SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
     _color = new SDL_Color;
     _color->r = 255;
     _color->g = 255;
@@ -212,4 +214,6 @@ void ME_Graphics::recreateSDLRenderer(ME_Window* context, bool vsync)
     if (_renderer == NULL) {
         throw ME_Exception(SDL_GetError());
     }
+    // set the alpha blending mode
+    SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
 }

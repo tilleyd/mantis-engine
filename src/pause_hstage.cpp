@@ -16,8 +16,8 @@ void PauseStage::update(double period)
 
 void PauseStage::render(ME_Graphics* g)
 {
-    //g->setColor(47, 52, 63, 100);
-    //g->fillRect(0, 0, _width, _height);
+    g->setColor(100, 0, 0, 0);
+    g->fillRect(0, 0, _width, _height);
     // render the text
     g->setColor(255, 255, 255);
     g->drawText(TILE_SIZE, TILE_SIZE * 2, "Press <space> to continue...");

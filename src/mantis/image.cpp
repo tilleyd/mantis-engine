@@ -41,6 +41,8 @@ ME_Image::ME_Image(ME_Graphics* graphics, string path)
     if (_texture == NULL) {
         throw ME_Exception(SDL_GetError());
     }
+    // set the alpha blending mode
+    SDL_SetTextureBlendMode(_texture, SDL_BLENDMODE_BLEND);
     // get width and height
     SDL_QueryTexture(_texture, NULL, NULL, &_width, &_height);
 }
@@ -60,6 +62,11 @@ int ME_Image::getWidth() const
 int ME_Image::getHeight() const
 {
     return _height;
+}
+
+void setAlpha(int a)
+{
+    SDL_SetTextureAlphaMod(_texture, a);
 }
 
 void ME_Image::draw(ME_Graphics* g)

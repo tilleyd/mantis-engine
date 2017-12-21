@@ -44,6 +44,8 @@ class ME_Image
         virtual int getWidth() const;
         virtual int getHeight() const;
 
+        virtual void setAlpha(int);
+
         /*----------------------------------------------------------------------
          * Rendering functions (though it is better to use
          * ME_Graphics::drawImage, which makes us of these functions)         */
