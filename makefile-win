@@ -7,9 +7,10 @@ CC     = g++
 # .o files to your executable.
 LIBS   = -Llib -lmantis -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf \
 		-lpthread
+OFILES = bin/demo.o bin/snake.o bin/snake_stage.o bin/pause_hstage.o
 
-demo.exe: bin bin/demo.o bin/snake.o bin/snake_stage.o lib/libmantis.a
-	$(CC) $(CFLAGS) -o demo.exe bin/*.o $(LIBS)
+demo.exe: bin $(OFILES)
+	$(CC) $(CFLAGS) -o demo.exe $(OFILES) $(LIBS)
 
 bin/demo.o: src/demo.cpp src/snake.h
 	$(CC) -c $(CFLAGS) -o bin/demo.o src/demo.cpp
@@ -20,6 +21,9 @@ bin/snake.o: src/snake.cpp src/snake.h
 bin/snake_stage.o: src/snake_stage.cpp src/snake.h
 	$(CC) -c $(CFLAGS) -o bin/snake_stage.o src/snake_stage.cpp
 
+bin/pause_hstage.o: src/pause_hstage.cpp src/snake.h
+	$(CC) -c $(CFLAGS) -o bin/pause_hstage.o src/pause_hstage.cpp
+	
 # UTILS
 
 bin:
