@@ -20,6 +20,7 @@ Legend
 + Alpha blending
 + Linear texture filtering
 + Multiple animation ranges in image sheets
++ Image reallocation methods
 - Stage backstack
 
 0.1.1
