@@ -26,9 +26,9 @@
 #include <string>
 using std::string;
 
-ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
-        int starty, int imgw, int imgh, int rows, int cols, int numimgs) :
-    ME_Image(g, path),
+ME_ImageSheet::ME_ImageSheet(std::string path, int startx, int starty,
+        int imgw, int imgh, int rows, int cols, int numimgs) :
+    ME_Image(path),
     _bounds(),
     _ranges(),
     _iwidth(imgw),
@@ -38,11 +38,6 @@ ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
     _time(0.0)
 {
     // check for size errors
-    int minwidth = startx + imgw * cols;
-    int minheight = starty + imgh * rows;
-    if (_width < minwidth || _height < minheight) {
-        throw ME_Exception("The sheet is too small for the required clipping");
-    }
     if (rows * cols < numimgs) {
         throw ME_Exception("There are more images than possible for rows*cols");
     }
@@ -70,9 +65,9 @@ ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
     setAnimationRange(IMG_RANGE_ALL);
 }
 
-ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int imgw,
-        int imgh, int numimgs)
-    : ME_ImageSheet(g, path, 0, 0, imgw, imgh, numimgs, 1, numimgs)
+ME_ImageSheet::ME_ImageSheet(std::string path, int imgw, int imgh,
+        int numimgs) :
+    ME_ImageSheet(path, 0, 0, imgw, imgh, numimgs, 1, numimgs)
 {}
 
 ME_ImageSheet::~ME_ImageSheet()

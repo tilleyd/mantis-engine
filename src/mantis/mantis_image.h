@@ -48,13 +48,25 @@ typedef std::vector<animrange_t> rangelist_t;
 class ME_Image
 {
     public:
-        ME_Image(ME_Graphics*, std::string path);
+        /*----------------------------------------------------------------------
+         * Note that the constructor does not load the image. The image is only
+         * loaded after a call to allocateImage().                            */
+        ME_Image(std::string path);
         virtual ~ME_Image();
 
+        /*----------------------------------------------------------------------
+         * Image bound accessors. These are only valid after allocating the
+         * image.                                                             */
         virtual int getWidth() const;
         virtual int getHeight() const;
 
         virtual void setAlpha(int);
+
+        /*----------------------------------------------------------------------
+         * Remove the image from memory or reload it, to be used in the
+         * stage's allocateResources() and deallocateResources() functions.   */
+        virtual void allocateImage(ME_Graphics*);
+        virtual void deallocateImage();
 
         /*----------------------------------------------------------------------
          * Rendering functions (though it is better to use
@@ -65,6 +77,7 @@ class ME_Image
         SDL_Texture* _texture;
         int          _width;
         int          _height;
+        std::string  _path;
 };
 
 /*==============================================================================
@@ -81,11 +94,10 @@ class ME_ImageSheet : public ME_Image
          * The constructor splits the images starting at the start point in a
          * matrix form for the number of rows and columns. The imgw and imgh is
          * the size of each individual image.                                 */
-        ME_ImageSheet(ME_Graphics*, std::string path, int startx, int starty,
-                int imgw, int imgh, int rows, int cols, int numimgs);
+        ME_ImageSheet(std::string path, int startx, int starty, int imgw,
+                int imgh, int rows, int cols, int numimgs);
         /* This constructor assumes that the entire sheet is a row of images. */
-        ME_ImageSheet(ME_Graphics*, std::string path, int imgw, int imgh,
-                int numimgs);
+        ME_ImageSheet(std::string path, int imgw, int imgh, int numimgs);
         virtual ~ME_ImageSheet();
 
         virtual int getWidth() const;
@@ -113,6 +125,7 @@ class ME_ImageSheet : public ME_Image
         void setAnimationRange(int index);
 
     private:
+        // frame rectangle bounds
         rectlist_t    _bounds;
 
         // animation range variables
@@ -120,6 +133,8 @@ class ME_ImageSheet : public ME_Image
         int           _curRange;
         unsigned int  _rangeLength;
         unsigned int  _rangeStart;
+
+        // sheet variables
         unsigned int  _iwidth;
         unsigned int  _iheight;
         double        _duration;
