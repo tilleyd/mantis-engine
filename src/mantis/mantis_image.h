@@ -26,8 +26,18 @@
 #include <string>
 #include <vector>
 
-// rectlist typedef
+#define IMG_RANGE_ALL -1
+
+// animation range struct
+struct animrange_t
+{
+    int start;
+    int end;
+};
+
+// datastruct typedefs
 typedef std::vector<SDL_Rect*> rectlist_t;
+typedef std::vector<animrange_t> rangelist_t;
 
 /*==============================================================================
  * ME_Image
@@ -90,19 +100,30 @@ class ME_ImageSheet : public ME_Image
         /*----------------------------------------------------------------------
          * Image selection function. The images are numbered from 0 in row
          * major form.                                                        */
-        void setCurrentImage(unsigned int);
+        void setCurrentFrame(unsigned int);
 
         /*----------------------------------------------------------------------
          * Animation functions.                                               */
-        void setAnimationFrequency(double fps);
+        void setAnimationDuration(double sec);
         void updateAnimation(double period);
+        /* These let you to use only a subset of images for animations, allowing
+         * multiple animations from a single sheet. Added ranges are indexed
+         * from 0, and IMG_RANGE_ALL for all frames/images.                   */
+        void addAnimationRange(int start, int end);
+        void setAnimationRange(int index);
 
     private:
         rectlist_t    _bounds;
-        int           _iwidth;
-        int           _iheight;
-        double        _frequency;
-        int           _current;
+
+        // animation range variables
+        rangelist_t   _ranges;
+        int           _curRange;
+        unsigned int  _rangeLength;
+        unsigned int  _rangeStart;
+        unsigned int  _iwidth;
+        unsigned int  _iheight;
+        double        _duration;
+        unsigned int  _curFrame;
         double        _time;
 };
 

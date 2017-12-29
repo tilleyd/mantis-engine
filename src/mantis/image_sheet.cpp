@@ -27,18 +27,19 @@
 using std::string;
 
 ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
-        int starty, int imgw, int imgh, int rows, int cols, int numimgs)
-    : ME_Image(g, path)
-    , _bounds()
-    , _iwidth(imgw)
-    , _iheight(imgh)
-    , _frequency(1.0)
-    , _current(0)
-    , _time(0.0)
+        int starty, int imgw, int imgh, int rows, int cols, int numimgs) :
+    ME_Image(g, path),
+    _bounds(),
+    _ranges(),
+    _iwidth(imgw),
+    _iheight(imgh),
+    _duration(1.0),
+    _curFrame(0),
+    _time(0.0)
 {
     // check for size errors
-    int minwidth = startx + imgw * rows;
-    int minheight = starty + imgh * cols;
+    int minwidth = startx + imgw * cols;
+    int minheight = starty + imgh * rows;
     if (_width < minwidth || _height < minheight) {
         throw ME_Exception("The sheet is too small for the required clipping");
     }
@@ -52,12 +53,12 @@ ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
     int row = 0, col = 0;
     int x, y;
     for (int i = 0; i < numimgs; ++i) {
-        x = startx + row * imgw;
-        y = starty + col * imgh;
-        ++row;
-        if (row == rows) {
-            row = 0;
-            ++col;
+        x = startx + col * imgw;
+        y = starty + row * imgh;
+        ++col;
+        if (col == cols) {
+            col = 0;
+            ++row;
         }
         SDL_Rect* rect = new SDL_Rect();
         rect->x = x;
@@ -66,6 +67,7 @@ ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int startx,
         rect->h = imgh;
         _bounds.push_back(rect);
     }
+    setAnimationRange(IMG_RANGE_ALL);
 }
 
 ME_ImageSheet::ME_ImageSheet(ME_Graphics* g, std::string path, int imgw,
@@ -95,8 +97,9 @@ int ME_ImageSheet::getHeight() const
 
 void ME_ImageSheet::draw(ME_Graphics* g)
 {
+    int framenum = _rangeStart + _curFrame;
     // render the entire screen with the image
-    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[_current],
+    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[framenum],
             NULL);
     if (r) {
         throw ME_Exception(SDL_GetError());
@@ -105,33 +108,67 @@ void ME_ImageSheet::draw(ME_Graphics* g)
 
 void ME_ImageSheet::draw(ME_Graphics* g, ME_Rectangle* rect)
 {
+    int framenum = _rangeStart + _curFrame;
     // render at the given position with stretching
     SDL_Rect* dest = rect->getSDLRect();
-    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[_current],
+    int r = SDL_RenderCopy(g->getSDLRenderer(), _texture, _bounds[framenum],
             dest);
     if (r) {
         throw ME_Exception(SDL_GetError());
     }
 }
 
-void ME_ImageSheet::setCurrentImage(unsigned int index)
+void ME_ImageSheet::setCurrentFrame(unsigned int index)
 {
-    if (index < _bounds.size()) {
-        _current = index;
+    if (index < _rangeLength) {
+        _curFrame = index;
     }
 }
 
-void ME_ImageSheet::setAnimationFrequency(double fps)
+void ME_ImageSheet::setAnimationDuration(double sec)
 {
-    _frequency = fps;
+    _duration = sec;
 }
 
 void ME_ImageSheet::updateAnimation(double period)
 {
     _time += period;
-    while (_time >= _frequency) {
-        // advance to the next image
-        _current = (_current + 1) % _bounds.size();
-        _time -= _frequency;
+    while (_time >= _duration) {
+        // advance to the next frame
+        _curFrame = (_curFrame + 1) % _rangeLength;
+        _time -= _duration;
     }
+}
+
+void ME_ImageSheet::addAnimationRange(int start, int end)
+{
+    if (end < start) {
+        throw ME_Exception("Error: Invalid animation range");
+    }
+    animrange_t range;
+    range.start = start;
+    range.end = end;
+    _ranges.push_back(range);
+}
+
+void ME_ImageSheet::setAnimationRange(int index)
+{
+    if (index == IMG_RANGE_ALL) {
+        // set the all range measures
+        _rangeLength = _bounds.size();
+        _rangeStart = 0;
+    } else {
+        try {
+            // set the appropriate range measures
+            animrange_t cur = _ranges[index];
+            _rangeLength = cur.end - cur.start + 1;
+            _rangeStart = cur.start;
+        } catch (...) {
+            throw ME_Exception("Error: Invalid animation range index");
+        }
+    }
+    _curRange = index;
+    // modulus is used instead of setting to 0 since it looks smoother in
+    // some animations, such as movement
+    _curFrame %= _rangeLength;
 }

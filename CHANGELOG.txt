@@ -19,6 +19,7 @@ Legend
 + Smooth fonts
 + Alpha blending
 + Linear texture filtering
++ Multiple animation ranges in image sheets
 - Stage backstack
 
 0.1.1
