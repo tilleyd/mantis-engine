@@ -1,5 +1,5 @@
 /*==============================================================================
- * Mantis Engine global header file (include only this header)
+ * ME_ImageBank implementation
  *==============================================================================
  * Copyright (C) 2017 Duncan Tilley <duncan.tilley@gmail.com>
  *
@@ -19,46 +19,42 @@
  * along with Mantis Engine.  If not, see <http://www.gnu.org/licenses/>.
  *============================================================================*/
 
-#ifndef ME_MANTIS_H
-#define ME_MANTIS_H
+#include "mantis.h"
 
-// external includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+ME_ImageBank::~ME_ImageBank()
+{
+    // delete the images
+    for (imagemap_t::iterator it = _images.begin(); it != _images.end(); ++it) {
+		delete it->second;
+	}
+}
 
-// forward declarations across all headers
-class ME_Framework;
-class ME_Graphics;
-class ME_Window;
-class ME_Exception;
-class ME_Image;
-class ME_ImageSheet;
-class ME_ImageBank;
-class ME_Loop;
-class ME_IntervalLoop;
-class ME_UncappedLoop;
-class ME_LoopObserver;
-class ME_Entity;
-class ME_Stage;
-class ME_Thread;
-class ME_Threadable;
-class ME_UiObserver;
-class ME_UiComponent;
-class ME_Button;
+void ME_ImageBank::addImage(ME_Image* img, std::string tag)
+{
+    _images[tag] = img;
+}
 
-// math forward declarations
-class ME_Rectangle;
-class ME_Vector2D;
+ME_Image* ME_ImageBank::getImage(std::string tag)
+{
+    try {
+		return _images.at(tag);
+	} catch (...) {
+		throw ME_Exception("Error: Invalid stage tag");
+	}
+}
 
-// all header includes
-#include "math/mantis_math.h"
-#include "mantis_exception.h"
-#include "mantis_loop.h"
-#include "mantis_main.h"
-#include "mantis_image.h"
-#include "mantis_stage.h"
-#include "mantis_thread.h"
-#include "mantis_ui.h"
+void ME_ImageBank::allocateImages(ME_Graphics* g)
+{
+    // allocate all the images
+    for (imagemap_t::iterator it = _images.begin(); it != _images.end(); ++it) {
+		it->second->allocateImage(g);
+	}
+}
 
-#endif
+void ME_ImageBank::deallocateImage()
+{
+    // deallocate all the images
+    for (imagemap_t::iterator it = _images.begin(); it != _images.end(); ++it) {
+		it->second->deallocateImage();
+	}
+}

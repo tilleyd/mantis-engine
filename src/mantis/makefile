@@ -12,7 +12,7 @@ LIBNAME = libmantis.a
 OFILES = lib/framework.o lib/exception.o lib/window.o lib/loop.o \
 	lib/interval_loop.o lib/uncapped_loop.o lib/thread.o lib/image.o \
 	lib/image_sheet.o lib/stage.o lib/graphics.o lib/rectangle.o \
-	lib/ui_component.o lib/ui_button.o lib/vector2d.o
+	lib/ui_component.o lib/ui_button.o lib/vector2d.o lib/image_bank.o
 
 mantis: lib lib/$(LIBNAME)
 
@@ -64,6 +64,9 @@ lib/image.o: image.cpp mantis_image.h
 
 lib/image_sheet.o: image_sheet.cpp mantis_image.h
 	$(CC) -c $(CFLAGS) -o lib/image_sheet.o image_sheet.cpp
+
+lib/image_bank.o: image_bank.cpp mantis_image.h
+	$(CC) -c $(CFLAGS) -o lib/image_bank.o image_bank.cpp
 
 # MANTIS_UI_H
 

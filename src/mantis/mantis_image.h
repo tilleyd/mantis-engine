@@ -23,6 +23,7 @@
 #define ME_IMAGE_H
 
 #include <SDL2/SDL.h>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -38,6 +39,7 @@ struct animrange_t
 // datastruct typedefs
 typedef std::vector<SDL_Rect*> rectlist_t;
 typedef std::vector<animrange_t> rangelist_t;
+typedef std::map<std::string, ME_Image*> imagemap_t;
 
 /*==============================================================================
  * ME_Image
@@ -140,6 +142,28 @@ class ME_ImageSheet : public ME_Image
         double        _duration;
         unsigned int  _curFrame;
         double        _time;
+};
+
+/*==============================================================================
+ * ME_ImageBank
+ *
+ *     A collection of images that can be loaded or unloaded in bulk. Each image
+ *     is associated with a tag for easy access.
+ *============================================================================*/
+class ME_ImageBank
+{
+    public:
+        ~ME_ImageBank();
+
+        /*----------------------------------------------------------------------
+         * Image management functions.                                        */
+        void addImage(ME_Image*, std::string tag);
+        ME_Image* getImage(std::string tag);
+
+        void allocateImages(ME_Graphics*);
+        void deallocateImage();
+    private:
+        imagemap_t _images;
 };
 
 #endif
