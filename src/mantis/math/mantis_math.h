@@ -22,6 +22,10 @@
 #ifndef ME_MATH_H
 #define ME_MATH_H
 
+// forward declarations
+class ME_Rectangle;
+class ME_Vector2D;
+
 #include <SDL2/SDL.h>
 
 /*==============================================================================
@@ -32,31 +36,59 @@
 class ME_Rectangle
 {
     public:
-        ME_Rectangle(int x, int y, int w, int h);
+        ME_Rectangle(double x, double y, double w, double h);
 
         /*----------------------------------------------------------------------
          * Member modify functions                                            */
-        void setX(int);
-        void setY(int);
-        void setWidth(int);
-        void setHeight(int);
+        void setX(double);
+        void setY(double);
+        void setWidth(double);
+        void setHeight(double);
 
         /*----------------------------------------------------------------------
          * Member access functions                                            */
-        int getX() const;
-        int getY() const;
-        int getWidth() const;
-        int getHeight() const;
+        double getX() const;
+        double getY() const;
+        double getWidth() const;
+        double getHeight() const;
 
         /*----------------------------------------------------------------------
          * Collision check functions                                          */
-        bool containsPoint(int x, int y) const;
+        bool containsPoint(ME_Vector2D*) const;
+        bool containsPoint(double x, double y) const;
         bool collidesWithRectangle(const ME_Rectangle*) const;
 
+        /*----------------------------------------------------------------------
+         * Returns an SDL rectangle with truncated integer values.            */
         SDL_Rect* getSDLRect();
 
     private:
+        double _x, _y, _w, _h;
         SDL_Rect _rect;
+};
+
+class ME_Vector2D
+{
+    public:
+        ME_Vector2D(double x, double y);
+
+        /*----------------------------------------------------------------------
+         * Member modifiers and accessors.                                    */
+        void setX(double);
+        void setY(double);
+        void setValue(double, double);
+        double getX() const;
+        double getY() const;
+
+        /*----------------------------------------------------------------------
+         * Magnitude functions.                                               */
+        double getMagnitude() const;
+        /* Normalizes the values of the vector to have the same relationship
+         * but to have a magnitude of the specified value.                    */
+        void normalize(double magnitude = 1.0);
+
+    private:
+        double _x, _y;
 };
 
 #endif

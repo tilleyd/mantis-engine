@@ -21,70 +21,78 @@
 
 #include "mantis_math.h"
 
-ME_Rectangle::ME_Rectangle(int x, int y, int w, int h)
+ME_Rectangle::ME_Rectangle(double x, double y, double w, double h) :
+    _x(x),
+    _y(y),
+    _w(w),
+    _h(h)
+{}
+
+void ME_Rectangle::setX(double x)
 {
-    _rect.x = x;
-    _rect.y = y;
-    _rect.w = w;
-    _rect.h = h;
+    _x = x;
 }
 
-void ME_Rectangle::setX(int x)
+void ME_Rectangle::setY(double y)
 {
-    _rect.x = x;
+    _y = y;
 }
 
-void ME_Rectangle::setY(int y)
+void ME_Rectangle::setWidth(double w)
 {
-    _rect.y = y;
+    _w = w;
 }
 
-void ME_Rectangle::setWidth(int w)
+void ME_Rectangle::setHeight(double h)
 {
-    _rect.w = w;
+    _h = h;
 }
 
-void ME_Rectangle::setHeight(int h)
+double ME_Rectangle::getX() const
 {
-    _rect.h = h;
+    return _x;
 }
 
-int ME_Rectangle::getX() const
+double ME_Rectangle::getY() const
 {
-    return _rect.x;
+    return _y;
 }
 
-int ME_Rectangle::getY() const
+double ME_Rectangle::getWidth() const
 {
-    return _rect.y;
+    return _w;
 }
 
-int ME_Rectangle::getWidth() const
+double ME_Rectangle::getHeight() const
 {
-    return _rect.w;
+    return _h;
 }
 
-int ME_Rectangle::getHeight() const
+bool ME_Rectangle::containsPoint(ME_Vector2D* point) const
 {
-    return _rect.h;
+    return containsPoint(point->getX(), point->getY());
 }
 
-bool ME_Rectangle::containsPoint(int x, int y) const
+bool ME_Rectangle::containsPoint(double x, double y) const
 {
-    return (x > _rect.x && x < (_rect.x + _rect.w)) &&
-            (y > _rect.y && y < (_rect.y + _rect.h));
+    return (x > _x && x < (_x + _w)) &&
+            (y > _y && y < (_y + _h));
 }
 
 bool ME_Rectangle::collidesWithRectangle(const ME_Rectangle* rect) const
 {
     // check for the absence of gaps between edges
-    return (_rect.x < rect->getX() + rect->getWidth() &&
-            _rect.x + _rect.w > rect->getX() &&
-            _rect.y < rect->getY() + rect->getHeight() &&
-            _rect.y + _rect.h > rect->getY());
+    return (_x < rect->getX() + rect->getWidth() &&
+            _x + _w > rect->getX() &&
+            _y < rect->getY() + rect->getHeight() &&
+            _y + _h > rect->getY());
 }
 
 SDL_Rect* ME_Rectangle::getSDLRect()
 {
+    _rect.x = (int)_x;
+    _rect.y = (int)_y;
+    _rect.w = (int)_w;
+    _rect.h = (int)_h;
     return &_rect;
 }

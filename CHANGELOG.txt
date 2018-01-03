@@ -21,6 +21,7 @@ Legend
 + Linear texture filtering
 + Multiple animation ranges in image sheets
 + Image reallocation methods
++ Double precision rectangle and vector math
 - Stage backstack
 
 0.1.1

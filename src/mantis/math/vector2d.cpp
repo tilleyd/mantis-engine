@@ -1,5 +1,5 @@
 /*==============================================================================
- * Mantis Engine global header file (include only this header)
+ * ME_Vector implementation
  *==============================================================================
  * Copyright (C) 2017 Duncan Tilley <duncan.tilley@gmail.com>
  *
@@ -19,45 +19,49 @@
  * along with Mantis Engine.  If not, see <http://www.gnu.org/licenses/>.
  *============================================================================*/
 
-#ifndef ME_MANTIS_H
-#define ME_MANTIS_H
+#include "mantis_math.h"
 
-// external includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+#include <cmath>
 
-// forward declarations across all headers
-class ME_Framework;
-class ME_Graphics;
-class ME_Window;
-class ME_Exception;
-class ME_Image;
-class ME_ImageSheet;
-class ME_Loop;
-class ME_IntervalLoop;
-class ME_UncappedLoop;
-class ME_LoopObserver;
-class ME_Entity;
-class ME_Stage;
-class ME_Thread;
-class ME_Threadable;
-class ME_UiObserver;
-class ME_UiComponent;
-class ME_Button;
+ME_Vector2D::ME_Vector2D(double x, double y) :
+    _x(x),
+    _y(y)
+{}
 
-// math forward declarations
-class ME_Rectangle;
-class ME_Vector2D;
+void ME_Vector2D::setX(double x)
+{
+    _x = x;
+}
 
-// all header includes
-#include "math/mantis_math.h"
-#include "mantis_exception.h"
-#include "mantis_loop.h"
-#include "mantis_main.h"
-#include "mantis_image.h"
-#include "mantis_stage.h"
-#include "mantis_thread.h"
-#include "mantis_ui.h"
+void ME_Vector2D::setY(double y)
+{
+    _y = y;
+}
 
-#endif
+void ME_Vector2D::setValue(double x, double y)
+{
+    _x = x;
+    _y = y;
+}
+
+double ME_Vector2D::getX() const
+{
+    return _x;
+}
+
+double ME_Vector2D::getY() const
+{
+    return _y;
+}
+
+double ME_Vector2D::getMagnitude() const
+{
+    return sqrt(_x * _x + _y * _y);
+}
+
+void ME_Vector2D::normalize(double newmag)
+{
+    double mag = getMagnitude();
+    _x = (_x / mag) * newmag;
+    _y = (_y / mag) * newmag;
+}
