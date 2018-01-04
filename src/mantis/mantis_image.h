@@ -104,20 +104,44 @@ class ME_ImageSheet : public ME_Image
 
         virtual int getWidth() const;
         virtual int getHeight() const;
+        virtual int getNumImages() const;
 
         /*----------------------------------------------------------------------
          * Rendering functions (though it is better to use
-         * ME_Graphics::drawImage, which makes us of these functions)         */
+         * ME_Graphics::drawImage, which makes use of these functions).       */
         virtual void draw(ME_Graphics*);
         virtual void draw(ME_Graphics*, ME_Rectangle*);
 
         /*----------------------------------------------------------------------
          * Image selection function. The images are numbered from 0 in row
          * major form.                                                        */
-        void setCurrentFrame(unsigned int);
+        void setCurrentFrame(int);
+
+    private:
+        // frame rectangle bounds
+        rectlist_t    _bounds;
+
+        // sheet variables
+        unsigned int  _iwidth;
+        unsigned int  _iheight;
+        unsigned int  _curFrame;
+};
+
+/*==============================================================================
+ * ME_Animation
+ *
+ *     Uses an image sheet as an animation, allowing you to select and use
+ *     certain ranges of frames as animations. Note that the animation does
+ *     not take ownership of the image (i.e. it is not freed on deletion).
+ *============================================================================*/
+class ME_Animation
+{
+    public:
+        ME_Animation(ME_ImageSheet*);
 
         /*----------------------------------------------------------------------
          * Animation functions.                                               */
+        void setCurrentFrame(int);
         void setAnimationDuration(double sec);
         void updateAnimation(double period);
         /* These let you to use only a subset of images for animations, allowing
@@ -126,22 +150,20 @@ class ME_ImageSheet : public ME_Image
         void addAnimationRange(int start, int end);
         void setAnimationRange(int index);
 
+        ME_Image* getImage();
     private:
-        // frame rectangle bounds
-        rectlist_t    _bounds;
+        ME_ImageSheet* _sheet;
 
         // animation range variables
-        rangelist_t   _ranges;
-        int           _curRange;
-        unsigned int  _rangeLength;
-        unsigned int  _rangeStart;
+        rangelist_t _ranges;
+        int         _curRange;
+        int         _rangeLength;
+        int         _rangeStart;
 
-        // sheet variables
-        unsigned int  _iwidth;
-        unsigned int  _iheight;
-        double        _duration;
-        unsigned int  _curFrame;
-        double        _time;
+        // animation update variables
+        double      _duration;
+        double      _time;
+        int         _curFrame;
 };
 
 /*==============================================================================

@@ -23,6 +23,7 @@ Legend
 + Image reallocation methods
 + Image management bank
 + Double precision rectangle and vector math
++ Separate animation from image sheet
 - Stage backstack
 
 0.1.1
