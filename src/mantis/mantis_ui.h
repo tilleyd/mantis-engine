@@ -116,6 +116,11 @@ class ME_UiButton : public ME_UiComponent
         void adjustSizeToFont(ME_Graphics*);
         void setPadding(int hpad, int vpad);
 
+        /*----------------------------------------------------------------------
+         * Label functions.                                                   */
+        std::string getLabel() const;
+        void setLabel(std::string);
+
     private:
         void getLabelMetrics(ME_Graphics*);
         void getLabelPosition();

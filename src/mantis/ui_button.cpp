@@ -38,9 +38,9 @@ ME_UiButton::~ME_UiButton()
 void ME_UiButton::render(ME_Graphics* g)
 {
     if (isHovered()) {
-        g->setColor(0xff, 0xff, 0xff);
-    } else {
         g->setColor(0x4d, 0x61, 0x88);
+    } else {
+        g->setColor(0x44, 0x44, 0x44);
     }
     // lazily initialize the label metrics
     if (_labelw < 0) {
@@ -48,8 +48,9 @@ void ME_UiButton::render(ME_Graphics* g)
         getLabelPosition();
     }
     // draw a rectangle
-    g->drawRect(&_bounds);
+    g->fillRect(&_bounds);
     // draw the label
+    g->setColor(0xff, 0xff, 0xff);
     g->drawText(_labelx, _labely, _label);
 }
 
@@ -82,4 +83,16 @@ void ME_UiButton::getLabelPosition()
     // determine where to draw the label for centering
     _labelx = (_bounds.getX() + (_bounds.getWidth() - _labelw) / 2);
     _labely = (_bounds.getY() + (_bounds.getHeight() - _labelh) / 2);
+}
+
+std::string ME_UiButton::getLabel() const
+{
+    return _label;
+}
+
+void ME_UiButton::setLabel(std::string str)
+{
+    _label = str;
+    // force the metrics to be reloaded
+    _labelw = -1;
 }
