@@ -51,7 +51,7 @@ void ME_ImageBank::allocateImages(ME_Graphics* g)
 	}
 }
 
-void ME_ImageBank::deallocateImage()
+void ME_ImageBank::deallocateImages()
 {
     // deallocate all the images
     for (imagemap_t::iterator it = _images.begin(); it != _images.end(); ++it) {

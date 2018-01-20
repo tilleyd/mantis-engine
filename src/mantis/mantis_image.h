@@ -183,7 +183,7 @@ class ME_ImageBank
         ME_Image* getImage(std::string tag);
 
         void allocateImages(ME_Graphics*);
-        void deallocateImage();
+        void deallocateImages();
     private:
         imagemap_t _images;
 };
