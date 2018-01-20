@@ -13,7 +13,7 @@ OFILES = lib/framework.o lib/exception.o lib/window.o lib/loop.o \
 	lib/interval_loop.o lib/uncapped_loop.o lib/thread.o lib/image.o \
 	lib/image_sheet.o lib/stage.o lib/graphics.o lib/rectangle.o \
 	lib/ui_component.o lib/ui_button.o lib/vector2d.o lib/image_bank.o \
-	lib/animation.o
+	lib/animation.o lib/color.o
 
 mantis: lib lib/$(LIBNAME)
 
@@ -21,16 +21,21 @@ lib/$(LIBNAME): $(OFILES)
 	ar -rcs lib/$(LIBNAME) $(OFILES)
 	rm lib/*.o
 
-# MANTIS_H
+# MANTIS_MAIN_H
 
-lib/framework.o: framework.cpp mantis.h
+lib/framework.o: framework.cpp mantis_main.h
 	$(CC) -c $(CFLAGS) -o lib/framework.o framework.cpp
 
-lib/graphics.o: graphics.cpp mantis.h
+lib/window.o: window.cpp mantis_main.h
+	$(CC) -c $(CFLAGS) -o lib/window.o window.cpp
+
+# MANTIS_GRAPHICS_H
+
+lib/graphics.o: graphics.cpp mantis_graphics.h
 	$(CC) -c $(CFLAGS) -o lib/graphics.o graphics.cpp
 
-lib/window.o: window.cpp mantis.h
-	$(CC) -c $(CFLAGS) -o lib/window.o window.cpp
+lib/color.o: color.cpp mantis_graphics.h
+	$(CC) -c $(CFLAGS) -o lib/color.o color.cpp
 
 # MANTIS_STAGE_H
 

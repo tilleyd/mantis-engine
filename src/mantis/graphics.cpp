@@ -20,17 +20,10 @@
  *============================================================================*/
 
 #include "mantis.h"
-
-#include "mantis_exception.h"
-#include "mantis_image.h"
-#include "math/mantis_math.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 using std::string;
 
 ME_Graphics::ME_Graphics(ME_Window* context):
     _renderer(NULL),
-    _color(NULL),
     _font(NULL),
     _smoothfont(false),
     _texturefilt(false)
@@ -42,21 +35,14 @@ ME_Graphics::ME_Graphics(ME_Window* context):
     }
     // set the alpha blending mode
     SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
-    _color = new SDL_Color;
-    _color->r = 255;
-    _color->g = 255;
-    _color->b = 255;
-    _color->a = 255;
 }
 
 ME_Graphics::~ME_Graphics()
 {
     // clear the members
     SDL_DestroyRenderer(_renderer);
-    delete _color;
     TTF_CloseFont(_font);
     _renderer = NULL;
-    _color = NULL;
     _font = NULL;
 }
 
@@ -65,18 +51,39 @@ void ME_Graphics::clear()
     SDL_RenderClear(_renderer);
 }
 
+void ME_Graphics::setColor(ME_Color* clr)
+{
+    _color.setColor(clr);
+    SDL_SetRenderDrawColor(_renderer, _color.getRed(), _color.getGreen(),
+            _color.getBlue(), _color.getAlpha());
+}
+
 void ME_Graphics::setColor(int r, int g, int b)
 {
-    setColor(255, r, g, b);
+    _color.setColor(r, g, b);
+    SDL_SetRenderDrawColor(_renderer, _color.getRed(), _color.getGreen(),
+            _color.getBlue(), _color.getAlpha());
 }
 
 void ME_Graphics::setColor(int a, int r, int g, int b)
 {
-    _color->a = a;
-    _color->r = r;
-    _color->g = g;
-    _color->b = b;
-    SDL_SetRenderDrawColor(_renderer, r, g, b, a);
+    _color.setColor(a, r, g, b);
+    SDL_SetRenderDrawColor(_renderer, _color.getRed(), _color.getGreen(),
+            _color.getBlue(), _color.getAlpha());
+}
+
+void ME_Graphics::setColor(int a, int rgb)
+{
+    _color.setColor(a, rgb);
+    SDL_SetRenderDrawColor(_renderer, _color.getRed(), _color.getGreen(),
+            _color.getBlue(), _color.getAlpha());
+}
+
+void ME_Graphics::setColor(int rgb)
+{
+    _color.setColor(rgb);
+    SDL_SetRenderDrawColor(_renderer, _color.getRed(), _color.getGreen(),
+            _color.getBlue(), _color.getAlpha());
 }
 
 void ME_Graphics::setTextureFiltering(bool f)
@@ -161,9 +168,11 @@ void ME_Graphics::drawText(int x, int y, string text, ME_Rectangle* clip)
     // create the text surface
     SDL_Surface* surface = NULL;
     if (_smoothfont) {
-        surface = TTF_RenderText_Blended(_font, text.c_str(), *_color);
+        surface = TTF_RenderText_Blended(_font, text.c_str(),
+                *(_color.getSDLColor()));
     } else {
-        surface = TTF_RenderText_Solid(_font, text.c_str(), *_color);
+        surface = TTF_RenderText_Solid(_font, text.c_str(),
+                *(_color.getSDLColor()));
     }
     if (surface) {
         // create the text texture

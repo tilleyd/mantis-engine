@@ -19,6 +19,9 @@
  * along with Mantis Engine.  If not, see <http://www.gnu.org/licenses/>.
  *============================================================================*/
 
+#ifndef ME_MAIN_H
+#define ME_MAIN_H
+
 #include <map>
 
 // datastruct typedefs
@@ -115,73 +118,6 @@ class ME_Framework : public ME_LoopObserver
 };
 
 /*==============================================================================
- * ME_Graphics
- *
- *     Represents a rendering device that is associated with the window. This
- *     device is passed to all rendering functions and is used for the creation
- *     of images.
- *============================================================================*/
-class ME_Graphics
-{
-	public:
-		~ME_Graphics();
-
-		/*----------------------------------------------------------------------
-		 * Clear the rendering canvas to the current color                    */
-		void clear();
-
-		/*----------------------------------------------------------------------
-		 * Color management functions                                         */
-		void setColor(int r, int g, int b);
- 		void setColor(int a, int r, int g, int b);
-
-		/*----------------------------------------------------------------------
-		 * Rendering quality functions                                        */
-		void setTextureFiltering(bool);
-		void setSmoothFonts(bool);
-
-		/*----------------------------------------------------------------------
-		 * Image rendering functions                                          */
-		void drawImage(ME_Image*);
-		void drawImage(ME_Image*, int x, int y);
-		void drawImage(ME_Image*, int x, int y, int w, int h);
-
-		/*----------------------------------------------------------------------
-		 * Geometry rendering functions                                       */
-		void drawRect(const ME_Rectangle*);
-		void drawRect(int x, int y, int w, int h);
-		void fillRect(const ME_Rectangle*);
-		void fillRect(int x, int y, int w, int h);
-		void drawLine(int x1, int y1, int x2, int y2);
-
-		/*----------------------------------------------------------------------
-		 * Text rendering functions                                           */
-		void setFont(std::string, int);
-		void drawText(int x, int y, std::string);
-		void drawText(int x, int y, std::string, ME_Rectangle* clip);
-		/* These return the dimensions of text if it is rendered using the
-		 * current set font.                                                  */
-		int getTextHeight(std::string);
-		int getTextWidth(std::string);
-
-		/*----------------------------------------------------------------------
-		 * SDL renderer access                                                */
-		SDL_Renderer* getSDLRenderer();
-		void recreateSDLRenderer(ME_Window*, bool vsync);
-
-	private:
-		/*----------------------------------------------------------------------
-		 * Only the window is allowed to create rendering devices.            */
-		friend class ME_Window;
-		ME_Graphics(ME_Window*);
-		SDL_Renderer* _renderer;
-		SDL_Color*    _color;
-		TTF_Font*     _font;
-		bool          _smoothfont;
-		bool          _texturefilt;
-};
-
-/*==============================================================================
  * ME_Window
  *
  *     Creates a window using the SDL2 library with the provided width and
@@ -208,3 +144,5 @@ class ME_Window
 		SDL_Surface* _surf;
 		ME_Graphics* _graphics;
 };
+
+#endif

@@ -29,8 +29,9 @@
 
 // forward declarations across all headers
 class ME_Framework;
-class ME_Graphics;
 class ME_Window;
+class ME_Graphics;
+class ME_Color;
 class ME_Exception;
 class ME_Image;
 class ME_ImageSheet;
@@ -55,6 +56,7 @@ class ME_Vector2D;
 #include "math/mantis_math.h"
 #include "mantis_exception.h"
 #include "mantis_loop.h"
+#include "mantis_graphics.h"
 #include "mantis_main.h"
 #include "mantis_image.h"
 #include "mantis_stage.h"
