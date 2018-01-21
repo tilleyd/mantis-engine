@@ -30,10 +30,10 @@
 class ME_Color
 {
     public:
-        ME_Color(int a = 0xff, int r = 0xff, int g = 0xff, int b = 0xff);
+        ME_Color(int a, int r, int g, int b);
         ME_Color(int r, int g, int b);
         ME_Color(int a, int rgb);
-        ME_Color(int rgb);
+        ME_Color(int rgb = 0xff);
         ME_Color(const ME_Color&);
         ~ME_Color();
 

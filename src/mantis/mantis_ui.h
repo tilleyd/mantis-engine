@@ -117,6 +117,12 @@ class ME_UiButton : public ME_UiComponent
         void setPadding(int hpad, int vpad);
 
         /*----------------------------------------------------------------------
+         * Set the colors used for rendering.                                 */
+        void setBackgroundColor(ME_Color*);
+        void setHoverColor(ME_Color*);
+        void setForegroundColor(ME_Color*);
+
+        /*----------------------------------------------------------------------
          * Label functions.                                                   */
         std::string getLabel() const;
         void setLabel(std::string);
@@ -124,6 +130,11 @@ class ME_UiButton : public ME_UiComponent
     private:
         void getLabelMetrics(ME_Graphics*);
         void getLabelPosition();
+
+        // render variables
+        ME_Color    _backClr;
+        ME_Color    _hoverClr;
+        ME_Color    _foreClr;
         std::string _label;
         int         _hpad, _vpad;
         int         _labelw, _labelh;

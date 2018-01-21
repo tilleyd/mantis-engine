@@ -24,6 +24,7 @@ Legend
 + Image management bank
 + Double precision rectangle and vector math
 + Separate animation from image sheet
++ Color object
 - Stage backstack
 
 0.1.1

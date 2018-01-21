@@ -24,7 +24,10 @@
 #define DEFAULT_HPAD 5
 #define DEFAULT_VPAD 5
 
-ME_UiButton::ME_UiButton(std::string label):
+ME_UiButton::ME_UiButton(std::string label) :
+    _backClr(0x44),
+    _hoverClr(0x4d, 0x61, 0x88),
+    _foreClr(0xff),
     _label(label),
     _hpad(DEFAULT_HPAD),
     _vpad(DEFAULT_VPAD),
@@ -38,9 +41,9 @@ ME_UiButton::~ME_UiButton()
 void ME_UiButton::render(ME_Graphics* g)
 {
     if (isHovered()) {
-        g->setColor(0x4d, 0x61, 0x88);
+        g->setColor(&_hoverClr);
     } else {
-        g->setColor(0x44, 0x44, 0x44);
+        g->setColor(&_backClr);
     }
     // lazily initialize the label metrics
     if (_labelw < 0) {
@@ -50,7 +53,7 @@ void ME_UiButton::render(ME_Graphics* g)
     // draw a rectangle
     g->fillRect(&_bounds);
     // draw the label
-    g->setColor(0xff, 0xff, 0xff);
+    g->setColor(&_foreClr);
     g->drawText(_labelx, _labely, _label);
 }
 
@@ -70,6 +73,21 @@ void ME_UiButton::setPadding(int hpad, int vpad)
 {
     _vpad = vpad;
     _hpad = hpad;
+}
+
+void ME_UiButton::setBackgroundColor(ME_Color* clr)
+{
+    _backClr.setColor(clr);
+}
+
+void ME_UiButton::setHoverColor(ME_Color* clr)
+{
+    _hoverClr.setColor(clr);
+}
+
+void ME_UiButton::setForegroundColor(ME_Color* clr)
+{
+    _foreClr.setColor(clr);
 }
 
 void ME_UiButton::getLabelMetrics(ME_Graphics* g)
