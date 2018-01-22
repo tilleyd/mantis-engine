@@ -26,22 +26,25 @@
 ME_Vector2D::ME_Vector2D(double x, double y) :
     _x(x),
     _y(y)
-{}
+{
+    _mag = sqrt(_x * _x + _y * _y);
+}
 
 void ME_Vector2D::setX(double x)
 {
-    _x = x;
+    setValue(x, _y);
 }
 
 void ME_Vector2D::setY(double y)
 {
-    _y = y;
+    setValue(_x, y);
 }
 
 void ME_Vector2D::setValue(double x, double y)
 {
     _x = x;
     _y = y;
+    _mag = sqrt(_x * _x + _y * _y);
 }
 
 double ME_Vector2D::getX() const
@@ -56,12 +59,10 @@ double ME_Vector2D::getY() const
 
 double ME_Vector2D::getMagnitude() const
 {
-    return sqrt(_x * _x + _y * _y);
+    return _mag;
 }
 
 void ME_Vector2D::normalize(double newmag)
 {
-    double mag = getMagnitude();
-    _x = (_x / mag) * newmag;
-    _y = (_y / mag) * newmag;
+    setValue((_x / _mag) * newmag, (_y / _mag) * newmag);
 }

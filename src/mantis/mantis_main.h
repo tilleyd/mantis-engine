@@ -87,6 +87,8 @@ class ME_Framework : public ME_LoopObserver
 		 * Width and height access. This is the size of the rendering canvas. */
 		int getWidth() const;
 		int getHeight() const;
+		int getCenterX() const;
+		int getCenterY() const;
 
 		/*----------------------------------------------------------------------
 		 * Member access                                                      */
@@ -115,6 +117,8 @@ class ME_Framework : public ME_LoopObserver
 		bool          _running;
 		int           _width;
 		int           _height;
+		int           _centerx;
+		int           _centery;
 };
 
 /*==============================================================================

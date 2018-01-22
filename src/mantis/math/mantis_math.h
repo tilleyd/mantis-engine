@@ -36,7 +36,8 @@ class ME_Vector2D;
 class ME_Rectangle
 {
     public:
-        ME_Rectangle(double x, double y, double w, double h);
+        ME_Rectangle(double x = 0.0, double y = 0.0,
+                double w = 0.0, double h = 0.0);
 
         /*----------------------------------------------------------------------
          * Member modify functions                                            */
@@ -70,7 +71,7 @@ class ME_Rectangle
 class ME_Vector2D
 {
     public:
-        ME_Vector2D(double x, double y);
+        ME_Vector2D(double x = 0.0, double y = 0.0);
 
         /*----------------------------------------------------------------------
          * Member modifiers and accessors.                                    */
@@ -89,6 +90,7 @@ class ME_Vector2D
 
     private:
         double _x, _y;
+        double _mag;
 };
 
 #endif

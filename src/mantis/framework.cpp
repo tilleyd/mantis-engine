@@ -38,6 +38,8 @@ ME_Framework::ME_Framework(string wn, int w, int h)
 	, _running(false)
 	, _width(w)
 	, _height(h)
+	, _centerx(w / 2)
+	, _centery(h / 2)
 {
 	// initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -174,6 +176,8 @@ void ME_Framework::update(ME_Loop* tim, double period)
 							e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 						_width = e.window.data1;
 						_height = e.window.data2;
+						_centerx = _width / 2;
+						_centery = _height / 2;
 					}
 					cur->onWindowChange((SDL_WindowEvent*)&e);
 			}
@@ -270,6 +274,16 @@ int ME_Framework::getWidth() const
 int ME_Framework::getHeight() const
 {
 	return _height;
+}
+
+int ME_Framework::getCenterX() const
+{
+	return _centerx;
+}
+
+int ME_Framework::getCenterY() const
+{
+	return _centery;
 }
 
 ME_Window* ME_Framework::getWindow()
