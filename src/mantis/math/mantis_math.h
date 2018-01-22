@@ -82,6 +82,13 @@ class ME_Vector2D
         double getY() const;
 
         /*----------------------------------------------------------------------
+         * Operators.                                                         */
+        ME_Vector2D& operator+=(const ME_Vector2D&);
+        ME_Vector2D& operator-=(const ME_Vector2D&);
+        ME_Vector2D& operator*=(double);
+        ME_Vector2D& operator/=(double);
+
+        /*----------------------------------------------------------------------
          * Magnitude functions.                                               */
         double getMagnitude() const;
         /* Normalizes the values of the vector to have the same relationship

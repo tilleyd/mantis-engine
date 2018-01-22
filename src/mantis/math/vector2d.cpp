@@ -57,6 +57,30 @@ double ME_Vector2D::getY() const
     return _y;
 }
 
+ME_Vector2D& ME_Vector2D::operator+=(const ME_Vector2D& vec)
+{
+    setValue(_x + vec._x, _y + vec._y);
+    return *this;
+}
+
+ME_Vector2D& ME_Vector2D::operator-=(const ME_Vector2D& vec)
+{
+    setValue(_x - vec._x, _y - vec._y);
+    return *this;
+}
+
+ME_Vector2D& ME_Vector2D::operator*=(double val)
+{
+    setValue(_x * val, _y * val);
+    return *this;
+}
+
+ME_Vector2D& ME_Vector2D::operator/=(double val)
+{
+    setValue(_x / val, _y / val);
+    return *this;
+}
+
 double ME_Vector2D::getMagnitude() const
 {
     return _mag;
@@ -64,5 +88,7 @@ double ME_Vector2D::getMagnitude() const
 
 void ME_Vector2D::normalize(double newmag)
 {
-    setValue((_x / _mag) * newmag, (_y / _mag) * newmag);
+    if (_mag != 0.0) {
+        setValue((_x / _mag) * newmag, (_y / _mag) * newmag);
+    }
 }
