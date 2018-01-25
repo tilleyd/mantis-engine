@@ -92,3 +92,18 @@ void ME_Vector2D::normalize(double newmag)
         setValue((_x / _mag) * newmag, (_y / _mag) * newmag);
     }
 }
+
+double ME_Vector2D::angleBetween(const ME_Vector2D* vec) const
+{
+    if (_mag != 0.0 && vec->_mag != 0.0) {
+        double rad = acos(dotProduct(vec) / (_mag * vec->_mag));
+        return rad * 180.0 / M_PI;
+    } else {
+        return 0.0;
+    }
+}
+
+double ME_Vector2D::dotProduct(const ME_Vector2D* vec) const
+{
+    return _x * vec->_x + _y * vec->_y;
+}

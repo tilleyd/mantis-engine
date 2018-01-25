@@ -51,6 +51,7 @@ class ME_Button;
 // math forward declarations
 class ME_Rectangle;
 class ME_Vector2D;
+class ME_Circle;
 
 // all header includes
 #include "math/mantis_math.h"

@@ -68,7 +68,7 @@ double ME_Rectangle::getHeight() const
     return _h;
 }
 
-bool ME_Rectangle::containsPoint(ME_Vector2D* point) const
+bool ME_Rectangle::containsPoint(const ME_Vector2D* point) const
 {
     return containsPoint(point->getX(), point->getY());
 }
@@ -86,6 +86,11 @@ bool ME_Rectangle::collidesWithRectangle(const ME_Rectangle* rect) const
             _x + _w > rect->getX() &&
             _y < rect->getY() + rect->getHeight() &&
             _y + _h > rect->getY());
+}
+
+bool ME_Rectangle::collidesWithCircle(const ME_Circle* circle) const
+{
+    return circle->collidesWithRectangle(this);
 }
 
 SDL_Rect* ME_Rectangle::getSDLRect()

@@ -58,7 +58,7 @@ void SnakeStage::update(double period)
 
 void SnakeStage::render(ME_Graphics* g)
 {
-    g->setColor(47, 52, 63);
+    g->setColor(255, 47, 52, 63);
     g->clear();
     // render the entities (only the snake in this case)
     renderEntities(g);

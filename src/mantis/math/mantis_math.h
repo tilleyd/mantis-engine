@@ -25,6 +25,7 @@
 // forward declarations
 class ME_Rectangle;
 class ME_Vector2D;
+class ME_Circle;
 
 #include <SDL2/SDL.h>
 
@@ -55,9 +56,10 @@ class ME_Rectangle
 
         /*----------------------------------------------------------------------
          * Collision check functions                                          */
-        bool containsPoint(ME_Vector2D*) const;
+        bool containsPoint(const ME_Vector2D*) const;
         bool containsPoint(double x, double y) const;
         bool collidesWithRectangle(const ME_Rectangle*) const;
+        bool collidesWithCircle(const ME_Circle*) const;
 
         /*----------------------------------------------------------------------
          * Returns an SDL rectangle with truncated integer values.            */
@@ -89,15 +91,46 @@ class ME_Vector2D
         ME_Vector2D& operator/=(double);
 
         /*----------------------------------------------------------------------
-         * Magnitude functions.                                               */
+         * Vector functions.                                                  */
         double getMagnitude() const;
         /* Normalizes the values of the vector to have the same relationship
          * but to have a magnitude of the specified value.                    */
         void normalize(double magnitude = 1.0);
+        /* Returns the angle between the two vectors.                         */
+        double angleBetween(const ME_Vector2D*) const;
+        /* Returns the dot product between the two vectors.                   */
+        double dotProduct(const ME_Vector2D*) const;
 
     private:
         double _x, _y;
         double _mag;
+};
+
+class ME_Circle
+{
+    public:
+        ME_Circle(double x = 0.0, double y = 0.0, double r = 0.0);
+
+        /*----------------------------------------------------------------------
+         * Member modifiers and accessors.                                    */
+        void setX(double);
+        void setY(double);
+        void setCenter(double, double);
+        void setRadius(double);
+        double getX() const;
+        double getY() const;
+        double getRadius() const;
+
+        /*----------------------------------------------------------------------
+         * Collision check functions                                          */
+        bool containsPoint(const ME_Vector2D*) const;
+        bool containsPoint(double x, double y) const;
+        bool collidesWithRectangle(const ME_Rectangle*) const;
+        bool collidesWithCircle(const ME_Circle*) const;
+
+    private:
+        double _x, _y, _r;
+
 };
 
 #endif

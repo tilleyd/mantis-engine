@@ -13,7 +13,7 @@ OFILES = lib/framework.o lib/exception.o lib/window.o lib/loop.o \
 	lib/interval_loop.o lib/uncapped_loop.o lib/thread.o lib/image.o \
 	lib/image_sheet.o lib/stage.o lib/graphics.o lib/rectangle.o \
 	lib/ui_component.o lib/ui_button.o lib/vector2d.o lib/image_bank.o \
-	lib/animation.o lib/color.o
+	lib/animation.o lib/color.o lib/circle.o
 
 mantis: lib lib/$(LIBNAME)
 
@@ -92,6 +92,9 @@ lib/rectangle.o: math/rectangle.cpp math/mantis_math.h
 
 lib/vector2d.o: math/vector2d.cpp math/mantis_math.h
 	$(CC) -c $(CFLAGS) -o lib/vector2d.o math/vector2d.cpp
+
+lib/circle.o: math/circle.cpp math/mantis_math.h
+	$(CC) -c $(CFLAGS) -o lib/circle.o math/circle.cpp
 
 # UTILS
 
