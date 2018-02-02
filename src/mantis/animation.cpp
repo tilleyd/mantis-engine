@@ -89,5 +89,8 @@ void ME_Animation::setAnimationRange(int index)
 
 ME_Image* ME_Animation::getImage()
 {
+    // make sure the sheet is at the right frame, this avoids a problem when
+    // the same sheet is used by different animations
+    _sheet->setCurrentFrame(_rangeStart + _curFrame);
     return _sheet;
 }
