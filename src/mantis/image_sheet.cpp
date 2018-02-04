@@ -63,7 +63,7 @@ ME_ImageSheet::ME_ImageSheet(std::string path, int startx, int starty,
 
 ME_ImageSheet::ME_ImageSheet(std::string path, int imgw, int imgh,
         int numimgs) :
-    ME_ImageSheet(path, 0, 0, imgw, imgh, numimgs, 1, numimgs)
+    ME_ImageSheet(path, 0, 0, imgw, imgh, 1, numimgs, numimgs)
 {}
 
 ME_ImageSheet::~ME_ImageSheet()
