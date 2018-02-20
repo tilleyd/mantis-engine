@@ -68,6 +68,16 @@ double ME_Rectangle::getHeight() const
     return _h;
 }
 
+ME_Rectangle ME_Rectangle::operator+(ME_Vector2D vec)
+{
+    return ME_Rectangle(_x + vec.getX(), _y + vec.getY(), _w, _h);
+}
+
+ME_Rectangle ME_Rectangle::operator-(ME_Vector2D vec)
+{
+    return ME_Rectangle(_x - vec.getY(), _y - vec.getY(), _w, _h);
+}
+
 bool ME_Rectangle::containsPoint(const ME_Vector2D* point) const
 {
     return containsPoint(point->getX(), point->getY());

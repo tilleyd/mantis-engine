@@ -55,6 +55,12 @@ class ME_Rectangle
         double getHeight() const;
 
         /*----------------------------------------------------------------------
+         * Operators.
+         * Adds/subtracts the vector to/from the (x, y) point.                */
+        ME_Rectangle operator+(ME_Vector2D);
+        ME_Rectangle operator-(ME_Vector2D);
+
+        /*----------------------------------------------------------------------
          * Collision check functions                                          */
         bool containsPoint(const ME_Vector2D*) const;
         bool containsPoint(double x, double y) const;
@@ -89,6 +95,8 @@ class ME_Vector2D
         ME_Vector2D& operator-=(const ME_Vector2D&);
         ME_Vector2D& operator*=(double);
         ME_Vector2D& operator/=(double);
+        ME_Vector2D operator+(ME_Vector2D);
+        ME_Vector2D operator-(ME_Vector2D);
 
         /*----------------------------------------------------------------------
          * Vector functions.                                                  */
@@ -100,6 +108,14 @@ class ME_Vector2D
         double angleBetween(const ME_Vector2D*) const;
         /* Returns the dot product between the two vectors.                   */
         double dotProduct(const ME_Vector2D*) const;
+
+        /*----------------------------------------------------------------------
+         * Angle functions.
+         * Returns true if the given object touches the region formed by a
+         * cone around the vector with a provided angle.                      */
+        bool withinAngle(double angle, const ME_Vector2D*);
+        bool withinAngle(double angle, const ME_Rectangle*);
+        bool withinAngle(double angle, const ME_Circle*);
 
     private:
         double _x, _y;

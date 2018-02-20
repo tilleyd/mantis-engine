@@ -81,6 +81,16 @@ ME_Vector2D& ME_Vector2D::operator/=(double val)
     return *this;
 }
 
+ME_Vector2D ME_Vector2D::operator+(ME_Vector2D vec)
+{
+    return ME_Vector2D(_x + vec._x, _y + vec._y);
+}
+
+ME_Vector2D ME_Vector2D::operator-(ME_Vector2D vec)
+{
+    return ME_Vector2D(_x - vec._x, _y - vec._y);
+}
+
 double ME_Vector2D::getMagnitude() const
 {
     return _mag;
@@ -109,4 +119,47 @@ double ME_Vector2D::angleBetween(const ME_Vector2D* vec) const
 double ME_Vector2D::dotProduct(const ME_Vector2D* vec) const
 {
     return _x * vec->_x + _y * vec->_y;
+}
+
+bool ME_Vector2D::withinAngle(double angle, const ME_Vector2D* vec)
+{
+    return (abs(angleBetween(vec)) < angle);
+}
+
+bool ME_Vector2D::withinAngle(double angle, const ME_Rectangle* rec)
+{
+    // get the angle to each corner and check if it is within the cone
+    ME_Vector2D corner(rec->getX(), rec->getY());
+    double cor1 = angleBetween(&corner);
+    if (abs(cor1) < angle) {
+        return true;
+    }
+    corner.setY(rec->getY() + rec->getHeight());
+    double cor2 = angleBetween(&corner);
+    if (abs(cor2) < angle) {
+        return true;
+    }
+    corner.setX(rec->getX() + rec->getWidth());
+    double cor3 = angleBetween(&corner);
+    if (abs(cor3) < angle) {
+        return true;
+    }
+    corner.setY(rec->getY());
+    double cor4 = angleBetween(&corner);
+    if (abs(cor4) < angle) {
+        return true;
+    }
+
+    // check if there is at least one corner with a different sign than the
+    // others, which checks if the cone goes through the rectangle without
+    // touching any corners
+    bool cor1neg = (cor1 < 0.0);
+    return ((cor1neg != (cor2 < 0.0)) || (cor1neg != (cor3 < 0.0)) ||
+            (cor1neg != (cor4 < 0.0)));
+}
+
+bool ME_Vector2D::withinAngle(double angle, const ME_Circle*)
+{
+    // TODO
+    return false;
 }
