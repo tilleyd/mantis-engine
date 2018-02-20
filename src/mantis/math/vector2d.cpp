@@ -97,6 +97,9 @@ double ME_Vector2D::angleBetween(const ME_Vector2D* vec) const
 {
     if (_mag != 0.0 && vec->_mag != 0.0) {
         double rad = acos(dotProduct(vec) / (_mag * vec->_mag));
+        if (vec->_y < _y) {
+            rad = -rad;
+        }
         return rad * 180.0 / M_PI;
     } else {
         return 0.0;
