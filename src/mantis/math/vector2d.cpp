@@ -107,7 +107,9 @@ double ME_Vector2D::angleBetween(const ME_Vector2D* vec) const
 {
     if (_mag != 0.0 && vec->_mag != 0.0) {
         double rad = acos(dotProduct(vec) / (_mag * vec->_mag));
-        if (vec->_y < _y) {
+        // cross product to determine polarity
+        double cross = (_x * vec->_y) - (_y * vec->_x);
+        if (cross < 0.0) {
             rad = -rad;
         }
         return rad * 180.0 / M_PI;
@@ -128,6 +130,11 @@ bool ME_Vector2D::withinAngle(double angle, const ME_Vector2D* vec)
 
 bool ME_Vector2D::withinAngle(double angle, const ME_Rectangle* rec)
 {
+    // check for intersection with the rectangle
+    if (rec->containsPoint(0.0, 0.0)) {
+        return true;
+    }
+
     // get the angle to each corner and check if it is within the cone
     ME_Vector2D corner(rec->getX(), rec->getY());
     double cor1 = angleBetween(&corner);
@@ -150,12 +157,17 @@ bool ME_Vector2D::withinAngle(double angle, const ME_Rectangle* rec)
         return true;
     }
 
-    // check if there is at least one corner with a different sign than the
-    // others, which checks if the cone goes through the rectangle without
-    // touching any corners
-    bool cor1neg = (cor1 < 0.0);
-    return ((cor1neg != (cor2 < 0.0)) || (cor1neg != (cor3 < 0.0)) ||
-            (cor1neg != (cor4 < 0.0)));
+    // check if the rectangle is on the correct side of the vector
+    if (dotProduct(&corner) > 0.0) {
+        // check if there is at least one corner with a different sign than the
+        // others, which checks if the cone goes through the rectangle without
+        // touching any corners
+        bool cor1neg = (cor1 < 0.0);
+        return ((cor1neg != (cor2 < 0.0)) || (cor1neg != (cor3 < 0.0)) ||
+                (cor1neg != (cor4 < 0.0)));
+    } else {
+        return false;
+    }
 }
 
 bool ME_Vector2D::withinAngle(double angle, const ME_Circle*)
