@@ -39,11 +39,8 @@ the features of the engine, merely a small part.
 * Dynamic FPS/VSync changes
 
 ## Future development
-* Physics engine
-* Sound support
-* Extended maths library
-* Data structure library
-* General improvements
+
+> Development of Mantis has ceased in favour of a 3D accelerated engine.
 
 ## Dependencies
 * SDL2
